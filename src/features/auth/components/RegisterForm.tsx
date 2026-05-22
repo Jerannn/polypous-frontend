@@ -1,4 +1,10 @@
-import { Button } from "../../../components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
+import { EyeOffIcon, Loader2, Lock, Mail, User } from "lucide-react";
+import { useForm } from "react-hook-form";
+
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -6,44 +12,57 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../../components/ui/card";
-import { Field, FieldGroup, FieldLabel } from "../../../components/ui/field";
+} from "@/components/ui/card";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "../../../components/ui/input-group";
-import { Lock, Mail, User, EyeOffIcon, Loader2 } from "lucide-react";
-import { Link } from "@tanstack/react-router";
-import useRegister from "../hooks/useRegister";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema } from "../schema/auth.schema";
-import type { RegisterForm } from "../types/auth.types";
-import { useNavigate } from "@tanstack/react-router";
+} from "@/components/ui/input-group";
+import useRegister from "@/features/auth/hooks/use-register";
+import { registerSchema } from "@/features/auth/schema";
+import type { RegisterPayload } from "@/features/auth/types";
 
-export default function RegisterContainer() {
-  const { registerUser, isRegistering, isError } = useRegister();
+export default function RegisterForm() {
+  const { registerUser, isRegistering } = useRegister();
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterForm>({
+    setError,
+  } = useForm<RegisterPayload>({
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = async (data: RegisterForm) => {
-    const response = await registerUser(data);
-
-    console.log("Registration response:", response);
-    if (response.status === "success") {
-      navigate({
-        to: "/auth/verify-email",
-        search: {
-          email: data.email,
-        },
+  const onSubmit = async (data: RegisterPayload) => {
+    try {
+      const response = await registerUser(data);
+      if (response.status === "success") {
+        navigate({
+          to: "/auth/verify-email",
+          search: {
+            email: data.email,
+          },
+        });
+      } else if (response.status === "fail") {
+        Object.entries(response.details).forEach(([field, message]) => {
+          setError(field as keyof RegisterPayload, {
+            type: "server",
+            message: message,
+          });
+        });
+      }
+    } catch {
+      setError("root", {
+        type: "server",
+        message: "An unexpected error occurred. Please try again.",
       });
     }
   };
@@ -59,6 +78,11 @@ export default function RegisterContainer() {
         <CardContent className="px-5">
           <form onSubmit={handleSubmit(onSubmit)} id="register-form">
             <FieldGroup>
+              {errors.root && (
+                <FieldError className="text-xs text-center bg-destructive/5 py-2 rounded-sm text-red-500">
+                  {errors.root.message}
+                </FieldError>
+              )}
               <Field>
                 <FieldLabel htmlFor="fullName">Full name</FieldLabel>
                 <InputGroup>
@@ -66,15 +90,14 @@ export default function RegisterContainer() {
                     id="fullName"
                     placeholder="Full name"
                     {...register("fullName")}
+                    disabled={isRegistering}
                   />
                   <InputGroupAddon>
                     <User />
                   </InputGroupAddon>
                 </InputGroup>
                 {errors.fullName && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.fullName.message}
-                  </p>
+                  <FieldError>{errors.fullName.message}</FieldError>
                 )}
               </Field>
 
@@ -85,15 +108,14 @@ export default function RegisterContainer() {
                     id="email"
                     placeholder="Email"
                     {...register("email")}
+                    disabled={isRegistering}
                   />
                   <InputGroupAddon>
                     <Mail />
                   </InputGroupAddon>
                 </InputGroup>
                 {errors.email && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.email.message}
-                  </p>
+                  <FieldError>{errors.email.message}</FieldError>
                 )}
               </Field>
 
@@ -105,6 +127,7 @@ export default function RegisterContainer() {
                     placeholder="Password"
                     type="password"
                     {...register("password")}
+                    disabled={isRegistering}
                   />
                   <InputGroupAddon>
                     <Lock />
@@ -114,9 +137,7 @@ export default function RegisterContainer() {
                   </InputGroupAddon>
                 </InputGroup>
                 {errors.password && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.password.message}
-                  </p>
+                  <FieldError>{errors.password.message}</FieldError>
                 )}
               </Field>
 
@@ -131,6 +152,7 @@ export default function RegisterContainer() {
                     placeholder="Confirm Password"
                     type="password"
                     {...register("confirmPassword")}
+                    disabled={isRegistering}
                   />
                   <InputGroupAddon>
                     <Lock />
@@ -140,9 +162,7 @@ export default function RegisterContainer() {
                   </InputGroupAddon>
                 </InputGroup>
                 {errors.confirmPassword && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.confirmPassword.message}
-                  </p>
+                  <FieldError>{errors.confirmPassword.message}</FieldError>
                 )}
               </Field>
             </FieldGroup>
@@ -157,7 +177,10 @@ export default function RegisterContainer() {
             disabled={isRegistering}
           >
             {isRegistering ? (
-              <Loader2 className="mr-2 animate-spin" />
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Registering...
+              </>
             ) : (
               "Register"
             )}

@@ -14,9 +14,23 @@ export const registerSchema = z
     path: ["confirmPassword"],
   });
 
+export const loginSchema = z.object({
+  email: z
+    .email({ message: "Please enter a valid email address" })
+    .transform((val) => val.toLowerCase().trim()),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+});
+
 export const verifySearchSchema = z.object({
   email: z
     .email({ message: "Please enter a valid email address" })
     .transform((val) => val.toLowerCase().trim())
     .catch(""),
+});
+
+export const verifyCodeSchema = z.object({
+  otp: z
+    .string()
+    .length(6, { message: "Verification code must be exactly 6 digits" })
+    .regex(/^\d+$/, { message: "Verification code must contain only digits" }),
 });
