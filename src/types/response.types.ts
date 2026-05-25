@@ -6,5 +6,5 @@ export type SuccessResponse<T> = {
 export type FailResponse = {
   status: "fail";
   message: string;
-  details: Record<string, string>;
+  error: Record<string, string>;
 };

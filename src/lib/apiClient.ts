@@ -1,4 +1,5 @@
-import env from "@/lib/env";
+import { ApiError } from "@/utils/apiError";
+import env from "@/utils/env";
 
 export async function api(path: string, options?: RequestInit) {
   try {
@@ -13,11 +14,19 @@ export async function api(path: string, options?: RequestInit) {
       ...options,
       headers,
     });
-    const data = await res.json();
 
-    return data;
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new ApiError(
+        errorData.message || res.statusText,
+        res.status,
+        errorData,
+      );
+    }
+
+    return await res.json();
   } catch (error) {
-    console.error("API Error:", error);
+    console.error("Error:", error);
     throw error;
   }
 }

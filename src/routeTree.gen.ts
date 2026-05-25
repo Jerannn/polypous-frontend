@@ -12,8 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as publicRouteRouteImport } from './routes/(public)/route'
 import { Route as protectedRouteRouteImport } from './routes/(protected)/route'
 import { Route as publicIndexRouteImport } from './routes/(public)/index'
+import { Route as protectedSettingsIndexRouteImport } from './routes/(protected)/settings/index'
+import { Route as protectedPaymentsIndexRouteImport } from './routes/(protected)/payments/index'
+import { Route as protectedInvoicesIndexRouteImport } from './routes/(protected)/invoices/index'
 import { Route as protectedDashboardIndexRouteImport } from './routes/(protected)/dashboard/index'
 import { Route as protectedClientsIndexRouteImport } from './routes/(protected)/clients/index'
+import { Route as protectedAnalyticsIndexRouteImport } from './routes/(protected)/analytics/index'
 import { Route as publicAuthVerifyEmailIndexRouteImport } from './routes/(public)/auth/verify-email/index'
 import { Route as publicAuthRegisterIndexRouteImport } from './routes/(public)/auth/register/index'
 import { Route as publicAuthLoginIndexRouteImport } from './routes/(public)/auth/login/index'
@@ -31,6 +35,21 @@ const publicIndexRoute = publicIndexRouteImport.update({
   path: '/',
   getParentRoute: () => publicRouteRoute,
 } as any)
+const protectedSettingsIndexRoute = protectedSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => protectedRouteRoute,
+} as any)
+const protectedPaymentsIndexRoute = protectedPaymentsIndexRouteImport.update({
+  id: '/payments/',
+  path: '/payments/',
+  getParentRoute: () => protectedRouteRoute,
+} as any)
+const protectedInvoicesIndexRoute = protectedInvoicesIndexRouteImport.update({
+  id: '/invoices/',
+  path: '/invoices/',
+  getParentRoute: () => protectedRouteRoute,
+} as any)
 const protectedDashboardIndexRoute = protectedDashboardIndexRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
@@ -39,6 +58,11 @@ const protectedDashboardIndexRoute = protectedDashboardIndexRouteImport.update({
 const protectedClientsIndexRoute = protectedClientsIndexRouteImport.update({
   id: '/clients/',
   path: '/clients/',
+  getParentRoute: () => protectedRouteRoute,
+} as any)
+const protectedAnalyticsIndexRoute = protectedAnalyticsIndexRouteImport.update({
+  id: '/analytics/',
+  path: '/analytics/',
   getParentRoute: () => protectedRouteRoute,
 } as any)
 const publicAuthVerifyEmailIndexRoute =
@@ -60,16 +84,24 @@ const publicAuthLoginIndexRoute = publicAuthLoginIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof publicIndexRoute
+  '/analytics/': typeof protectedAnalyticsIndexRoute
   '/clients/': typeof protectedClientsIndexRoute
   '/dashboard/': typeof protectedDashboardIndexRoute
+  '/invoices/': typeof protectedInvoicesIndexRoute
+  '/payments/': typeof protectedPaymentsIndexRoute
+  '/settings/': typeof protectedSettingsIndexRoute
   '/auth/login/': typeof publicAuthLoginIndexRoute
   '/auth/register/': typeof publicAuthRegisterIndexRoute
   '/auth/verify-email/': typeof publicAuthVerifyEmailIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof publicIndexRoute
+  '/analytics': typeof protectedAnalyticsIndexRoute
   '/clients': typeof protectedClientsIndexRoute
   '/dashboard': typeof protectedDashboardIndexRoute
+  '/invoices': typeof protectedInvoicesIndexRoute
+  '/payments': typeof protectedPaymentsIndexRoute
+  '/settings': typeof protectedSettingsIndexRoute
   '/auth/login': typeof publicAuthLoginIndexRoute
   '/auth/register': typeof publicAuthRegisterIndexRoute
   '/auth/verify-email': typeof publicAuthVerifyEmailIndexRoute
@@ -79,8 +111,12 @@ export interface FileRoutesById {
   '/(protected)': typeof protectedRouteRouteWithChildren
   '/(public)': typeof publicRouteRouteWithChildren
   '/(public)/': typeof publicIndexRoute
+  '/(protected)/analytics/': typeof protectedAnalyticsIndexRoute
   '/(protected)/clients/': typeof protectedClientsIndexRoute
   '/(protected)/dashboard/': typeof protectedDashboardIndexRoute
+  '/(protected)/invoices/': typeof protectedInvoicesIndexRoute
+  '/(protected)/payments/': typeof protectedPaymentsIndexRoute
+  '/(protected)/settings/': typeof protectedSettingsIndexRoute
   '/(public)/auth/login/': typeof publicAuthLoginIndexRoute
   '/(public)/auth/register/': typeof publicAuthRegisterIndexRoute
   '/(public)/auth/verify-email/': typeof publicAuthVerifyEmailIndexRoute
@@ -89,16 +125,24 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/analytics/'
     | '/clients/'
     | '/dashboard/'
+    | '/invoices/'
+    | '/payments/'
+    | '/settings/'
     | '/auth/login/'
     | '/auth/register/'
     | '/auth/verify-email/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/analytics'
     | '/clients'
     | '/dashboard'
+    | '/invoices'
+    | '/payments'
+    | '/settings'
     | '/auth/login'
     | '/auth/register'
     | '/auth/verify-email'
@@ -107,8 +151,12 @@ export interface FileRouteTypes {
     | '/(protected)'
     | '/(public)'
     | '/(public)/'
+    | '/(protected)/analytics/'
     | '/(protected)/clients/'
     | '/(protected)/dashboard/'
+    | '/(protected)/invoices/'
+    | '/(protected)/payments/'
+    | '/(protected)/settings/'
     | '/(public)/auth/login/'
     | '/(public)/auth/register/'
     | '/(public)/auth/verify-email/'
@@ -142,6 +190,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof publicIndexRouteImport
       parentRoute: typeof publicRouteRoute
     }
+    '/(protected)/settings/': {
+      id: '/(protected)/settings/'
+      path: '/settings'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof protectedSettingsIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/payments/': {
+      id: '/(protected)/payments/'
+      path: '/payments'
+      fullPath: '/payments/'
+      preLoaderRoute: typeof protectedPaymentsIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/invoices/': {
+      id: '/(protected)/invoices/'
+      path: '/invoices'
+      fullPath: '/invoices/'
+      preLoaderRoute: typeof protectedInvoicesIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
     '/(protected)/dashboard/': {
       id: '/(protected)/dashboard/'
       path: '/dashboard'
@@ -154,6 +223,13 @@ declare module '@tanstack/react-router' {
       path: '/clients'
       fullPath: '/clients/'
       preLoaderRoute: typeof protectedClientsIndexRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
+    '/(protected)/analytics/': {
+      id: '/(protected)/analytics/'
+      path: '/analytics'
+      fullPath: '/analytics/'
+      preLoaderRoute: typeof protectedAnalyticsIndexRouteImport
       parentRoute: typeof protectedRouteRoute
     }
     '/(public)/auth/verify-email/': {
@@ -181,13 +257,21 @@ declare module '@tanstack/react-router' {
 }
 
 interface protectedRouteRouteChildren {
+  protectedAnalyticsIndexRoute: typeof protectedAnalyticsIndexRoute
   protectedClientsIndexRoute: typeof protectedClientsIndexRoute
   protectedDashboardIndexRoute: typeof protectedDashboardIndexRoute
+  protectedInvoicesIndexRoute: typeof protectedInvoicesIndexRoute
+  protectedPaymentsIndexRoute: typeof protectedPaymentsIndexRoute
+  protectedSettingsIndexRoute: typeof protectedSettingsIndexRoute
 }
 
 const protectedRouteRouteChildren: protectedRouteRouteChildren = {
+  protectedAnalyticsIndexRoute: protectedAnalyticsIndexRoute,
   protectedClientsIndexRoute: protectedClientsIndexRoute,
   protectedDashboardIndexRoute: protectedDashboardIndexRoute,
+  protectedInvoicesIndexRoute: protectedInvoicesIndexRoute,
+  protectedPaymentsIndexRoute: protectedPaymentsIndexRoute,
+  protectedSettingsIndexRoute: protectedSettingsIndexRoute,
 }
 
 const protectedRouteRouteWithChildren = protectedRouteRoute._addFileChildren(

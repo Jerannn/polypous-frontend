@@ -9,7 +9,7 @@ const RootLayout = () => (
       <Outlet />
       <Toaster position="top-center" />
     </div>
-    <TanStackRouterDevtools />
+    <TanStackRouterDevtools position="bottom-right" />
   </>
 );
 
