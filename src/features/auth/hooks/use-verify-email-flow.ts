@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import type { VerifyCodePayload } from "../types";
 import useResendOtp from "./use-resend-otp";
 import useVerifyEmail from "./use-verify-email";
+import { ApiError } from "@/utils/apiError";
 
 type useVerifyEmailFlowProps = {
   email: string;
@@ -25,43 +26,68 @@ export default function useVerifyEmailFlow({
   const handleVerify = async (data: VerifyCodePayload) => {
     clearErrors("otp");
     try {
-      const response = await verifyEmail({ email, otp: data.otp });
-      if (response.status === "success") {
+      const user = await verifyEmail({ email, otp: data.otp });
+      if (user) {
         toast.success("Email verified successfully.");
         navigate({ to: "/dashboard", replace: true });
-      } else if (response.status === "fail") {
-        setError("otp", {
-          type: "server",
-          message: response.details.otp || "Invalid verification code.",
-        });
       }
-    } catch {
-      setError("otp", {
-        type: "server",
-        message: "An unexpected error occurred. Please try again.",
-      });
+    } catch (error: unknown) {
+      if (error instanceof ApiError) {
+        const errorData = error.error;
+        switch (error.statusCode) {
+          case 400:
+            setError("otp", {
+              type: "server",
+              message: errorData.error.otp || "Invalid verification code.",
+            });
+            break;
+          case 429:
+            setError("otp", {
+              type: "server",
+              message: errorData.error.otp,
+            });
+            break;
+          case 500:
+            setError("root", {
+              type: "server",
+              message: "An unexpected error occurred. Please try again.",
+            });
+            break;
+          default:
+            break;
+        }
+      }
     }
   };
 
   const handleResend = async () => {
     clearErrors("otp");
     try {
-      const response = await resendOtp({ email, action: "register" });
-      if (response.status === "success") {
-        onResendSuccess(response.data.otp.expiresAt);
+      const newOtp = await resendOtp({ email, action: "register" });
+      if (newOtp) {
+        onResendSuccess(newOtp.expiresAt);
         toast.success("Verification code has been resent.");
-      } else if (response.status === "fail") {
-        setError("otp", {
-          type: "server",
-          message:
-            response.details.otp || "Failed to resend verification code.",
-        });
       }
-    } catch {
-      setError("otp", {
-        type: "server",
-        message: "An unexpected error occurred. Please try again.",
-      });
+    } catch (error: unknown) {
+      if (error instanceof ApiError) {
+        const errorData = error.error;
+        switch (error.statusCode) {
+          case 400:
+            setError("otp", {
+              type: "server",
+              message: errorData.error.otp,
+            });
+            break;
+          case 500:
+            setError("root", {
+              type: "server",
+              message: "An unexpected error occurred. Please try again.",
+            });
+            break;
+          default:
+            break;
+        }
+      }
     }
   };
 

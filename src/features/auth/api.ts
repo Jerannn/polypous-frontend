@@ -10,31 +10,33 @@ import type {
   VerifyEmailPayload,
 } from "./types";
 
-export const register = async (
-  userData: RegisterPayload,
-): Promise<SuccessResponse<{ user: User }> | FailResponse> => {
-  return await api("/auth/register", {
+export const register = async (userData: RegisterPayload): Promise<User> => {
+  const response = await api("/auth/register", {
     method: "POST",
     body: JSON.stringify(userData),
   });
+
+  return response.data.user;
 };
 
-export const login = async (
-  payload: LoginPayload,
-): Promise<SuccessResponse<{ user: User }> | FailResponse> => {
-  return await api("/auth/login", {
+export const login = async (payload: LoginPayload): Promise<User> => {
+  const response = await api("/auth/login", {
     method: "POST",
     body: JSON.stringify(payload),
   });
+
+  return response.data.user;
 };
 
 export const verifyEmailOtp = async (
   payload: VerifyEmailPayload,
-): Promise<SuccessResponse<{ users: User }> | FailResponse> => {
-  return await api("/auth/email/verify", {
+): Promise<User> => {
+  const response = await api("/auth/email/verify", {
     method: "POST",
     body: JSON.stringify(payload),
   });
+
+  return response.data.user;
 };
 
 export const requestOtp = async (
@@ -48,13 +50,13 @@ export const requestOtp = async (
   });
 };
 
-export const resendOtp = async (
-  payload: ResendOtpPayload,
-): Promise<SuccessResponse<{ otp: Otp }> | FailResponse> => {
-  return await api("/auth/email/resend", {
+export const resendOtp = async (payload: ResendOtpPayload): Promise<Otp> => {
+  const response = await api("/auth/email/resend", {
     method: "POST",
     body: JSON.stringify(payload),
   });
+
+  return response.data.otp;
 };
 
 export const getMe = async (): Promise<User> => {

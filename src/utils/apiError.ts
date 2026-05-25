@@ -1,12 +1,10 @@
+import type { FailResponse } from "@/types/response.types";
+
 export class ApiError extends Error {
   statusCode: number;
-  error: Record<string, string>;
+  error: FailResponse;
 
-  constructor(
-    message: string,
-    statusCode: number,
-    error: Record<string, string>,
-  ) {
+  constructor(message: string, statusCode: number, error: FailResponse) {
     super(message);
     this.name = "ApiError";
     this.statusCode = statusCode;
