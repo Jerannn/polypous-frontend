@@ -5,5 +5,5 @@ export const Route = createFileRoute("/(public)/")({
 });
 
 function LandingPage() {
-  return <div>LANDING PAGE</div>;
+  return <div className="flex-1">LANDING PAGE</div>;
 }
