@@ -27,6 +27,7 @@ import {
 import useLogin from "@/features/auth/hooks/use-login";
 import { loginSchema } from "@/features/auth/schema";
 import type { LoginPayload } from "@/features/auth/types";
+import { ApiError } from "@/utils/apiError";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -41,16 +42,35 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: LoginPayload) => {
-    const response = await login(data);
-
-    if (response.status === "success") {
-      navigate({
-        to: "/dashboard",
-        replace: true,
-      });
-      toast.success("Logged in successfully!");
-    } else if (response.status === "fail") {
-      setError("root", { message: response.message });
+    try {
+      const user = await login(data);
+      if (user) {
+        navigate({
+          to: "/dashboard",
+          replace: true,
+        });
+        toast.success("Logged in successfully!");
+      }
+    } catch (error: unknown) {
+      if (error instanceof ApiError) {
+        const errorData = error.error;
+        switch (error.statusCode) {
+          case 401:
+            setError("root", {
+              type: "server",
+              message: errorData.error.message,
+            });
+            break;
+          case 500:
+            setError("root", {
+              type: "server",
+              message: "An unexpected error occurred. Please try again.",
+            });
+            break;
+          default:
+            break;
+        }
+      }
     }
   };
 

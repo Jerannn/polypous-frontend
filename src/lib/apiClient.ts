@@ -1,3 +1,4 @@
+import type { FailResponse } from "@/types/response.types";
 import { ApiError } from "@/utils/apiError";
 import env from "@/utils/env";
 
@@ -16,7 +17,7 @@ export async function api(path: string, options?: RequestInit) {
     });
 
     if (!res.ok) {
-      const errorData = await res.json();
+      const errorData = (await res.json()) as FailResponse;
       throw new ApiError(
         errorData.message || res.statusText,
         res.status,

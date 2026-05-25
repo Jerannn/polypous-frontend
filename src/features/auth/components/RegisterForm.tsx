@@ -27,6 +27,7 @@ import {
 import useRegister from "@/features/auth/hooks/use-register";
 import { registerSchema } from "@/features/auth/schema";
 import type { RegisterPayload } from "@/features/auth/types";
+import { ApiError } from "@/utils/apiError";
 
 export default function RegisterForm() {
   const { registerUser, isRegistering } = useRegister();
@@ -43,27 +44,37 @@ export default function RegisterForm() {
 
   const onSubmit = async (data: RegisterPayload) => {
     try {
-      const response = await registerUser(data);
-      if (response.status === "success") {
+      const newUser = await registerUser(data);
+      if (newUser) {
         navigate({
           to: "/auth/verify-email",
           search: {
-            email: data.email,
+            email: newUser.email,
           },
         });
-      } else if (response.status === "fail") {
-        Object.entries(response.details).forEach(([field, message]) => {
-          setError(field as keyof RegisterPayload, {
-            type: "server",
-            message: message,
-          });
-        });
       }
-    } catch {
-      setError("root", {
-        type: "server",
-        message: "An unexpected error occurred. Please try again.",
-      });
+    } catch (error: unknown) {
+      if (error instanceof ApiError) {
+        const errorData = error.error;
+        switch (error.statusCode) {
+          case 400:
+            Object.entries(errorData.error).forEach(([field, message]) => {
+              setError(field as keyof RegisterPayload, {
+                type: "server",
+                message: message,
+              });
+            });
+            break;
+          case 500:
+            setError("root", {
+              type: "server",
+              message: "An unexpected error occurred. Please try again.",
+            });
+            break;
+          default:
+            break;
+        }
+      }
     }
   };
 

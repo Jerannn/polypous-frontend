@@ -6,5 +6,6 @@ export type SuccessResponse<T> = {
 export type FailResponse = {
   status: "fail";
   message: string;
+  statusCode: number;
   error: Record<string, string>;
 };

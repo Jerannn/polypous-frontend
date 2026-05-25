@@ -20,7 +20,6 @@ export const requireAuth = async () => {
     useAuthStore.getState().setUser(user);
   } catch (error) {
     if (error instanceof ApiError && error.statusCode === 401) {
-      console.log(error);
       throw redirect({
         to: "/auth/login",
         replace: true,
