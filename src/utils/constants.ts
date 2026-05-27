@@ -45,3 +45,5 @@ export const navMainList = [
     icon: Settings,
   },
 ];
+
+export const LIMIT = 3;

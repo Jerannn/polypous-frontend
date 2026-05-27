@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { type ReactNode,useState } from "react";
+import { type ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -71,6 +71,8 @@ export default function ClientForm({
     }
   };
 
+  const isLoading = isCreating;
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{button}</DialogTrigger>
@@ -95,6 +97,7 @@ export default function ClientForm({
                 id="name"
                 placeholder="Polypous Corporation"
                 {...register("name")}
+                disabled={isLoading}
               />
               {errors.name && <FieldError>{errors.name.message}</FieldError>}
             </Field>
@@ -108,6 +111,7 @@ export default function ClientForm({
                 id="email"
                 placeholder="contact@example.com"
                 {...register("email")}
+                disabled={isLoading}
               />
               {errors.email && <FieldError>{errors.email.message}</FieldError>}
             </Field>
@@ -118,7 +122,12 @@ export default function ClientForm({
                 Direct phone number for reaching the client or their
                 representative.
               </FieldDescription>
-              <Input id="phone" placeholder="+1 (123) 456-7890" />
+              <Input
+                id="phone"
+                placeholder="+1 (123) 456-7890"
+                {...register("phone", { required: false })}
+                disabled={isLoading}
+              />
             </Field>
 
             <Field>
@@ -129,6 +138,8 @@ export default function ClientForm({
               <Input
                 id="address"
                 placeholder="2436 Main Street, Springfield, IL 62704, United States"
+                {...register("address", { required: false })}
+                disabled={isLoading}
               />
             </Field>
 
@@ -141,12 +152,14 @@ export default function ClientForm({
               <Textarea
                 id="notes"
                 placeholder="e.g. Prefers email communication, VIP client, pending contract renewal..."
+                {...register("notes", { required: false })}
+                disabled={isLoading}
               />
             </Field>
           </FieldGroup>
         </form>
         <DialogFooter className="p-4 bg-muted/50">
-          <DialogClose asChild>
+          <DialogClose asChild disabled={isLoading}>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
 
