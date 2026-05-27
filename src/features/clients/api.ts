@@ -1,6 +1,6 @@
 import { api } from "@/lib/apiClient";
 
-import type { ClientPayload } from "./types";
+import type { Client, ClientPayload, Meta, QueryPayload } from "./types";
 
 export const create = async (
   payload: ClientPayload,
@@ -11,4 +11,26 @@ export const create = async (
   });
 
   return response.data.client;
+};
+
+export const retrieve = async (
+  query: QueryPayload,
+): Promise<{
+  clients: Client[];
+  meta: Meta;
+}> => {
+  const params = new URLSearchParams();
+
+  if (query.page) params.set("page", query.page.toString());
+  if (query.limit) params.set("limit", query.limit.toString());
+  if (query.search) params.set("search", query.search.toString());
+
+  const response = await api(`/clients?${params.toString()}`, {
+    method: "GET",
+  });
+
+  return {
+    clients: response.data.clients,
+    meta: response.data.meta,
+  };
 };

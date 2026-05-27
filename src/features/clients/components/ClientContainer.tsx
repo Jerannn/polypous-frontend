@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/input-group";
 
 import ClientForm from "./ClientForm";
+import ClientTable from "./ClientTable";
 
 export default function ClientContainer() {
   return (
@@ -42,6 +43,8 @@ export default function ClientContainer() {
           </ButtonGroup>
         </Field>
       </div>
+
+      <ClientTable />
     </div>
   );
 }

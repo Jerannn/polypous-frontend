@@ -1,3 +1,4 @@
+import { LIMIT } from "@/utils/constants";
 import { z } from "zod";
 
 export const createClientSchema = z.object({
@@ -12,4 +13,10 @@ export const createClientSchema = z.object({
   phone: z.string().trim().max(30).optional(),
   address: z.string().trim().max(500).optional(),
   notes: z.string().trim().max(5000).optional(),
+});
+
+export const querySchema = z.object({
+  page: z.coerce.number().min(1).catch(1),
+  limit: z.coerce.number().min(1).max(LIMIT).catch(LIMIT),
+  search: z.string().trim().catch(""),
 });
