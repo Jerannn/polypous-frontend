@@ -46,4 +46,4 @@ export const navMainList = [
   },
 ];
 
-export const LIMIT = 3;
+export const LIMIT = 10;

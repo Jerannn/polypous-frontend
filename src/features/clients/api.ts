@@ -1,12 +1,28 @@
 import { api } from "@/lib/apiClient";
 
 import type { Client, ClientPayload, Meta, QueryPayload } from "./types";
+import type { SuccessResponse } from "@/types/response.types";
 
 export const create = async (
   payload: ClientPayload,
 ): Promise<ClientPayload> => {
   const response = await api("/clients", {
     method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+  return response.data.client;
+};
+
+export const update = async ({
+  payload,
+  id,
+}: {
+  payload: ClientPayload;
+  id: string;
+}): Promise<ClientPayload> => {
+  const response = await api(`/clients/${id}`, {
+    method: "PATCH",
     body: JSON.stringify(payload),
   });
 
@@ -33,4 +49,14 @@ export const retrieve = async (
     clients: response.data.clients,
     meta: response.data.meta,
   };
+};
+
+export const deleteClient = async (
+  id: string,
+): Promise<SuccessResponse<{ data: null }>> => {
+  const response = await api(`/clients/${id}`, {
+    method: "DELETE",
+  });
+
+  return response;
 };

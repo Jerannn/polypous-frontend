@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -29,49 +29,77 @@ import { ApiError } from "@/utils/apiError";
 import useCreateClient from "../hooks/use-create-client";
 import { createClientSchema } from "../schema";
 import type { ClientPayload } from "../types";
+import useUpdateClient from "../hooks/use-update-client";
 
 type ClientForm = {
   title: string;
   description: string;
   button: ReactNode;
-  initialData?: ClientPayload;
+  initialClient?: ClientPayload & { id: string };
+  action?: "update" | "create";
 };
 
 export default function ClientForm({
   title,
   description,
   button,
-  initialData,
+  initialClient,
+  action = "create",
 }: ClientForm) {
   const [open, setOpen] = useState(false);
   const { createClient, isCreating } = useCreateClient();
+  const { updateClient, isUpdating } = useUpdateClient();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
     reset,
   } = useForm<ClientPayload>({
     resolver: zodResolver(createClientSchema),
-    defaultValues: initialData,
+    defaultValues: initialClient,
   });
 
   const onSubmit = async (data: ClientPayload) => {
     try {
-      const newClient = await createClient(data);
-      if (newClient) {
-        reset();
-        setOpen(false);
-        toast.success("Client created successfully!");
+      if (action === "create") {
+        const newClient = await createClient(data);
+        if (newClient) {
+          reset();
+          setOpen(false);
+          toast.success("Client created successfully!");
+        }
+      }
+
+      if (action === "update") {
+        const updatedClient = await updateClient({
+          payload: data,
+          id: initialClient?.id as string,
+        });
+        if (updatedClient) {
+          reset();
+          setOpen(false);
+          toast.success("Client updated successfully!");
+        }
       }
     } catch (error: unknown) {
       if (error instanceof ApiError) {
-        console.log(error.error);
+        setError("root", {
+          type: "server",
+          message: "An unexpected error occurred. Please try again.",
+        });
       }
     }
   };
 
-  const isLoading = isCreating;
+  useEffect(() => {
+    if (initialClient) {
+      reset(initialClient);
+    }
+  }, [initialClient, reset]);
+
+  const isLoading = isCreating || isUpdating;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -87,6 +115,7 @@ export default function ClientForm({
           className="no-scrollbar max-h-[50vh] overflow-y-auto w-full px-4"
         >
           <FieldGroup>
+            {errors.root && <FieldError>{errors.root.message}</FieldError>}
             <Field>
               <FieldLabel htmlFor="name">Client Name *</FieldLabel>
               <FieldDescription>
@@ -165,16 +194,17 @@ export default function ClientForm({
 
           <Button
             type="submit"
-            className="w-full sm:max-w-30"
+            className="w-full sm:max-w-30 capitalize"
             form="client-form"
+            disabled={isLoading}
           >
-            {isCreating ? (
+            {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Creating...
+                {action === "update" ? "Updating..." : "Creating..."}
               </>
             ) : (
-              "Create"
+              <>{action}</>
             )}
           </Button>
         </DialogFooter>
