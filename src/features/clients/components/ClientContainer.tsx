@@ -1,19 +1,10 @@
-import { Plus, Search } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  ButtonGroup,
-  ButtonGroupSeparator,
-} from "@/components/ui/button-group";
-import { Field } from "@/components/ui/field";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group";
 
 import ClientForm from "./ClientForm";
 import ClientTable from "./ClientTable";
+import ClientFilter from "./ClientFilter";
 
 export default function ClientContainer() {
   return (
@@ -28,21 +19,7 @@ export default function ClientContainer() {
         }
       />
 
-      <div className="mt-4">
-        <Field>
-          <ButtonGroup>
-            <InputGroup className="max-w-xs">
-              <InputGroupInput placeholder="Search..." />
-              <InputGroupAddon>
-                <Search />
-              </InputGroupAddon>
-              {/* <InputGroupAddon align="inline-end">12 results</InputGroupAddon> */}
-            </InputGroup>
-            <ButtonGroupSeparator />
-            <Button variant="outline">Search</Button>
-          </ButtonGroup>
-        </Field>
-      </div>
+      <ClientFilter />
 
       <ClientTable />
     </div>

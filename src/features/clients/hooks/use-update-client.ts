@@ -1,13 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-import { create as createClientApi } from "../api";
+import { update as updateApi } from "../api";
 import { clientsKeys } from "../queryKeys";
 
-export default function useCreateClient() {
+export default function useUpdateClient() {
   const queryClient = useQueryClient();
 
-  const { mutateAsync: createClient, isPending: isCreating } = useMutation({
-    mutationFn: createClientApi,
+  const { mutateAsync: updateClient, isPending: isUpdating } = useMutation({
+    mutationFn: updateApi,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: clientsKeys.all,
@@ -15,6 +14,5 @@ export default function useCreateClient() {
       });
     },
   });
-
-  return { createClient, isCreating };
+  return { updateClient, isUpdating };
 }
