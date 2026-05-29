@@ -33,7 +33,6 @@ export default function ClientFilter() {
   const search = useWatch({ control, name: "search" });
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
     navigate({
       search: (prev) => ({
         ...prev,
