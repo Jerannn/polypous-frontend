@@ -9,9 +9,7 @@ const RootLayout = () => (
       <Outlet />
       <Toaster position="top-center" />
     </div>
-    {import.meta.env.DEV && (
-      <TanStackRouterDevtools position="bottom-right" />
-    )}
+    {import.meta.env.DEV && <TanStackRouterDevtools position="bottom-right" />}
   </>
 );
 
