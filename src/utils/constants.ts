@@ -46,4 +46,14 @@ export const navMainList = [
   },
 ];
 
-export const LIMIT = 10;
+export const APP_NAME = "Polypous";
+
+export const DEFAULT_PAGE_SIZE = 10;
+export const MAX_PAGE_SIZE = 10;
+
+/** @deprecated Use DEFAULT_PAGE_SIZE */
+export const LIMIT = DEFAULT_PAGE_SIZE;
+
+export function getNavItemByPathname(pathname: string) {
+  return navMainList.find((item) => item.url === pathname);
+}

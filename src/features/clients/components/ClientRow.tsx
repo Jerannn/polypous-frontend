@@ -5,9 +5,11 @@ import {
   Phone,
   PhoneOff,
 } from "lucide-react";
-import type { Client } from "../types";
-import { TableCell, TableRow } from "@/components/ui/table";
+
 import { Button } from "@/components/ui/button";
+import { TableCell, TableRow } from "@/components/ui/table";
+
+import type { Client } from "../types";
 import ClientDeleteDialog from "./ClientDeleteDialog";
 import ClientForm from "./ClientForm";
 

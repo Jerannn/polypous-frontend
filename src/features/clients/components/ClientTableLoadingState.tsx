@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -6,8 +7,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import ClientHeadSection from "./ClientTableHeader";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ClientTableLoadingState() {
   return (

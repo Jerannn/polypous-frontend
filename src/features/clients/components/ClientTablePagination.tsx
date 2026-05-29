@@ -1,15 +1,16 @@
+import { getRouteApi } from "@tanstack/react-router";
+
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { getPaginationPages } from "../utils/getPaginationPages";
-import { getRouteApi } from "@tanstack/react-router";
+
 import type { Meta } from "../types";
+import { getPaginationPages } from "../utils/getPaginationPages";
 
 const routeApi = getRouteApi("/(protected)/clients/");
 

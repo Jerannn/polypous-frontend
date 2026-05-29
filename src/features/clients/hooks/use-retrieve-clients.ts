@@ -1,30 +1,30 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { retrieve } from "../api";
-import type { QueryPayload } from "../types";
+import {
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useEffect } from "react";
-import { clientsKeys } from "../queryKeys";
 
-const clientsQuery = (query: QueryPayload) => ({
-  queryKey: clientsKeys.list(query),
-  queryFn: () => retrieve(query),
-});
+import { clientsListQueryOptions } from "../queries";
+import type { QueryPayload } from "../types";
 
 export default function useRetrieveClients(query: QueryPayload) {
   const queryClient = useQueryClient();
   const { page, limit, search } = query;
 
-  const { data, isLoading, isError } = useQuery({
-    ...clientsQuery(query),
-    enabled: !!query,
-    staleTime: 1000 * 30,
-  });
+  const { data, isLoading, isError, refetch, isFetching, isPending } =
+    useQuery({
+      ...clientsListQueryOptions(query),
+      placeholderData: keepPreviousData,
+    });
 
-  // Prefetch next page
   useEffect(() => {
     if (!data?.meta?.nextPage) return;
 
-    queryClient.prefetchQuery(clientsQuery({ ...query, page: page + 1 }));
-  }, [data, page, limit, search]);
+    queryClient.prefetchQuery(
+      clientsListQueryOptions({ page: page + 1, limit, search }),
+    );
+  }, [data, page, limit, search, queryClient]);
 
-  return { data, isLoading, isError };
+  return { data, isLoading, isError, refetch, isFetching, isPending };
 }

@@ -1,3 +1,7 @@
+import { Trash2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,10 +13,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Trash2 } from "lucide-react";
+
 import useDeleteClient from "../hooks/use-delete-client";
-import { useState } from "react";
-import { toast } from "sonner";
 
 type ClientDeleteProps = {
   clientId: string;
@@ -55,6 +57,7 @@ export default function ClientDeleteDialog({ clientId }: ClientDeleteProps) {
               <Button variant="outline">Cancel</Button>
             </DialogClose>
             <Button
+              type="button"
               onClick={handleDelete}
               disabled={isDeleting}
               variant="destructive"

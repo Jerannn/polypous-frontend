@@ -1,3 +1,7 @@
+import { getRouteApi } from "@tanstack/react-router";
+import { Search, X } from "lucide-react";
+import { useForm, useWatch } from "react-hook-form";
+
 import { Button } from "@/components/ui/button";
 import {
   ButtonGroup,
@@ -9,9 +13,6 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { getRouteApi } from "@tanstack/react-router";
-import { Search, X } from "lucide-react";
-import { useForm, useWatch } from "react-hook-form";
 
 const routeApi = getRouteApi("/(protected)/clients/");
 
@@ -21,22 +22,36 @@ type FormValues = {
 
 export default function ClientFilter() {
   const navigate = routeApi.useNavigate();
+  const { search: urlSearch } = routeApi.useSearch();
 
   const { control, register, handleSubmit, setValue } = useForm<FormValues>({
     defaultValues: {
-      search: "",
+      search: urlSearch,
     },
   });
 
   const search = useWatch({ control, name: "search" });
 
   const onSubmit = (data: FormValues) => {
-    navigate({ search: (prev) => ({ ...prev, search: data.search }) });
+    console.log(data);
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        search: data.search,
+        page: 1,
+      }),
+    });
   };
 
   const handleClearSearch = () => {
     setValue("search", "");
-    navigate({ search: (prev) => ({ ...prev, search: "" }) });
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        search: "",
+        page: 1,
+      }),
+    });
   };
 
   return (
@@ -63,7 +78,9 @@ export default function ClientFilter() {
               )}
             </InputGroup>
             <ButtonGroupSeparator />
-            <Button variant="outline">Search</Button>
+            <Button type="submit" variant="outline">
+              Search
+            </Button>
           </ButtonGroup>
         </Field>
       </form>
