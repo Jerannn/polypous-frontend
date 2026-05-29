@@ -1,9 +1,4 @@
-import {
-  createFileRoute,
-  Outlet,
-  useLocation,
-  useRouterState,
-} from "@tanstack/react-router";
+import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router";
 
 import AppSidebar from "@/components/dashboard/sidebar/AppSidebar";
 import ProtectedRoutePending from "@/components/routing/ProtectedRoutePending";
@@ -31,20 +26,10 @@ export const Route = createFileRoute("/(protected)")({
 
 function ProtectedLayout() {
   const location = useLocation();
-  const isNavigating = useRouterState({
-    select: (state) => state.status === "pending",
-  });
   const navItem = getNavItemByPathname(location.pathname);
 
   return (
     <div className="min-h-svh">
-      {isNavigating && (
-        <div
-          className="absolute top-0 left-0 right-0 h-0.75 bg-primary animate-pulse z-9999"
-          role="progressbar"
-          aria-label="Loading page"
-        />
-      )}
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset className="relative">

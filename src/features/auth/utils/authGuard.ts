@@ -9,7 +9,7 @@ import { clearAuthSession, syncAuthUser } from "./authSession";
 export const authGuard = async () => {
   try {
     const user = await queryClient.fetchQuery(meQueryOptions);
-    console.log(user);
+
     syncAuthUser(user);
   } catch (error: unknown) {
     if (error instanceof ApiError && error.statusCode === 401) {
