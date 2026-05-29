@@ -1,14 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 
 import logo from "@/assets/img/logo.svg";
-import { meQueryOptions } from "@/utils/auth";
+import { meQueryOptions } from "@/features/auth/queries";
+import useAuthStore from "@/features/auth/store";
+import { syncAuthUser } from "@/features/auth/utils/authSession";
 
 import { Button } from "./ui/button";
 
 export default function Header() {
   const navigate = useNavigate();
-  const { data: user, isLoading } = useQuery(meQueryOptions);
+  const storeUser = useAuthStore((state) => state.user);
+
+  const { data: user, isLoading, isSuccess } = useQuery({
+    ...meQueryOptions,
+    enabled: !storeUser,
+  });
+
+  useEffect(() => {
+    if (isSuccess && user) {
+      syncAuthUser(user);
+    }
+  }, [isSuccess, user]);
+
+  const isAuthenticated = storeUser ?? user;
 
   return (
     <header className="sticky top-0 z-40 bg-card border-b border-border shadow-sm h-16 flex items-center">
@@ -22,7 +38,7 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-5">
-          {!isLoading && !user && (
+          {!isLoading && !isAuthenticated && (
             <Button
               className="py-4 px-4"
               onClick={() => navigate({ to: "/auth/login" })}
@@ -31,7 +47,7 @@ export default function Header() {
             </Button>
           )}
 
-          {!isLoading && user && (
+          {!isLoading && isAuthenticated && (
             <Button
               variant="outline"
               className="py-4 px-4"

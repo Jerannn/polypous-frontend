@@ -2,10 +2,11 @@ import { useNavigate } from "@tanstack/react-router";
 import type { UseFormClearErrors, UseFormSetError } from "react-hook-form";
 import { toast } from "sonner";
 
+import { ApiError } from "@/utils/apiError";
+
 import type { VerifyCodePayload } from "../types";
 import useResendOtp from "./use-resend-otp";
 import useVerifyEmail from "./use-verify-email";
-import { ApiError } from "@/utils/apiError";
 
 type useVerifyEmailFlowProps = {
   email: string;

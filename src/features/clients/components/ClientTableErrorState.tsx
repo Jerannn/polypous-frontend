@@ -1,3 +1,8 @@
+import { useQueryClient } from "@tanstack/react-query";
+import { getRouteApi } from "@tanstack/react-router";
+import { AlertCircle } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Empty,
@@ -6,9 +11,19 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { AlertCircle } from "lucide-react";
+
+import { clientsKeys } from "../queryKeys";
+
+const routeApi = getRouteApi("/(protected)/clients/");
 
 export default function ClientTableErrorState() {
+  const query = routeApi.useSearch();
+  const queryClient = useQueryClient();
+
+  const handleRetry = () => {
+    queryClient.invalidateQueries({ queryKey: clientsKeys.list(query) });
+  };
+
   return (
     <Card className="mt-10">
       <CardContent className="pt-6">
@@ -23,6 +38,9 @@ export default function ClientTableErrorState() {
               try again.
             </EmptyDescription>
           </EmptyHeader>
+          <Button type="button" variant="outline" onClick={handleRetry}>
+            Try again
+          </Button>
         </Empty>
       </CardContent>
     </Card>

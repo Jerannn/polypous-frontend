@@ -1,4 +1,5 @@
-import { TableRow, TableCell } from "@/components/ui/table";
+import { UserX } from "lucide-react";
+
 import {
   Empty,
   EmptyDescription,
@@ -6,7 +7,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { UserX } from "lucide-react";
+import { TableCell,TableRow } from "@/components/ui/table";
 
 export default function ClientTableEmptyState() {
   return (

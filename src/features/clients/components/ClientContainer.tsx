@@ -2,9 +2,9 @@ import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
+import ClientFilter from "./ClientFilter";
 import ClientForm from "./ClientForm";
 import ClientTable from "./ClientTable";
-import ClientFilter from "./ClientFilter";
 
 export default function ClientContainer() {
   return (
