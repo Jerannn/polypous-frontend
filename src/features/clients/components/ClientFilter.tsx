@@ -24,13 +24,11 @@ export default function ClientFilter() {
   const navigate = routeApi.useNavigate();
   const { search: urlSearch } = routeApi.useSearch();
 
-  const { control, register, handleSubmit, setValue } = useForm<FormValues>({
+  const { register, handleSubmit, setValue } = useForm<FormValues>({
     defaultValues: {
       search: urlSearch,
     },
   });
-
-  const search = useWatch({ control, name: "search" });
 
   const onSubmit = (data: FormValues) => {
     navigate({
@@ -66,7 +64,7 @@ export default function ClientFilter() {
               <InputGroupAddon>
                 <Search />
               </InputGroupAddon>
-              {search && (
+              {urlSearch && (
                 <InputGroupAddon
                   align="inline-end"
                   className="cursor-pointer rounded-full p-0.5 mr-1 hover:bg-muted hover:text-accent-foreground"

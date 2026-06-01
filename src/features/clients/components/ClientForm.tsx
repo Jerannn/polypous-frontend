@@ -30,6 +30,11 @@ import useCreateClient from "../hooks/use-create-client";
 import useUpdateClient from "../hooks/use-update-client";
 import { createClientSchema } from "../schema";
 import type { ClientPayload } from "../types";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type ClientForm = {
   title: string;
@@ -103,7 +108,12 @@ export default function ClientForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{button}</DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>{button}</DialogTrigger>
+        </TooltipTrigger>
+        {action === "update" && <TooltipContent>Update client</TooltipContent>}
+      </Tooltip>
       <DialogContent className="sm:max-w-md p-0 overflow-hidden">
         <DialogHeader className="p-4 pb-0">
           <DialogTitle>{title}</DialogTitle>

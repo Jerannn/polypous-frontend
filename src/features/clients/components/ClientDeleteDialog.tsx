@@ -15,6 +15,11 @@ import {
 } from "@/components/ui/dialog";
 
 import useDeleteClient from "../hooks/use-delete-client";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type ClientDeleteProps = {
   clientId: string;
@@ -36,11 +41,16 @@ export default function ClientDeleteDialog({ clientId }: ClientDeleteProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <form>
-        <DialogTrigger asChild>
-          <Button variant="destructive">
-            <Trash2 />
-          </Button>
-        </DialogTrigger>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
+              <Button variant="destructive">
+                <Trash2 />
+              </Button>
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent>Delete client</TooltipContent>
+        </Tooltip>
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
             <DialogTitle>Delete</DialogTitle>
