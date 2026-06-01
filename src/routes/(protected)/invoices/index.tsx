@@ -1,3 +1,4 @@
+import InvoiceContainer from "@/features/invoice/components/InvoiceContainer";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(protected)/invoices/")({
@@ -5,5 +6,5 @@ export const Route = createFileRoute("/(protected)/invoices/")({
 });
 
 function InvoicePage() {
-  return <div>INVOICE PAGE</div>;
+  return <InvoiceContainer />;
 }
