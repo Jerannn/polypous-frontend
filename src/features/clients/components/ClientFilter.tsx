@@ -1,6 +1,6 @@
 import { getRouteApi } from "@tanstack/react-router";
 import { Search, X } from "lucide-react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import {

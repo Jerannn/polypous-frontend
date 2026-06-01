@@ -1,3 +1,6 @@
+import { Plus } from "lucide-react";
+import type { ReactNode } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,8 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Plus } from "lucide-react";
-import type { ReactNode } from "react";
 
 type InvoiceItemsCardProps = {
   onAddItem: () => void;

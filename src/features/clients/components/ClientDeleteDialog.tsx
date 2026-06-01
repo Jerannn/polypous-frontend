@@ -13,13 +13,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-import useDeleteClient from "../hooks/use-delete-client";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
+import useDeleteClient from "../hooks/use-delete-client";
 
 type ClientDeleteProps = {
   clientId: string;

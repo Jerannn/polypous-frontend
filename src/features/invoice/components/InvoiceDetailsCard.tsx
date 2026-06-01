@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import {
   Card,
   CardContent,
@@ -5,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { ReactNode } from "react";
 
 type InvoiceDetailsCardProps = {
   children: ReactNode;

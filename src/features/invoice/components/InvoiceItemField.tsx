@@ -1,14 +1,16 @@
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { Trash2 } from "lucide-react";
 import {
-  useWatch,
   type Control,
   type FieldErrors,
   type UseFormRegister,
+  useWatch,
 } from "react-hook-form";
-import type { Invoice } from "../types";
+
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+
+import type { Invoice } from "../types";
 
 type InvoiceItemFieldProps = {
   totalFields: number;
