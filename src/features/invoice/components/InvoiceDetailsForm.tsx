@@ -1,3 +1,14 @@
+import { format } from "date-fns";
+import {
+  type Control,
+  Controller,
+  type FieldErrors,
+  type UseFormRegister,
+  useWatch,
+} from "react-hook-form";
+
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -5,9 +16,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
 import {
   Select,
   SelectContent,
@@ -16,13 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Controller,
-  type UseFormRegister,
-  type FieldErrors,
-  type Control,
-  useWatch,
-} from "react-hook-form";
+
 import type { Invoice } from "../types";
 
 type InvoiceDetailsFormProps = {

@@ -1,8 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-type Props = {};
-
-export default function InvoiceSummaryCard({}: Props) {
+export default function InvoiceSummaryCard() {
   return (
     <Card className="max-w-xs">
       <CardHeader>
