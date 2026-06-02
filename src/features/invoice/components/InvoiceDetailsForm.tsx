@@ -16,16 +16,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import type { Invoice } from "../types";
+import ClientSelectPopover from "./ClientSelectPopover";
 
 type InvoiceDetailsFormProps = {
   register: UseFormRegister<Invoice>;
@@ -45,26 +38,7 @@ export default function InvoiceDetailsForm({
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <Field>
         <FieldLabel htmlFor="name">Client Name *</FieldLabel>
-        <Controller
-          name="clientId"
-          control={control}
-          render={({ field }) => {
-            return (
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a client" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectGroup>
-                    <SelectItem value="light">Light</SelectItem>
-                    <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            );
-          }}
-        />
+        <ClientSelectPopover control={control} />
         {errors.clientId && <FieldError>{errors.clientId.message}</FieldError>}
       </Field>
 
