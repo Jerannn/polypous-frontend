@@ -1,0 +1,123 @@
+import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { type Control, Controller, useWatch } from "react-hook-form";
+import { useInView } from "react-intersection-observer";
+
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
+import { useDebounce } from "@/hooks/useDebounce";
+
+import useRetrieveOptionts from "../hooks/use-retrieve-optionts";
+import type { Invoice } from "../types";
+
+type ClientSelectPopoverProps = {
+  control: Control<Invoice>;
+};
+
+export default function ClientSelectPopover({
+  control,
+}: ClientSelectPopoverProps) {
+  const [query, setQuery] = useState("");
+  const debounceQuery = useDebounce(query, 500);
+  const { data, fetchNextPage, isFetchingNextPage, isLoading, hasNextPage } =
+    useRetrieveOptionts({ query: debounceQuery });
+  const options = data?.pages.flatMap((page) => page.options) || [];
+
+  const clientId = useWatch({ control, name: "clientId" });
+
+  const selectedClient =
+    options?.find((option) => option.id === clientId) || "";
+
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView) fetchNextPage();
+  }, [inView, fetchNextPage]);
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          id="clientId"
+          className="justify-start font-normal bg-input/20"
+        >
+          {selectedClient ? selectedClient.name : <span>Pick a client</span>}
+        </Button>
+      </PopoverTrigger>
+
+      <PopoverContent className="max-w-fit w-full p-0" align="start">
+        <Controller
+          name="clientId"
+          control={control}
+          render={({ field }) => {
+            return (
+              <Command
+                className="w-full"
+                key={isLoading ? "loading" : "loaded"}
+                shouldFilter={false}
+              >
+                <CommandInput
+                  placeholder="Pick or search a client..."
+                  autoFocus
+                  value={query}
+                  onValueChange={setQuery}
+                />
+                <CommandList>
+                  {isLoading ? (
+                    <>
+                      <CommandItem disabled>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        <span>Loading...</span>
+                      </CommandItem>
+                    </>
+                  ) : (
+                    <CommandGroup heading="Suggestions">
+                      <CommandEmpty>No results found.</CommandEmpty>
+                      {options?.map((option) => (
+                        <CommandItem
+                          key={option.id}
+                          value={option.id}
+                          onSelect={() => field.onChange(option.id)}
+                        >
+                          {option.name}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  )}
+
+                  {hasNextPage && (
+                    <>
+                      <Separator />
+                      <CommandItem disabled ref={ref}>
+                        {isFetchingNextPage && (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            <span>Loading...</span>
+                          </>
+                        )}
+                      </CommandItem>
+                    </>
+                  )}
+                </CommandList>
+              </Command>
+            );
+          }}
+        />
+      </PopoverContent>
+    </Popover>
+  );
+}
