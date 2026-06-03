@@ -11,7 +11,11 @@ import {
 import type { Meta } from "@/types/shared.types";
 import { getPaginationPages } from "@/utils/getPaginationPages";
 
-const routeApi = getRouteApi("/(protected)/clients/");
+const routeApi = getRouteApi("/(protected)/invoices/");
+
+type InvoiceTablePaginationProps = {
+  meta?: Meta;
+};
 
 const defaultMeta = {
   page: 1,
@@ -23,7 +27,9 @@ const defaultMeta = {
   prevPage: 1,
 };
 
-export default function ClientTablePagination({ meta }: { meta?: Meta }) {
+export default function InvoiceTablePagination({
+  meta,
+}: InvoiceTablePaginationProps) {
   const navigate = routeApi.useNavigate();
 
   const { currentPage, nextPage, prevPage, totalPage } = meta || defaultMeta;

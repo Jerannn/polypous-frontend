@@ -3,6 +3,8 @@ import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
+import InvoiceTable from "./InvoiceTable";
+
 export default function InvoiceContainer() {
   const navigate = useNavigate();
   return (
@@ -19,9 +21,9 @@ export default function InvoiceContainer() {
         <Plus /> Add Invoice
       </Button>
 
-      {/* <ClientFilter />
+      {/* <ClientFilter />*/}
 
-      <ClientTable /> */}
+      <InvoiceTable />
     </div>
   );
 }

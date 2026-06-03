@@ -1,9 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { EyeOffIcon, Loader2, Lock, Mail } from "lucide-react";
+import { EyeOffIcon, Lock, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import ActionButtonContent from "@/components/ActionButtonContent";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -140,14 +141,10 @@ export default function LoginForm() {
             form="login-form"
             disabled={isLoggingIn}
           >
-            {isLoggingIn ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Logging in...
-              </>
-            ) : (
-              "Login"
-            )}
+            <ActionButtonContent
+              action={isLoggingIn ? "Logging in..." : "Login"}
+              isLoading={isLoggingIn}
+            />
           </Button>
           <p className="text-center text-xs text-muted-foreground mt-2">
             Don't have an account?

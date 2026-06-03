@@ -1,7 +1,8 @@
 import { api } from "@/lib/apiClient";
 import type { SuccessResponse } from "@/types/response.types";
+import type { Meta } from "@/types/shared.types";
 
-import type { Client, ClientPayload, Meta, QueryPayload } from "./types";
+import type { Client, ClientPayload, QueryPayload } from "./types";
 
 export const create = async (
   payload: ClientPayload,

@@ -1,8 +1,8 @@
-import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, useWatch } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
 
+import ActionButtonContent from "@/components/ActionButtonContent";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -79,8 +79,10 @@ export default function ClientSelectPopover() {
                   {isLoading ? (
                     <>
                       <CommandItem disabled>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        <span>Loading...</span>
+                        <ActionButtonContent
+                          action="Loading..."
+                          isLoading={isLoading}
+                        />
                       </CommandItem>
                     </>
                   ) : (
@@ -105,12 +107,10 @@ export default function ClientSelectPopover() {
                     <>
                       <Separator />
                       <CommandItem disabled ref={ref}>
-                        {isFetchingNextPage && (
-                          <>
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                            <span>Loading...</span>
-                          </>
-                        )}
+                        <ActionButtonContent
+                          action={isFetchingNextPage ? "Loading..." : ""}
+                          isLoading={isFetchingNextPage}
+                        />
                       </CommandItem>
                     </>
                   )}

@@ -1,6 +1,6 @@
+import ClientTableEmptyState from "../../../components/states/TableEmptyState";
 import type { Client } from "../types";
 import ClientRow from "./ClientRow";
-import ClientTableEmptyState from "./ClientTableEmptyState";
 
 type TableContentSectionProps = {
   clients: Client[];

@@ -12,7 +12,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 
-import { clientsKeys } from "../queryKeys";
+import { clientsKeys } from "../../features/clients/queryKeys";
 
 const routeApi = getRouteApi("/(protected)/clients/");
 

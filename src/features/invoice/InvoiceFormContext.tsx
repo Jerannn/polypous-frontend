@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createContext, type ReactNode,useContext } from "react";
+import { createContext, type ReactNode, useContext } from "react";
 import {
   useFieldArray,
   type UseFieldArrayReturn,
@@ -60,8 +60,7 @@ export function InvoiceFormProvider({ children }: InvoiceFormProviderProps) {
 
   const onSubmit = async (data: InvoiceBase) => {
     try {
-      const invoice = await createInvoice(data);
-      console.log("Invoice created:", invoice);
+      await createInvoice(data);
       form.reset();
       toast.success("Invoice created successfully!");
     } catch (error) {
