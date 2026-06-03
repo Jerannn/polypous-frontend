@@ -1,5 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 
+import ActionButtonContent from "@/components/ActionButtonContent";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 
@@ -56,7 +57,10 @@ export default function InvoiceForm() {
           size="lg"
           disabled={isSubmitting}
         >
-          Create Invoice
+          <ActionButtonContent
+            action={isSubmitting ? "Creating..." : "Create Invoice"}
+            isLoading={isSubmitting}
+          />
         </Button>
       </div>
     </div>

@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import ClientHeadSection from "./ClientTableHeader";
+import ClientHeadSection from "../../features/clients/components/ClientTableHeader";
 
 export default function ClientTableLoadingState() {
   return (

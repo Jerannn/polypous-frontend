@@ -1,9 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@tanstack/react-router";
 import { useNavigate } from "@tanstack/react-router";
-import { EyeOffIcon, Loader2, Lock, Mail, User } from "lucide-react";
+import { EyeOffIcon, Lock, Mail, User } from "lucide-react";
 import { useForm } from "react-hook-form";
 
+import ActionButtonContent from "@/components/ActionButtonContent";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -187,14 +188,10 @@ export default function RegisterForm() {
             form="register-form"
             disabled={isRegistering}
           >
-            {isRegistering ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Registering...
-              </>
-            ) : (
-              "Register"
-            )}
+            <ActionButtonContent
+              action={isRegistering ? "Registering..." : "Register"}
+              isLoading={isRegistering}
+            />
           </Button>
           <p className="text-center text-xs text-muted-foreground mt-2">
             Already have an account?

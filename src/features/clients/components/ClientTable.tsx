@@ -10,11 +10,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import ClientTableErrorState from "../../../components/states/TableErrorState";
+import ClientTableLoadingState from "../../../components/states/TableLoadingState";
 import useRetrieveClients from "../hooks/use-retrieve-clients";
 import ClientTableBody from "./ClientTableBody";
-import ClientTableErrorState from "./ClientTableErrorState";
 import ClientTableHeader from "./ClientTableHeader";
-import ClientTableLoadingState from "./ClientTableLoadingState";
 import ClientTablePagination from "./ClientTablePagination";
 
 const routeApi = getRouteApi("/(protected)/clients/");

@@ -2,10 +2,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getRouteApi, useNavigate } from "@tanstack/react-router";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { ArrowLeft, Loader2, Mail } from "lucide-react";
+import { ArrowLeft, Mail } from "lucide-react";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
+import ActionButtonContent from "@/components/ActionButtonContent";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
@@ -134,14 +135,10 @@ export default function VerifyEmailCard() {
               className="w-full mt-8 py-4 font-semibold"
               disabled={isLoading}
             >
-              {isVerifying ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Verifying...
-                </>
-              ) : (
-                "Verify"
-              )}
+              <ActionButtonContent
+                action={isVerifying ? "Verifying..." : "Verify"}
+                isLoading={isVerifying}
+              />
             </Button>
           </form>
 
@@ -162,14 +159,10 @@ export default function VerifyEmailCard() {
               onClick={handleResend}
               disabled={isLoading}
             >
-              {isResending ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Resending...
-                </>
-              ) : (
-                "Resend Code"
-              )}
+              <ActionButtonContent
+                action={isResending ? "Resending..." : "Resend Code"}
+                isLoading={isResending}
+              />
             </Button>
           )}
         </CardContent>

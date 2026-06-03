@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
 import { type ReactNode, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import ActionButtonContent from "@/components/ActionButtonContent";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -208,14 +208,18 @@ export default function ClientForm({
             form="client-form"
             disabled={isLoading}
           >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {action === "update" ? "Updating..." : "Creating..."}
-              </>
-            ) : (
-              <>{action}</>
-            )}
+            <ActionButtonContent
+              action={
+                action === "update"
+                  ? isLoading
+                    ? "Updating..."
+                    : "Update"
+                  : isLoading
+                    ? "Creating..."
+                    : "Create"
+              }
+              isLoading={isLoading}
+            />
           </Button>
         </DialogFooter>
       </DialogContent>
