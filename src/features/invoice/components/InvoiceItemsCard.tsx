@@ -1,5 +1,4 @@
 import { Plus } from "lucide-react";
-import type { ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,15 +10,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-type InvoiceItemsCardProps = {
-  onAddItem: () => void;
-  children: ReactNode;
-};
+import { useInvoiceForm } from "../InvoiceFormContext";
+import InvoiceItemField from "./InvoiceItemField";
 
-export default function InvoiceItemsCard({
-  onAddItem,
-  children,
-}: InvoiceItemsCardProps) {
+export default function InvoiceItemsCard() {
+  const { onAddItem, fields, isSubmitting } = useInvoiceForm();
   return (
     <Card className="bg-transparent ring-0">
       <CardHeader>
@@ -34,6 +29,7 @@ export default function InvoiceItemsCard({
             size="lg"
             variant="outline"
             className="gap-4"
+            disabled={isSubmitting}
             onClick={onAddItem}
           >
             <Plus />
@@ -41,7 +37,11 @@ export default function InvoiceItemsCard({
           </Button>
         </CardAction>
       </CardHeader>
-      <CardContent className="space-y-3">{children}</CardContent>
+      <CardContent className="space-y-3">
+        {fields.fields.map((field, index) => (
+          <InvoiceItemField key={field.id} index={index} />
+        ))}
+      </CardContent>
     </Card>
   );
 }

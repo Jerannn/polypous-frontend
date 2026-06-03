@@ -1,47 +1,37 @@
 import { Trash2 } from "lucide-react";
-import {
-  type Control,
-  type FieldErrors,
-  type UseFormRegister,
-  useWatch,
-} from "react-hook-form";
+import { useWatch } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
-import type { Invoice } from "../types";
+import { useInvoiceForm } from "../InvoiceFormContext";
 
 type InvoiceItemFieldProps = {
-  totalFields: number;
   index: number;
-  control: Control<Invoice>;
-  register: UseFormRegister<Invoice>;
-  errors: FieldErrors<Invoice>;
-  onRemove: (index: number) => void;
 };
 
-export default function InvoiceItemField({
-  totalFields,
-  index,
-  control,
-  register,
-  errors,
-  onRemove,
-}: InvoiceItemFieldProps) {
-  const quantity = useWatch({
+export default function InvoiceItemField({ index }: InvoiceItemFieldProps) {
+  const { form, onRemoveItem, fields, isSubmitting } = useInvoiceForm();
+  const {
+    register,
     control,
+    formState: { errors },
+  } = form;
+
+  const quantity = useWatch({
+    control: control,
     name: `items.${index}.quantity`,
   });
 
   const unitPrice = useWatch({
-    control,
+    control: control,
     name: `items.${index}.unitPrice`,
   });
 
   const total = (quantity || 0) * (unitPrice || 0);
   const itemErrors = errors.items?.[index];
-  const canRemove = totalFields > 1;
+  const canRemove = fields.fields.length > 1;
 
   return (
     <div>
@@ -52,6 +42,7 @@ export default function InvoiceItemField({
             id="description"
             placeholder="e.g. Web Design"
             aria-invalid={!!itemErrors?.description}
+            disabled={isSubmitting}
             {...register(`items.${index}.description`)}
           />
         </Field>
@@ -62,6 +53,7 @@ export default function InvoiceItemField({
             type="number"
             id="quantity"
             placeholder="0"
+            disabled={isSubmitting}
             {...register(`items.${index}.quantity`, { valueAsNumber: true })}
           />
         </Field>
@@ -72,6 +64,7 @@ export default function InvoiceItemField({
             type="number"
             id="unitPrice"
             placeholder="0"
+            disabled={isSubmitting}
             {...register(`items.${index}.unitPrice`, { valueAsNumber: true })}
           />
         </Field>
@@ -87,7 +80,8 @@ export default function InvoiceItemField({
             type="button"
             variant="destructive"
             className="ml-auto"
-            onClick={() => onRemove(index)}
+            disabled={isSubmitting}
+            onClick={() => onRemoveItem(index)}
           >
             <Trash2 />
           </Button>

@@ -1,5 +1,3 @@
-import type { ReactNode } from "react";
-
 import {
   Card,
   CardContent,
@@ -8,13 +6,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-type InvoiceDetailsCardProps = {
-  children: ReactNode;
-};
+import InvoiceDetailsForm from "./InvoiceDetailsForm";
 
-export default function InvoiceDetailsCard({
-  children,
-}: InvoiceDetailsCardProps) {
+export default function InvoiceDetailsCard() {
   return (
     <Card className="bg-transparent ring-0">
       <CardHeader>
@@ -24,7 +18,9 @@ export default function InvoiceDetailsCard({
           invoice.
         </CardDescription>
       </CardHeader>
-      <CardContent>{children}</CardContent>
+      <CardContent>
+        <InvoiceDetailsForm />
+      </CardContent>
     </Card>
   );
 }
