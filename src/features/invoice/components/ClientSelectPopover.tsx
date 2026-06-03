@@ -1,6 +1,6 @@
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { type Control, Controller, useWatch } from "react-hook-form";
+import { Controller, useWatch } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
 
 import { Button } from "@/components/ui/button";
@@ -21,22 +21,20 @@ import { Separator } from "@/components/ui/separator";
 import { useDebounce } from "@/hooks/useDebounce";
 
 import useRetrieveOptionts from "../hooks/use-retrieve-optionts";
-import type { Invoice } from "../types";
+import { useInvoiceForm } from "../InvoiceFormContext";
 
-type ClientSelectPopoverProps = {
-  control: Control<Invoice>;
-};
+export default function ClientSelectPopover() {
+  const { form, isSubmitting } = useInvoiceForm();
 
-export default function ClientSelectPopover({
-  control,
-}: ClientSelectPopoverProps) {
+  const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const debounceQuery = useDebounce(query, 500);
+
   const { data, fetchNextPage, isFetchingNextPage, isLoading, hasNextPage } =
-    useRetrieveOptionts({ query: debounceQuery });
+    useRetrieveOptionts({ query: debounceQuery.trim() });
   const options = data?.pages.flatMap((page) => page.options) || [];
 
-  const clientId = useWatch({ control, name: "clientId" });
+  const clientId = useWatch({ control: form.control, name: "clientId" });
 
   const selectedClient =
     options?.find((option) => option.id === clientId) || "";
@@ -48,12 +46,13 @@ export default function ClientSelectPopover({
   }, [inView, fetchNextPage]);
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
           id="clientId"
           className="justify-start font-normal bg-input/20"
+          disabled={isSubmitting}
         >
           {selectedClient ? selectedClient.name : <span>Pick a client</span>}
         </Button>
@@ -62,7 +61,7 @@ export default function ClientSelectPopover({
       <PopoverContent className="max-w-fit w-full p-0" align="start">
         <Controller
           name="clientId"
-          control={control}
+          control={form.control}
           render={({ field }) => {
             return (
               <Command
@@ -91,7 +90,10 @@ export default function ClientSelectPopover({
                         <CommandItem
                           key={option.id}
                           value={option.id}
-                          onSelect={() => field.onChange(option.id)}
+                          onSelect={() => {
+                            field.onChange(option.id);
+                            setOpen(false);
+                          }}
                         >
                           {option.name}
                         </CommandItem>

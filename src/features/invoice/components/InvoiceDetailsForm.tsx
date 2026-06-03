@@ -1,11 +1,5 @@
 import { format } from "date-fns";
-import {
-  type Control,
-  Controller,
-  type FieldErrors,
-  type UseFormRegister,
-  useWatch,
-} from "react-hook-form";
+import { Controller, useWatch } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -17,20 +11,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import type { Invoice } from "../types";
+import { useInvoiceForm } from "../InvoiceFormContext";
 import ClientSelectPopover from "./ClientSelectPopover";
 
-type InvoiceDetailsFormProps = {
-  register: UseFormRegister<Invoice>;
-  control: Control<Invoice>;
-  errors: FieldErrors<Invoice>;
-};
-
-export default function InvoiceDetailsForm({
-  register,
-  control,
-  errors,
-}: InvoiceDetailsFormProps) {
+export default function InvoiceDetailsForm() {
+  const { form, isSubmitting } = useInvoiceForm();
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = form;
   const issueDate = useWatch({ control, name: "issueDate" });
   const dueDate = useWatch({ control, name: "dueDate" });
 
@@ -38,7 +28,7 @@ export default function InvoiceDetailsForm({
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <Field>
         <FieldLabel htmlFor="name">Client Name *</FieldLabel>
-        <ClientSelectPopover control={control} />
+        <ClientSelectPopover />
         {errors.clientId && <FieldError>{errors.clientId.message}</FieldError>}
       </Field>
 
@@ -47,6 +37,8 @@ export default function InvoiceDetailsForm({
         <Input
           id="taxRate"
           placeholder="0"
+          type="number"
+          disabled={isSubmitting}
           {...register("taxRate", { valueAsNumber: true })}
         />
         {errors.taxRate && <FieldError>{errors.taxRate.message}</FieldError>}
@@ -60,6 +52,7 @@ export default function InvoiceDetailsForm({
               variant="outline"
               id="issueDate"
               className="justify-start font-normal bg-input/20"
+              disabled={isSubmitting}
             >
               {issueDate ? format(issueDate, "PPP") : <span>Pick a date</span>}
             </Button>
@@ -93,6 +86,7 @@ export default function InvoiceDetailsForm({
               variant="outline"
               id="dueDate"
               className="justify-start font-normal bg-input/20"
+              disabled={isSubmitting}
             >
               {dueDate ? format(dueDate, "PPP") : <span>Pick a date</span>}
             </Button>
