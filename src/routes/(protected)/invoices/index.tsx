@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import RouteError from "@/components/routing/RouteError";
 import InvoiceContainer from "@/features/invoice/components/InvoiceContainer";
 import { invoicesListQueryOptions } from "@/features/invoice/queries";
 import { invoiceQuerySchema } from "@/features/invoice/schema";
@@ -13,9 +12,6 @@ export const Route = createFileRoute("/(protected)/invoices/")({
   loaderDeps: ({ search }) => search,
   loader: ({ deps: query }) =>
     void queryClient.prefetchQuery(invoicesListQueryOptions(query)),
-  errorComponent: (props) => (
-    <RouteError {...props} title="Unable to load invoices" />
-  ),
   head: () => ({
     meta: [{ title: `Clients | ${APP_NAME}` }],
   }),

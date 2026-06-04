@@ -32,7 +32,7 @@ function ProtectedLayout() {
     <div className="min-h-svh">
       <SidebarProvider>
         <AppSidebar />
-        <SidebarInset className="relative">
+        <SidebarInset className="relative overflow-hidden">
           <header className="flex items-center gap-2 border-b border-border px-4 py-3">
             <SidebarTrigger />
             <Separator orientation="vertical" className="self-stretch" />

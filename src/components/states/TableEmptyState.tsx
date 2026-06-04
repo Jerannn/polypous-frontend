@@ -1,4 +1,4 @@
-import { UserX } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 
 import {
   Empty,
@@ -7,21 +7,29 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { TableCell,TableRow } from "@/components/ui/table";
+import { TableCell, TableRow } from "@/components/ui/table";
 
-export default function ClientTableEmptyState() {
+type TableEmptyStateProps = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+};
+
+export default function TableEmptyState({
+  icon: Icon,
+  title,
+  description,
+}: TableEmptyStateProps) {
   return (
     <TableRow className="hover:bg-transparent">
       <TableCell colSpan={100} className="py-10">
         <Empty className="border-none">
           <EmptyMedia variant="icon">
-            <UserX className="text-muted-foreground" />
+            <Icon className="text-muted-foreground" />
           </EmptyMedia>
           <EmptyHeader>
-            <EmptyTitle>No clients found</EmptyTitle>
-            <EmptyDescription>
-              Try adding a new client or adjusting your search filters.
-            </EmptyDescription>
+            <EmptyTitle>{title}</EmptyTitle>
+            <EmptyDescription>{description}</EmptyDescription>
           </EmptyHeader>
         </Empty>
       </TableCell>

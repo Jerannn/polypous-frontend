@@ -1,56 +1,71 @@
 import { getRouteApi } from "@tanstack/react-router";
+import { UserX } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import TableEmptyState from "@/components/states/TableEmptyState";
+import TableErrorState from "@/components/states/TableErrorState";
+import TableLoadingState from "@/components/states/TableLoadingState";
+import DataTable from "@/components/table/DataTable";
+import DataTablePagination from "@/components/table/DataTablePagination";
+import SkeletonRow from "@/components/table/SkeletonRow";
 
 import useRetrieveInvoice from "../hooks/use-retrieve-invoice";
-import InvoiceTableBody from "./InvoiceTableBody";
+import type { Invoice } from "../types";
+import InvoiceRow from "./InvoiceRow";
 import InvoiceTableHeader from "./InvoiceTableHeader";
-import InvoiceTablePagination from "./InvoiceTablePagination";
 
 const routeApi = getRouteApi("/(protected)/invoices/");
 
 export default function InvoiceTable() {
   const query = routeApi.useSearch();
+  const navigate = routeApi.useNavigate();
 
-  const { data, isPending, isError } = useRetrieveInvoice(query);
+  const { data, isPending, isError, isFetching } = useRetrieveInvoice(query);
   const invoice = data?.invoices ?? [];
   const meta = data?.meta;
 
-  if (isPending) return <p>loading...</p>;
-  if (isError) return <p>Error</p>;
+  const handlePageChange = (page: number) => {
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        page,
+      }),
+    });
+  };
 
   return (
-    <Card
-      className={`mt-10 transition-opacity ${isPending ? "opacity-60" : ""}`}
-    >
-      <CardHeader>
-        <CardTitle>All Clients</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <InvoiceTableHeader />
-          </TableHeader>
-          <TableBody>
-            <InvoiceTableBody invoice={invoice} />
-          </TableBody>
-          <TableFooter className="bg-transparent">
-            <TableRow className="w-full text-right hover:bg-transparent">
-              <TableCell colSpan={100} className="pt-4">
-                <InvoiceTablePagination meta={meta} />
-              </TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </CardContent>
-    </Card>
+    <DataTable<Invoice>
+      title="All Invoices"
+      isPending={isPending}
+      isError={isError}
+      isFetching={isFetching}
+      items={invoice}
+      header={<InvoiceTableHeader />}
+      renderRow={(invoice) => <InvoiceRow invoice={invoice} key={invoice.id} />}
+      loadingState={
+        <TableLoadingState
+          title="All Invoices"
+          header={<InvoiceTableHeader />}
+          skeletonRow={<SkeletonRow type="invoice" />}
+        />
+      }
+      errorState={
+        <TableErrorState
+          title="Error Loading Invoices"
+          description="Something went wrong while trying to fetch the invoice list. Please
+              try again."
+          onRetry={() => {}}
+        />
+      }
+      emptyState={
+        <TableEmptyState
+          icon={UserX}
+          title="No invoices found"
+          description="Try adding a new invoice or adjusting your search filters."
+        />
+      }
+      pagination={
+        <DataTablePagination meta={meta} onPageChange={handlePageChange} />
+      }
+    />
   );
 }

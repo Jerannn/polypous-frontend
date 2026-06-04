@@ -28,6 +28,8 @@ export default function RouteError({
 }: RouteErrorProps) {
   const router = useRouter();
 
+  console.log(error);
+
   if (isRedirect(error)) {
     throw error;
   }

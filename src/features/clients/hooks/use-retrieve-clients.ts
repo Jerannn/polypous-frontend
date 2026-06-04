@@ -12,11 +12,10 @@ export default function useRetrieveClients(query: QueryPayload) {
   const queryClient = useQueryClient();
   const { page, limit, search } = query;
 
-  const { data, isLoading, isError, refetch, isFetching, isPending } =
-    useQuery({
-      ...clientsListQueryOptions(query),
-      placeholderData: keepPreviousData,
-    });
+  const { data, isError, isFetching, isPending } = useQuery({
+    ...clientsListQueryOptions(query),
+    placeholderData: keepPreviousData,
+  });
 
   useEffect(() => {
     if (!data?.meta?.nextPage) return;
@@ -26,5 +25,5 @@ export default function useRetrieveClients(query: QueryPayload) {
     );
   }, [data, page, limit, search, queryClient]);
 
-  return { data, isLoading, isError, refetch, isFetching, isPending };
+  return { data, isError, isFetching, isPending };
 }

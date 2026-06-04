@@ -1,59 +1,28 @@
+import type { ReactNode } from "react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableHeader } from "@/components/ui/table";
 
-import ClientHeadSection from "../../features/clients/components/ClientTableHeader";
+type TableLoadingStateProps = {
+  title: string;
+  header: ReactNode;
+  skeletonRow: ReactNode;
+};
 
-export default function ClientTableLoadingState() {
+export default function TableLoadingState({
+  title,
+  header,
+  skeletonRow,
+}: TableLoadingStateProps) {
   return (
     <Card className="mt-10">
       <CardHeader>
-        <CardTitle>All Clients</CardTitle>
+        <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
-          <TableHeader>
-            <ClientHeadSection />
-          </TableHeader>
-          <TableBody>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <TableRow key={index}>
-                <TableCell className="font-medium">
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-32" />
-                    <Skeleton className="h-3 w-48" />
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-24" />
-                    <Skeleton className="h-4 w-36" />
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-4 w-8" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-4 w-12" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-4 w-12" />
-                </TableCell>
-                <TableCell className="text-right">
-                  <div className="flex items-center justify-end gap-2">
-                    <Skeleton className="h-8 w-8 rounded-md" />
-                    <Skeleton className="h-8 w-8 rounded-md" />
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+          <TableHeader>{header}</TableHeader>
+          <TableBody>{skeletonRow}</TableBody>
         </Table>
       </CardContent>
     </Card>

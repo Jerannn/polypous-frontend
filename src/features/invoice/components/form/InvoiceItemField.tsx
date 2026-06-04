@@ -4,8 +4,7 @@ import { useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-
-import { useInvoiceForm } from "../InvoiceFormContext";
+import { useInvoiceForm } from "../../InvoiceFormContext";
 
 type InvoiceItemFieldProps = {
   index: number;
