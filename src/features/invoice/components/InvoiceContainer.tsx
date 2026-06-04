@@ -4,9 +4,11 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import InvoiceTable from "./InvoiceTable";
+import InvoiceFilter from "./InvoiceFilter";
 
 export default function InvoiceContainer() {
   const navigate = useNavigate();
+
   return (
     <div className="flex flex-col">
       <Button
@@ -21,7 +23,7 @@ export default function InvoiceContainer() {
         <Plus /> Add Invoice
       </Button>
 
-      {/* <ClientFilter />*/}
+      <InvoiceFilter />
 
       <InvoiceTable />
     </div>

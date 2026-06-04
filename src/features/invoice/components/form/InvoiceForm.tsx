@@ -4,7 +4,7 @@ import ActionButtonContent from "@/components/ActionButtonContent";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 
-import { useInvoiceForm } from "../InvoiceFormContext";
+import { useInvoiceForm } from "../../InvoiceFormContext";
 import InvoiceDetailsCard from "./InvoiceDetailsCard";
 import InvoiceItemsCard from "./InvoiceItemsCard";
 import InvoiceSummaryCard from "./InvoiceSummaryCard";

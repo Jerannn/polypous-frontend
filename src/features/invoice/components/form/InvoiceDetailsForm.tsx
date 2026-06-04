@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { useInvoiceForm } from "../InvoiceFormContext";
+import { useInvoiceForm } from "../../InvoiceFormContext";
 import ClientSelectPopover from "./ClientSelectPopover";
 
 export default function InvoiceDetailsForm() {

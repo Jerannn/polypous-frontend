@@ -1,58 +1,71 @@
 import { getRouteApi } from "@tanstack/react-router";
+import { UserX } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import TableEmptyState from "@/components/states/TableEmptyState";
+import DataTable from "@/components/table/DataTable";
+import DataTablePagination from "@/components/table/DataTablePagination";
+import SkeletonRow from "@/components/table/SkeletonRow";
 
-import ClientTableErrorState from "../../../components/states/TableErrorState";
-import ClientTableLoadingState from "../../../components/states/TableLoadingState";
+import TableErrorState from "../../../components/states/TableErrorState";
+import TableLoadingState from "../../../components/states/TableLoadingState";
 import useRetrieveClients from "../hooks/use-retrieve-clients";
-import ClientTableBody from "./ClientTableBody";
+import type { Client } from "../types";
+import ClientRow from "./ClientRow";
 import ClientTableHeader from "./ClientTableHeader";
-import ClientTablePagination from "./ClientTablePagination";
 
 const routeApi = getRouteApi("/(protected)/clients/");
 
 export default function ClientTable() {
   const query = routeApi.useSearch();
+  const navigate = routeApi.useNavigate();
 
   const { data, isPending, isError, isFetching } = useRetrieveClients(query);
   const clients = data?.clients ?? [];
   const meta = data?.meta;
 
-  if (isPending) return <ClientTableLoadingState />;
-  if (isError) return <ClientTableErrorState />;
+  const handlePageChange = (page: number) => {
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        page,
+      }),
+    });
+  };
 
   return (
-    <Card
-      className={`mt-10 transition-opacity ${isFetching ? "opacity-60" : ""}`}
-    >
-      <CardHeader>
-        <CardTitle>All Clients</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <ClientTableHeader />
-          </TableHeader>
-          <TableBody>
-            <ClientTableBody clients={clients} />
-          </TableBody>
-          <TableFooter className="bg-transparent">
-            <TableRow className="w-full text-right hover:bg-transparent">
-              <TableCell colSpan={100} className="pt-4">
-                <ClientTablePagination meta={meta} />
-              </TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </CardContent>
-    </Card>
+    <DataTable<Client>
+      title="All Invoices"
+      isPending={isPending}
+      isError={isError}
+      isFetching={isFetching}
+      items={clients}
+      header={<ClientTableHeader />}
+      renderRow={(client) => <ClientRow client={client} key={client.id} />}
+      loadingState={
+        <TableLoadingState
+          title="All Clients"
+          header={<ClientTableHeader />}
+          skeletonRow={<SkeletonRow type="client" />}
+        />
+      }
+      errorState={
+        <TableErrorState
+          title="Error Loading Clients"
+          description="Something went wrong while trying to fetch the client list. Please
+              try again."
+          onRetry={() => {}}
+        />
+      }
+      emptyState={
+        <TableEmptyState
+          icon={UserX}
+          title="No invoices found"
+          description="Try adding a new client or adjusting your search filters."
+        />
+      }
+      pagination={
+        <DataTablePagination meta={meta} onPageChange={handlePageChange} />
+      }
+    />
   );
 }
