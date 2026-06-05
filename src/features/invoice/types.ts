@@ -11,14 +11,49 @@ export type Cursor = {
   createdAt: string;
 } | null;
 
-export type Invoice = Omit<InvoiceBase, "items" | "clientId"> & {
+export type Invoice = {
   id: string;
   userId: string;
+  clientId: string;
+
   invoiceNumber: string;
-  clientName: string;
+
+  issueDate: Date;
+  dueDate: Date;
+
+  notes?: string;
+
+  taxRate: number;
+
   status: InvoiceStatus;
+
   subtotal: number;
+  tax: number;
   total: number;
-  createdAt: Date | string;
-  updatedAt: Date | string;
+
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type InvoiceItem = {
+  id: string;
+  description: string;
+  quantity: number;
+  unitPrice: number;
+  total: number;
+};
+
+export type InvoiceClient = {
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+};
+
+export type InvoiceListItem = Invoice & { clientName: string };
+export type InvoiceWithItemsAndClient = Invoice & {
+  client: InvoiceClient;
+  items: InvoiceItem[];
+  fullName: string;
+  email: string;
 };

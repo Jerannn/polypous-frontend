@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
-import type { Invoice } from "../types";
+import type { InvoiceListItem } from "../types";
 import { Button } from "@/components/ui/button";
 import { EllipsisVertical, FilePenLine, Form, Trash2 } from "lucide-react";
 import {
@@ -14,9 +14,10 @@ import {
 } from "@/components/ui/popover";
 import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
 import { Separator } from "@/components/ui/separator";
+import { Link } from "@tanstack/react-router";
 
 type InvoiceRowProps = {
-  invoice: Invoice;
+  invoice: InvoiceListItem;
 };
 
 export default function InvoiceRow({ invoice }: InvoiceRowProps) {
@@ -62,18 +63,28 @@ export default function InvoiceRow({ invoice }: InvoiceRowProps) {
             className="w-36 p-1 gap-0 overflow-hidden"
             align="end"
           >
-            <Button variant="ghost" className="hover:bg-accent cursor-pointer">
-              <Item size="xs" className="p-0 ">
-                <ItemContent className="flex-row space-x-2">
-                  <ItemMedia>
-                    <Form className="w-3.5 h-3.5" />
-                  </ItemMedia>
-                  <ItemTitle className="text-xs/relaxed font-normal">
-                    View Details
-                  </ItemTitle>
-                </ItemContent>
-              </Item>
-            </Button>
+            <Link
+              to="/invoices/$invoiceId"
+              params={{ invoiceId: invoice.id }}
+              preload="intent"
+              className="w-full"
+            >
+              <Button
+                variant="ghost"
+                className="hover:bg-accent cursor-pointer w-full"
+              >
+                <Item size="xs" className="p-0 ">
+                  <ItemContent className="flex-row space-x-2">
+                    <ItemMedia>
+                      <Form className="w-3.5 h-3.5" />
+                    </ItemMedia>
+                    <ItemTitle className="text-xs/relaxed font-normal">
+                      View Details
+                    </ItemTitle>
+                  </ItemContent>
+                </Item>
+              </Button>
+            </Link>
             <Button variant="ghost" className="hover:bg-accent cursor-pointer">
               <Item size="xs" className="p-0 ">
                 <ItemContent className="flex-row space-x-2">

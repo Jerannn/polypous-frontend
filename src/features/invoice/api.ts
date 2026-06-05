@@ -5,7 +5,9 @@ import type {
   Cursor,
   Invoice,
   InvoiceBase,
+  InvoiceListItem,
   InvoiceQueryPayload,
+  InvoiceWithItemsAndClient,
   Options,
 } from "./types";
 
@@ -18,10 +20,10 @@ export const create = async (payload: InvoiceBase): Promise<Invoice> => {
   return response.data.invoice;
 };
 
-export const retrieve = async (
+export const retrieveInvoices = async (
   query: InvoiceQueryPayload,
 ): Promise<{
-  invoices: Invoice[];
+  invoices: InvoiceListItem[];
   meta: Meta;
 }> => {
   const params = new URLSearchParams();
@@ -35,6 +37,16 @@ export const retrieve = async (
   });
 
   return response.data;
+};
+
+export const retrieveInvoice = async (
+  id: string,
+): Promise<InvoiceWithItemsAndClient> => {
+  const response = await api(`/invoices/${id}`, {
+    method: "GET",
+  });
+
+  return response.data.invoice;
 };
 
 export const retrieveOptions = async ({

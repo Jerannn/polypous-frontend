@@ -19,6 +19,7 @@ import { Route as protectedDashboardIndexRouteImport } from './routes/(protected
 import { Route as protectedClientsIndexRouteImport } from './routes/(protected)/clients/index'
 import { Route as protectedAnalyticsIndexRouteImport } from './routes/(protected)/analytics/index'
 import { Route as protectedInvoicesNewRouteImport } from './routes/(protected)/invoices/new'
+import { Route as protectedInvoicesInvoiceIdRouteImport } from './routes/(protected)/invoices/$invoiceId'
 import { Route as publicAuthVerifyEmailIndexRouteImport } from './routes/(public)/auth/verify-email/index'
 import { Route as publicAuthRegisterIndexRouteImport } from './routes/(public)/auth/register/index'
 import { Route as publicAuthLoginIndexRouteImport } from './routes/(public)/auth/login/index'
@@ -71,6 +72,12 @@ const protectedInvoicesNewRoute = protectedInvoicesNewRouteImport.update({
   path: '/invoices/new',
   getParentRoute: () => protectedRouteRoute,
 } as any)
+const protectedInvoicesInvoiceIdRoute =
+  protectedInvoicesInvoiceIdRouteImport.update({
+    id: '/invoices/$invoiceId',
+    path: '/invoices/$invoiceId',
+    getParentRoute: () => protectedRouteRoute,
+  } as any)
 const publicAuthVerifyEmailIndexRoute =
   publicAuthVerifyEmailIndexRouteImport.update({
     id: '/auth/verify-email/',
@@ -90,6 +97,7 @@ const publicAuthLoginIndexRoute = publicAuthLoginIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof publicIndexRoute
+  '/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRoute
   '/invoices/new': typeof protectedInvoicesNewRoute
   '/analytics/': typeof protectedAnalyticsIndexRoute
   '/clients/': typeof protectedClientsIndexRoute
@@ -103,6 +111,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof publicIndexRoute
+  '/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRoute
   '/invoices/new': typeof protectedInvoicesNewRoute
   '/analytics': typeof protectedAnalyticsIndexRoute
   '/clients': typeof protectedClientsIndexRoute
@@ -119,6 +128,7 @@ export interface FileRoutesById {
   '/(protected)': typeof protectedRouteRouteWithChildren
   '/(public)': typeof publicRouteRouteWithChildren
   '/(public)/': typeof publicIndexRoute
+  '/(protected)/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRoute
   '/(protected)/invoices/new': typeof protectedInvoicesNewRoute
   '/(protected)/analytics/': typeof protectedAnalyticsIndexRoute
   '/(protected)/clients/': typeof protectedClientsIndexRoute
@@ -134,6 +144,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/invoices/$invoiceId'
     | '/invoices/new'
     | '/analytics/'
     | '/clients/'
@@ -147,6 +158,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/invoices/$invoiceId'
     | '/invoices/new'
     | '/analytics'
     | '/clients'
@@ -162,6 +174,7 @@ export interface FileRouteTypes {
     | '/(protected)'
     | '/(public)'
     | '/(public)/'
+    | '/(protected)/invoices/$invoiceId'
     | '/(protected)/invoices/new'
     | '/(protected)/analytics/'
     | '/(protected)/clients/'
@@ -251,6 +264,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protectedInvoicesNewRouteImport
       parentRoute: typeof protectedRouteRoute
     }
+    '/(protected)/invoices/$invoiceId': {
+      id: '/(protected)/invoices/$invoiceId'
+      path: '/invoices/$invoiceId'
+      fullPath: '/invoices/$invoiceId'
+      preLoaderRoute: typeof protectedInvoicesInvoiceIdRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
     '/(public)/auth/verify-email/': {
       id: '/(public)/auth/verify-email/'
       path: '/auth/verify-email'
@@ -276,6 +296,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface protectedRouteRouteChildren {
+  protectedInvoicesInvoiceIdRoute: typeof protectedInvoicesInvoiceIdRoute
   protectedInvoicesNewRoute: typeof protectedInvoicesNewRoute
   protectedAnalyticsIndexRoute: typeof protectedAnalyticsIndexRoute
   protectedClientsIndexRoute: typeof protectedClientsIndexRoute
@@ -286,6 +307,7 @@ interface protectedRouteRouteChildren {
 }
 
 const protectedRouteRouteChildren: protectedRouteRouteChildren = {
+  protectedInvoicesInvoiceIdRoute: protectedInvoicesInvoiceIdRoute,
   protectedInvoicesNewRoute: protectedInvoicesNewRoute,
   protectedAnalyticsIndexRoute: protectedAnalyticsIndexRoute,
   protectedClientsIndexRoute: protectedClientsIndexRoute,
