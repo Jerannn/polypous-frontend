@@ -8,8 +8,8 @@ import DataTable from "@/components/table/DataTable";
 import DataTablePagination from "@/components/table/DataTablePagination";
 import SkeletonRow from "@/components/table/SkeletonRow";
 
-import useRetrieveInvoice from "../hooks/use-retrieve-invoice";
-import type { Invoice } from "../types";
+import useRetrieveInvoices from "../hooks/use-retrieve-invoices";
+import type { InvoiceListItem } from "../types";
 import InvoiceRow from "./InvoiceRow";
 import InvoiceTableHeader from "./InvoiceTableHeader";
 
@@ -19,7 +19,7 @@ export default function InvoiceTable() {
   const query = routeApi.useSearch();
   const navigate = routeApi.useNavigate();
 
-  const { data, isPending, isError, isFetching } = useRetrieveInvoice(query);
+  const { data, isPending, isError, isFetching } = useRetrieveInvoices(query);
   const invoice = data?.invoices ?? [];
   const meta = data?.meta;
 
@@ -33,7 +33,7 @@ export default function InvoiceTable() {
   };
 
   return (
-    <DataTable<Invoice>
+    <DataTable<InvoiceListItem>
       title="All Invoices"
       isPending={isPending}
       isError={isError}

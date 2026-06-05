@@ -1,30 +1,16 @@
-import {
-  keepPreviousData,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { retrieveInvoice as retrieveInvoiceApi } from "../api";
+import { invoiceKeys } from "../queryKeys";
 
-import { invoicesListQueryOptions } from "../queries";
-import type { InvoiceQueryPayload } from "../types";
-import { useEffect } from "react";
-
-export default function useRetrieveInvoice(query: InvoiceQueryPayload) {
-  const queryClient = useQueryClient();
-
-  const { page, limit, search } = query;
-
-  const { data, isPending, isError, isFetching } = useQuery({
-    ...invoicesListQueryOptions(query),
-    placeholderData: keepPreviousData,
+export default function useRetrieveInvoice(id: string) {
+  const {
+    data: invoice,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: invoiceKeys.detail(id),
+    queryFn: () => retrieveInvoiceApi(id),
   });
 
-  useEffect(() => {
-    if (!data?.meta?.nextPage) return;
-
-    queryClient.prefetchQuery(
-      invoicesListQueryOptions({ page: page + 1, limit, search }),
-    );
-  }, [data, page, limit, search, queryClient]);
-
-  return { data, isPending, isError, isFetching };
+  return { invoice, isPending, isError };
 }
