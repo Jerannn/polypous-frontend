@@ -63,15 +63,14 @@ export default function InvoiceRow({ invoice }: InvoiceRowProps) {
             className="w-36 p-1 gap-0 overflow-hidden"
             align="end"
           >
-            <Link
-              to="/invoices/$invoiceId"
-              params={{ invoiceId: invoice.id }}
-              preload="intent"
-              className="w-full"
+            <Button
+              variant="ghost"
+              className="hover:bg-accent cursor-pointer w-full"
+              asChild
             >
-              <Button
-                variant="ghost"
-                className="hover:bg-accent cursor-pointer w-full"
+              <Link
+                to="/invoices/$invoiceId"
+                params={{ invoiceId: invoice.id }}
               >
                 <Item size="xs" className="p-0 ">
                   <ItemContent className="flex-row space-x-2">
@@ -83,8 +82,8 @@ export default function InvoiceRow({ invoice }: InvoiceRowProps) {
                     </ItemTitle>
                   </ItemContent>
                 </Item>
-              </Button>
-            </Link>
+              </Link>
+            </Button>
             <Button variant="ghost" className="hover:bg-accent cursor-pointer">
               <Item size="xs" className="p-0 ">
                 <ItemContent className="flex-row space-x-2">

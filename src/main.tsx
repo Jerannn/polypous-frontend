@@ -6,11 +6,21 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 
 import { queryClient } from "./lib/queryClient";
+
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
+import RouteError from "./components/routing/RouteError";
 
 // Create a new router instance
-const router = createRouter({ routeTree });
+const router = createRouter({
+  routeTree,
+  scrollRestoration: true,
+  defaultPreload: "intent",
+  defaultStructuralSharing: true,
+  defaultPreloadStaleTime: 0,
+  defaultErrorComponent: (props) => <RouteError {...props} />,
+  defaultNotFoundComponent: () => <h1>Page not found - 404</h1>,
+});
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {

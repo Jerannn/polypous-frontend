@@ -1,3 +1,4 @@
+import PendingState from "@/components/states/PendingState";
 import Invoice from "@/features/invoice/components/Invoice";
 import { invoiceQueryOptions } from "@/features/invoice/queries";
 import { queryClient } from "@/lib/queryClient";
@@ -8,9 +9,8 @@ export const Route = createFileRoute("/(protected)/invoices/$invoiceId")({
   loader: async ({ params }) => {
     await queryClient.ensureQueryData(invoiceQueryOptions(params.invoiceId));
   },
+  pendingComponent: () => <PendingState />,
   pendingMs: 0,
-  pendingComponent: () => <div>Loading Pending...</div>,
-  notFoundComponent: () => <div>Invoice not found</div>,
 });
 
 function InvoiceComponent() {

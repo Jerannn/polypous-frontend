@@ -34,7 +34,7 @@ export default function Navlinks() {
                       "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground",
                   )}
                 >
-                  <Link to={item.url} preload="intent">
+                  <Link to={item.url}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                   </Link>
