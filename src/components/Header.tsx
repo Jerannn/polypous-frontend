@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 import logo from "@/assets/img/logo.svg";
@@ -13,7 +13,11 @@ export default function Header() {
   const navigate = useNavigate();
   const storeUser = useAuthStore((state) => state.user);
 
-  const { data: user, isLoading, isSuccess } = useQuery({
+  const {
+    data: user,
+    isLoading,
+    isSuccess,
+  } = useQuery({
     ...meQueryOptions,
     enabled: !storeUser,
   });
@@ -48,13 +52,11 @@ export default function Header() {
           )}
 
           {!isLoading && isAuthenticated && (
-            <Button
-              variant="outline"
-              className="py-4 px-4"
-              onClick={() => navigate({ to: "/dashboard" })}
-            >
-              Dashboard
-            </Button>
+            <Link to="/dashboard">
+              <Button variant="outline" className="py-4 px-4">
+                Dashboard
+              </Button>
+            </Link>
           )}
         </div>
       </div>

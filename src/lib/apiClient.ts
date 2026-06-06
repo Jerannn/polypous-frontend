@@ -18,6 +18,7 @@ export async function api(path: string, options?: RequestInit) {
 
     if (!res.ok) {
       const errorData = (await res.json()) as FailResponse;
+
       throw new ApiError(
         errorData.message || res.statusText,
         res.status,

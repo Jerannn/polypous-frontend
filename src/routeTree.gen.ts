@@ -8,6 +8,8 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as publicRouteRouteImport } from './routes/(public)/route'
 import { Route as protectedRouteRouteImport } from './routes/(protected)/route'
@@ -18,11 +20,14 @@ import { Route as protectedInvoicesIndexRouteImport } from './routes/(protected)
 import { Route as protectedDashboardIndexRouteImport } from './routes/(protected)/dashboard/index'
 import { Route as protectedClientsIndexRouteImport } from './routes/(protected)/clients/index'
 import { Route as protectedAnalyticsIndexRouteImport } from './routes/(protected)/analytics/index'
-import { Route as protectedInvoicesNewRouteImport } from './routes/(protected)/invoices/new'
 import { Route as protectedInvoicesInvoiceIdRouteImport } from './routes/(protected)/invoices/$invoiceId'
 import { Route as publicAuthVerifyEmailIndexRouteImport } from './routes/(public)/auth/verify-email/index'
 import { Route as publicAuthRegisterIndexRouteImport } from './routes/(public)/auth/register/index'
 import { Route as publicAuthLoginIndexRouteImport } from './routes/(public)/auth/login/index'
+
+const protectedInvoicesNewLazyRouteImport = createFileRoute(
+  '/(protected)/invoices/new',
+)()
 
 const publicRouteRoute = publicRouteRouteImport.update({
   id: '/(public)',
@@ -67,11 +72,15 @@ const protectedAnalyticsIndexRoute = protectedAnalyticsIndexRouteImport.update({
   path: '/analytics/',
   getParentRoute: () => protectedRouteRoute,
 } as any)
-const protectedInvoicesNewRoute = protectedInvoicesNewRouteImport.update({
-  id: '/invoices/new',
-  path: '/invoices/new',
-  getParentRoute: () => protectedRouteRoute,
-} as any)
+const protectedInvoicesNewLazyRoute = protectedInvoicesNewLazyRouteImport
+  .update({
+    id: '/invoices/new',
+    path: '/invoices/new',
+    getParentRoute: () => protectedRouteRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(protected)/invoices/new.lazy').then((d) => d.Route),
+  )
 const protectedInvoicesInvoiceIdRoute =
   protectedInvoicesInvoiceIdRouteImport.update({
     id: '/invoices/$invoiceId',
@@ -98,7 +107,7 @@ const publicAuthLoginIndexRoute = publicAuthLoginIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof publicIndexRoute
   '/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRoute
-  '/invoices/new': typeof protectedInvoicesNewRoute
+  '/invoices/new': typeof protectedInvoicesNewLazyRoute
   '/analytics/': typeof protectedAnalyticsIndexRoute
   '/clients/': typeof protectedClientsIndexRoute
   '/dashboard/': typeof protectedDashboardIndexRoute
@@ -112,7 +121,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof publicIndexRoute
   '/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRoute
-  '/invoices/new': typeof protectedInvoicesNewRoute
+  '/invoices/new': typeof protectedInvoicesNewLazyRoute
   '/analytics': typeof protectedAnalyticsIndexRoute
   '/clients': typeof protectedClientsIndexRoute
   '/dashboard': typeof protectedDashboardIndexRoute
@@ -129,7 +138,7 @@ export interface FileRoutesById {
   '/(public)': typeof publicRouteRouteWithChildren
   '/(public)/': typeof publicIndexRoute
   '/(protected)/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRoute
-  '/(protected)/invoices/new': typeof protectedInvoicesNewRoute
+  '/(protected)/invoices/new': typeof protectedInvoicesNewLazyRoute
   '/(protected)/analytics/': typeof protectedAnalyticsIndexRoute
   '/(protected)/clients/': typeof protectedClientsIndexRoute
   '/(protected)/dashboard/': typeof protectedDashboardIndexRoute
@@ -261,7 +270,7 @@ declare module '@tanstack/react-router' {
       id: '/(protected)/invoices/new'
       path: '/invoices/new'
       fullPath: '/invoices/new'
-      preLoaderRoute: typeof protectedInvoicesNewRouteImport
+      preLoaderRoute: typeof protectedInvoicesNewLazyRouteImport
       parentRoute: typeof protectedRouteRoute
     }
     '/(protected)/invoices/$invoiceId': {
@@ -297,7 +306,7 @@ declare module '@tanstack/react-router' {
 
 interface protectedRouteRouteChildren {
   protectedInvoicesInvoiceIdRoute: typeof protectedInvoicesInvoiceIdRoute
-  protectedInvoicesNewRoute: typeof protectedInvoicesNewRoute
+  protectedInvoicesNewLazyRoute: typeof protectedInvoicesNewLazyRoute
   protectedAnalyticsIndexRoute: typeof protectedAnalyticsIndexRoute
   protectedClientsIndexRoute: typeof protectedClientsIndexRoute
   protectedDashboardIndexRoute: typeof protectedDashboardIndexRoute
@@ -308,7 +317,7 @@ interface protectedRouteRouteChildren {
 
 const protectedRouteRouteChildren: protectedRouteRouteChildren = {
   protectedInvoicesInvoiceIdRoute: protectedInvoicesInvoiceIdRoute,
-  protectedInvoicesNewRoute: protectedInvoicesNewRoute,
+  protectedInvoicesNewLazyRoute: protectedInvoicesNewLazyRoute,
   protectedAnalyticsIndexRoute: protectedAnalyticsIndexRoute,
   protectedClientsIndexRoute: protectedClientsIndexRoute,
   protectedDashboardIndexRoute: protectedDashboardIndexRoute,
