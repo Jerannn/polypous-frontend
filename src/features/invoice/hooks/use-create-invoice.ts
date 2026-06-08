@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { create as createApi } from "../api";
+import { createInvoice as createApi } from "../api";
 
 export default function useCreateInvoice() {
   const { mutateAsync: createInvoice, isPending: isCreating } = useMutation({

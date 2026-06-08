@@ -5,11 +5,11 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 
+import RouteError from "./components/routing/RouteError";
+import PendingState from "./components/states/PendingState";
 import { queryClient } from "./lib/queryClient";
-
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
-import RouteError from "./components/routing/RouteError";
 
 // Create a new router instance
 const router = createRouter({
@@ -18,6 +18,8 @@ const router = createRouter({
   defaultPreload: "intent",
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
+  defaultPendingMs: 0,
+  defaultPendingComponent: () => <PendingState />,
   defaultErrorComponent: (props) => <RouteError {...props} />,
   defaultNotFoundComponent: () => <h1>Page not found - 404</h1>,
 });

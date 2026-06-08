@@ -1,5 +1,4 @@
 import { api } from "@/lib/apiClient";
-import type { SuccessResponse } from "@/types/response.types";
 import type { Meta } from "@/types/shared.types";
 
 import type { Client, ClientPayload, QueryPayload } from "./types";
@@ -52,12 +51,10 @@ export const retrieve = async (
   };
 };
 
-export const deleteClient = async (
-  id: string,
-): Promise<SuccessResponse<{ data: null }>> => {
+export const deleteClient = async (id: string): Promise<boolean> => {
   const response = await api(`/clients/${id}`, {
     method: "DELETE",
   });
 
-  return response;
+  return response.data.isDeleted;
 };

@@ -14,7 +14,8 @@ const invoiceItemSchema = z.object({
     .positive("Quantity must be greater than 0"),
   unitPrice: z
     .number("Unit price is required")
-    .nonnegative("Unit price cannot be negative"),
+    .nonnegative("Unit price cannot be negative")
+    .transform((val) => parseFloat(val.toFixed(2))),
 });
 
 export const invoiceSchema = z

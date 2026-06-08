@@ -20,10 +20,12 @@ import { Route as protectedInvoicesIndexRouteImport } from './routes/(protected)
 import { Route as protectedDashboardIndexRouteImport } from './routes/(protected)/dashboard/index'
 import { Route as protectedClientsIndexRouteImport } from './routes/(protected)/clients/index'
 import { Route as protectedAnalyticsIndexRouteImport } from './routes/(protected)/analytics/index'
-import { Route as protectedInvoicesInvoiceIdRouteImport } from './routes/(protected)/invoices/$invoiceId'
+import { Route as protectedInvoicesInvoiceIdRouteRouteImport } from './routes/(protected)/invoices/$invoiceId/route'
 import { Route as publicAuthVerifyEmailIndexRouteImport } from './routes/(public)/auth/verify-email/index'
 import { Route as publicAuthRegisterIndexRouteImport } from './routes/(public)/auth/register/index'
 import { Route as publicAuthLoginIndexRouteImport } from './routes/(public)/auth/login/index'
+import { Route as protectedInvoicesInvoiceIdEditRouteImport } from './routes/(protected)/invoices/$invoiceId/edit'
+import { Route as protectedInvoicesInvoiceIdDetailsRouteImport } from './routes/(protected)/invoices/$invoiceId/details'
 
 const protectedInvoicesNewLazyRouteImport = createFileRoute(
   '/(protected)/invoices/new',
@@ -81,8 +83,8 @@ const protectedInvoicesNewLazyRoute = protectedInvoicesNewLazyRouteImport
   .lazy(() =>
     import('./routes/(protected)/invoices/new.lazy').then((d) => d.Route),
   )
-const protectedInvoicesInvoiceIdRoute =
-  protectedInvoicesInvoiceIdRouteImport.update({
+const protectedInvoicesInvoiceIdRouteRoute =
+  protectedInvoicesInvoiceIdRouteRouteImport.update({
     id: '/invoices/$invoiceId',
     path: '/invoices/$invoiceId',
     getParentRoute: () => protectedRouteRoute,
@@ -103,10 +105,22 @@ const publicAuthLoginIndexRoute = publicAuthLoginIndexRouteImport.update({
   path: '/auth/login/',
   getParentRoute: () => publicRouteRoute,
 } as any)
+const protectedInvoicesInvoiceIdEditRoute =
+  protectedInvoicesInvoiceIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => protectedInvoicesInvoiceIdRouteRoute,
+  } as any)
+const protectedInvoicesInvoiceIdDetailsRoute =
+  protectedInvoicesInvoiceIdDetailsRouteImport.update({
+    id: '/details',
+    path: '/details',
+    getParentRoute: () => protectedInvoicesInvoiceIdRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof publicIndexRoute
-  '/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRoute
+  '/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRouteRouteWithChildren
   '/invoices/new': typeof protectedInvoicesNewLazyRoute
   '/analytics/': typeof protectedAnalyticsIndexRoute
   '/clients/': typeof protectedClientsIndexRoute
@@ -114,13 +128,15 @@ export interface FileRoutesByFullPath {
   '/invoices/': typeof protectedInvoicesIndexRoute
   '/payments/': typeof protectedPaymentsIndexRoute
   '/settings/': typeof protectedSettingsIndexRoute
+  '/invoices/$invoiceId/details': typeof protectedInvoicesInvoiceIdDetailsRoute
+  '/invoices/$invoiceId/edit': typeof protectedInvoicesInvoiceIdEditRoute
   '/auth/login/': typeof publicAuthLoginIndexRoute
   '/auth/register/': typeof publicAuthRegisterIndexRoute
   '/auth/verify-email/': typeof publicAuthVerifyEmailIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof publicIndexRoute
-  '/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRoute
+  '/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRouteRouteWithChildren
   '/invoices/new': typeof protectedInvoicesNewLazyRoute
   '/analytics': typeof protectedAnalyticsIndexRoute
   '/clients': typeof protectedClientsIndexRoute
@@ -128,6 +144,8 @@ export interface FileRoutesByTo {
   '/invoices': typeof protectedInvoicesIndexRoute
   '/payments': typeof protectedPaymentsIndexRoute
   '/settings': typeof protectedSettingsIndexRoute
+  '/invoices/$invoiceId/details': typeof protectedInvoicesInvoiceIdDetailsRoute
+  '/invoices/$invoiceId/edit': typeof protectedInvoicesInvoiceIdEditRoute
   '/auth/login': typeof publicAuthLoginIndexRoute
   '/auth/register': typeof publicAuthRegisterIndexRoute
   '/auth/verify-email': typeof publicAuthVerifyEmailIndexRoute
@@ -137,7 +155,7 @@ export interface FileRoutesById {
   '/(protected)': typeof protectedRouteRouteWithChildren
   '/(public)': typeof publicRouteRouteWithChildren
   '/(public)/': typeof publicIndexRoute
-  '/(protected)/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRoute
+  '/(protected)/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRouteRouteWithChildren
   '/(protected)/invoices/new': typeof protectedInvoicesNewLazyRoute
   '/(protected)/analytics/': typeof protectedAnalyticsIndexRoute
   '/(protected)/clients/': typeof protectedClientsIndexRoute
@@ -145,6 +163,8 @@ export interface FileRoutesById {
   '/(protected)/invoices/': typeof protectedInvoicesIndexRoute
   '/(protected)/payments/': typeof protectedPaymentsIndexRoute
   '/(protected)/settings/': typeof protectedSettingsIndexRoute
+  '/(protected)/invoices/$invoiceId/details': typeof protectedInvoicesInvoiceIdDetailsRoute
+  '/(protected)/invoices/$invoiceId/edit': typeof protectedInvoicesInvoiceIdEditRoute
   '/(public)/auth/login/': typeof publicAuthLoginIndexRoute
   '/(public)/auth/register/': typeof publicAuthRegisterIndexRoute
   '/(public)/auth/verify-email/': typeof publicAuthVerifyEmailIndexRoute
@@ -161,6 +181,8 @@ export interface FileRouteTypes {
     | '/invoices/'
     | '/payments/'
     | '/settings/'
+    | '/invoices/$invoiceId/details'
+    | '/invoices/$invoiceId/edit'
     | '/auth/login/'
     | '/auth/register/'
     | '/auth/verify-email/'
@@ -175,6 +197,8 @@ export interface FileRouteTypes {
     | '/invoices'
     | '/payments'
     | '/settings'
+    | '/invoices/$invoiceId/details'
+    | '/invoices/$invoiceId/edit'
     | '/auth/login'
     | '/auth/register'
     | '/auth/verify-email'
@@ -191,6 +215,8 @@ export interface FileRouteTypes {
     | '/(protected)/invoices/'
     | '/(protected)/payments/'
     | '/(protected)/settings/'
+    | '/(protected)/invoices/$invoiceId/details'
+    | '/(protected)/invoices/$invoiceId/edit'
     | '/(public)/auth/login/'
     | '/(public)/auth/register/'
     | '/(public)/auth/verify-email/'
@@ -277,7 +303,7 @@ declare module '@tanstack/react-router' {
       id: '/(protected)/invoices/$invoiceId'
       path: '/invoices/$invoiceId'
       fullPath: '/invoices/$invoiceId'
-      preLoaderRoute: typeof protectedInvoicesInvoiceIdRouteImport
+      preLoaderRoute: typeof protectedInvoicesInvoiceIdRouteRouteImport
       parentRoute: typeof protectedRouteRoute
     }
     '/(public)/auth/verify-email/': {
@@ -301,11 +327,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof publicAuthLoginIndexRouteImport
       parentRoute: typeof publicRouteRoute
     }
+    '/(protected)/invoices/$invoiceId/edit': {
+      id: '/(protected)/invoices/$invoiceId/edit'
+      path: '/edit'
+      fullPath: '/invoices/$invoiceId/edit'
+      preLoaderRoute: typeof protectedInvoicesInvoiceIdEditRouteImport
+      parentRoute: typeof protectedInvoicesInvoiceIdRouteRoute
+    }
+    '/(protected)/invoices/$invoiceId/details': {
+      id: '/(protected)/invoices/$invoiceId/details'
+      path: '/details'
+      fullPath: '/invoices/$invoiceId/details'
+      preLoaderRoute: typeof protectedInvoicesInvoiceIdDetailsRouteImport
+      parentRoute: typeof protectedInvoicesInvoiceIdRouteRoute
+    }
   }
 }
 
+interface protectedInvoicesInvoiceIdRouteRouteChildren {
+  protectedInvoicesInvoiceIdDetailsRoute: typeof protectedInvoicesInvoiceIdDetailsRoute
+  protectedInvoicesInvoiceIdEditRoute: typeof protectedInvoicesInvoiceIdEditRoute
+}
+
+const protectedInvoicesInvoiceIdRouteRouteChildren: protectedInvoicesInvoiceIdRouteRouteChildren =
+  {
+    protectedInvoicesInvoiceIdDetailsRoute:
+      protectedInvoicesInvoiceIdDetailsRoute,
+    protectedInvoicesInvoiceIdEditRoute: protectedInvoicesInvoiceIdEditRoute,
+  }
+
+const protectedInvoicesInvoiceIdRouteRouteWithChildren =
+  protectedInvoicesInvoiceIdRouteRoute._addFileChildren(
+    protectedInvoicesInvoiceIdRouteRouteChildren,
+  )
+
 interface protectedRouteRouteChildren {
-  protectedInvoicesInvoiceIdRoute: typeof protectedInvoicesInvoiceIdRoute
+  protectedInvoicesInvoiceIdRouteRoute: typeof protectedInvoicesInvoiceIdRouteRouteWithChildren
   protectedInvoicesNewLazyRoute: typeof protectedInvoicesNewLazyRoute
   protectedAnalyticsIndexRoute: typeof protectedAnalyticsIndexRoute
   protectedClientsIndexRoute: typeof protectedClientsIndexRoute
@@ -316,7 +373,8 @@ interface protectedRouteRouteChildren {
 }
 
 const protectedRouteRouteChildren: protectedRouteRouteChildren = {
-  protectedInvoicesInvoiceIdRoute: protectedInvoicesInvoiceIdRoute,
+  protectedInvoicesInvoiceIdRouteRoute:
+    protectedInvoicesInvoiceIdRouteRouteWithChildren,
   protectedInvoicesNewLazyRoute: protectedInvoicesNewLazyRoute,
   protectedAnalyticsIndexRoute: protectedAnalyticsIndexRoute,
   protectedClientsIndexRoute: protectedClientsIndexRoute,

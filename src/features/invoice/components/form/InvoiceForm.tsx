@@ -11,7 +11,7 @@ import InvoiceSummaryCard from "./InvoiceSummaryCard";
 
 export default function InvoiceForm() {
   const navigate = useNavigate();
-  const { form, onSubmit, isSubmitting } = useInvoiceForm();
+  const { form, onSubmit, isSubmitting, action } = useInvoiceForm();
 
   return (
     <div>
@@ -57,10 +57,7 @@ export default function InvoiceForm() {
           size="lg"
           disabled={isSubmitting}
         >
-          <ActionButtonContent
-            action={isSubmitting ? "Creating..." : "Create Invoice"}
-            isLoading={isSubmitting}
-          />
+          <ActionButtonContent action={action} isLoading={isSubmitting} />
         </Button>
       </div>
     </div>
