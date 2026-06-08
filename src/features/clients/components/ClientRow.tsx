@@ -5,12 +5,14 @@ import {
   Phone,
   PhoneOff,
 } from "lucide-react";
+import { toast } from "sonner";
 
+import ConfirmDeletionModal from "@/components/ConfirmDeletionModal";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 
+import useDeleteClient from "../hooks/use-delete-client";
 import type { Client } from "../types";
-import ClientDeleteDialog from "./ClientDeleteDialog";
 import ClientForm from "./ClientForm";
 
 type ClientRowProps = {
@@ -18,6 +20,8 @@ type ClientRowProps = {
 };
 
 export default function ClientRow({ client }: ClientRowProps) {
+  const { deleteClient, isDeleting, isError } = useDeleteClient();
+
   return (
     <TableRow key={client.id}>
       <TableCell className="max-w-60">
@@ -88,7 +92,17 @@ export default function ClientRow({ client }: ClientRowProps) {
             </Button>
           }
         />
-        <ClientDeleteDialog clientId={client.id} />
+        <ConfirmDeletionModal
+          onConfirm={async () => {
+            const isDeleted = await deleteClient(client.id);
+            if (isDeleted) toast.success("Client deleted successfully!");
+
+            return isDeleted;
+          }}
+          isPending={isDeleting}
+          errorMessage={isError ? "Error deleting client" : undefined}
+          description="Are you sure you want to delete this client? This action cannot be reversed after confirmation."
+        />
       </TableCell>
     </TableRow>
   );

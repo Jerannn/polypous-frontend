@@ -3,10 +3,10 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 import { invoicesListQueryOptions } from "../queries";
 import type { InvoiceQueryPayload } from "../types";
-import { useEffect } from "react";
 
 export default function useRetrieveInvoices(query: InvoiceQueryPayload) {
   const queryClient = useQueryClient();

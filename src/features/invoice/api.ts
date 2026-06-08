@@ -11,13 +11,24 @@ import type {
   Options,
 } from "./types";
 
-export const create = async (payload: InvoiceBase): Promise<Invoice> => {
+export const createInvoice = async (payload: InvoiceBase): Promise<Invoice> => {
   const response = await api("/invoices", {
     method: "POST",
     body: JSON.stringify(payload),
   });
 
   return response.data.invoice;
+};
+
+export const updateInvoice = async (
+  payload: InvoiceBase & { id: string },
+): Promise<void> => {
+  const { id, ...rest } = payload;
+
+  await api(`/invoices/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(rest),
+  });
 };
 
 export const retrieveInvoices = async (
@@ -69,4 +80,12 @@ export const retrieveOptions = async ({
   });
 
   return response.data;
+};
+
+export const deleteInvoice = async (id: string): Promise<boolean> => {
+  const response = await api(`/invoices/${id}`, {
+    method: "DELETE",
+  });
+
+  return response.data.isDeleted;
 };

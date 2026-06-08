@@ -4,6 +4,7 @@ import { useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+
 import { useInvoiceForm } from "../../InvoiceFormContext";
 
 type InvoiceItemFieldProps = {
@@ -49,7 +50,7 @@ export default function InvoiceItemField({ index }: InvoiceItemFieldProps) {
         <Field>
           <FieldLabel htmlFor="quantity">Quantity *</FieldLabel>
           <Input
-            type="number"
+            type="text"
             id="quantity"
             placeholder="0"
             disabled={isSubmitting}
@@ -60,7 +61,7 @@ export default function InvoiceItemField({ index }: InvoiceItemFieldProps) {
         <Field>
           <FieldLabel htmlFor="unitPrice">Unit Price *</FieldLabel>
           <Input
-            type="number"
+            type="text"
             id="unitPrice"
             placeholder="0"
             disabled={isSubmitting}

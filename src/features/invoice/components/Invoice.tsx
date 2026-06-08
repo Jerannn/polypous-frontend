@@ -1,25 +1,35 @@
-import { useState } from "react";
-import { getRouteApi, Link } from "@tanstack/react-router";
-import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  Calendar01Icon,
-  Download01Icon,
-  Mail01Icon,
-  Location01Icon,
-  Call02Icon,
-  MoreHorizontalIcon,
-  CheckmarkCircle02Icon,
-  Dollar01Icon,
   ArrowLeft01Icon,
-  PencilEdit01Icon,
+  Calendar01Icon,
+  Call02Icon,
+  CheckmarkCircle02Icon,
   Copy01Icon,
   Delete01Icon,
+  Dollar01Icon,
+  Download01Icon,
+  Location01Icon,
+  Mail01Icon,
+  MoreHorizontalIcon,
+  PencilEdit01Icon,
   SentIcon,
 } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { getRouteApi, Link } from "@tanstack/react-router";
+import { format } from "date-fns";
+import { useState } from "react";
 import { toast } from "sonner";
 
+import logo from "@/assets/img/logo.svg";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import {
   Table,
@@ -29,16 +39,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import logo from "@/assets/img/logo.svg";
-import { format } from "date-fns";
-import { useSuspenseQuery } from "@tanstack/react-query";
+
 import { invoiceQueryOptions } from "../queries";
 
 const routeApi = getRouteApi("/(protected)/invoices/$invoiceId");

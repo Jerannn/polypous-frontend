@@ -3,14 +3,14 @@ import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-import InvoiceTable from "./InvoiceTable";
 import InvoiceFilter from "./InvoiceFilter";
+import InvoiceTable from "./InvoiceTable";
 
 export default function InvoiceContainer() {
   return (
     <div className="flex flex-col">
       <Button className="self-end gap-4" size="lg" asChild>
-        <Link to="/invoices/new" preload="intent">
+        <Link to="/invoices/new">
           <Plus /> Add Invoice
         </Link>
       </Button>
