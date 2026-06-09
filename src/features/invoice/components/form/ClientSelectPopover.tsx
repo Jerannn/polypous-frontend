@@ -20,7 +20,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useDebounce } from "@/hooks/useDebounce";
 
-import useRetrieveOptionts from "../../hooks/use-retrieve-optionts";
+import useRetrieveOptionts from "../../hooks/use-retrieve-options";
 import { useInvoiceForm } from "../../InvoiceFormContext";
 
 export default function ClientSelectPopover() {

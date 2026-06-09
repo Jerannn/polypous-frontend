@@ -2,27 +2,30 @@ import {
   ArrowLeft01Icon,
   Calendar01Icon,
   Call02Icon,
-  CheckmarkCircle02Icon,
-  Copy01Icon,
-  Delete01Icon,
-  Dollar01Icon,
-  Download01Icon,
   Location01Icon,
   Mail01Icon,
-  MoreHorizontalIcon,
-  PencilEdit01Icon,
-  SentIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi, Link } from "@tanstack/react-router";
+import { getRouteApi, Link, useNavigate } from "@tanstack/react-router";
 import { format } from "date-fns";
+import {
+  CircleCheckBig,
+  Copy,
+  Download,
+  Ellipsis,
+  FilePenLine,
+  Send,
+  Trash2,
+} from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import logo from "@/assets/img/logo.svg";
+import ConfirmDeletionModal from "@/components/ConfirmDeletionModal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,23 +43,26 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import useDeleteInvoice from "../hooks/use-delete-invoice";
 import { invoiceQueryOptions } from "../queries";
+import RecordPayment from "./RecordPayment";
 
 const routeApi = getRouteApi("/(protected)/invoices/$invoiceId");
 
 export default function Invoice() {
   const { invoiceId } = routeApi.useParams();
+  const navigate = useNavigate();
+
   const { data: invoice } = useSuspenseQuery(invoiceQueryOptions(invoiceId));
   const [status, setStatus] = useState<"Paid" | "Unpaid" | "Overdue">("Unpaid");
+
+  const { deleteInvoice, isDeleting, isError } = useDeleteInvoice();
 
   const handleMarkPaid = () => {
     setStatus("Paid");
     toast.success(`Invoice ${invoiceId} marked as paid`);
   };
-  const handleRecordPayment = () => {
-    setStatus("Paid");
-    toast.success(`Payment of $1,320.00 recorded successfully`);
-  };
+
   const handleDownloadPDF = () => {
     toast.info("Opening browser print dialog...");
     setTimeout(() => {
@@ -68,9 +74,6 @@ export default function Invoice() {
   };
   const handleDuplicate = () => {
     toast.success(`Invoice ${invoiceId} duplicated successfully`);
-  };
-  const handleDelete = () => {
-    toast.error(`Invoice ${invoiceId} deleted`);
   };
 
   const taxAmount = invoice.subtotal * (invoice.tax / 100);
@@ -109,91 +112,87 @@ export default function Invoice() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          {status !== "Paid" && (
-            <Button size="sm" onClick={handleMarkPaid} className="h-9">
-              <HugeiconsIcon
-                icon={CheckmarkCircle02Icon}
-                className="mr-1.5 size-4"
-              />
-              Mark Paid
-            </Button>
-          )}
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleRecordPayment}
-            className="h-9 text-xs"
-          >
-            <HugeiconsIcon
-              icon={Dollar01Icon}
-              className="mr-1.5 size-4 text-muted-foreground"
-            />
-            Record Payment
-          </Button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleDownloadPDF}
-            className="h-9 text-xs"
-          >
-            <HugeiconsIcon
-              icon={Download01Icon}
-              className="mr-1.5 size-4 text-muted-foreground"
-            />
-            Print / PDF
-          </Button>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon" className="h-9 w-9">
-                <HugeiconsIcon icon={MoreHorizontalIcon} className="size-4" />
+          <ButtonGroup>
+            {status !== "Paid" && (
+              <Button
+                variant="outline"
+                className="text-primary bg-primary/10 hover:bg-accent/10"
+                onClick={handleMarkPaid}
+              >
+                <CircleCheckBig className="mr-2 h-5 w-5" />
+                Mark Paid
               </Button>
-            </DropdownMenuTrigger>
+            )}
+            <RecordPayment />
+            <Button variant="outline" onClick={handleDownloadPDF}>
+              <Download className="mr-2 h-5 w-5" />
+              Print / PDF
+            </Button>
 
-            <DropdownMenuContent align="end" className="w-44">
-              <DropdownMenuItem className="text-xs cursor-pointer">
-                <HugeiconsIcon
-                  icon={PencilEdit01Icon}
-                  className="mr-2 size-3.5 text-muted-foreground"
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <Ellipsis />
+                </Button>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent align="end" className="w-44">
+                <DropdownMenuItem asChild className="text-xs cursor-pointer">
+                  <Link
+                    to="/invoices/$invoiceId/edit"
+                    params={{ invoiceId: invoice.id }}
+                  >
+                    <FilePenLine className="w-3.5 h-3.5 mr-2 size-3.5 text-muted-foreground" />
+                    Edit Invoice
+                  </Link>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem
+                  className="text-xs cursor-pointer"
+                  onClick={handleDuplicate}
+                >
+                  <Copy className="w-3.5 h-3.5 mr-2 size-3.5 text-muted-foreground" />
+                  Duplicate Invoice
+                </DropdownMenuItem>
+
+                <DropdownMenuItem
+                  className="text-xs cursor-pointer"
+                  onClick={handleSendReminder}
+                >
+                  <Send className="w-3.5 h-3.5 mr-2 size-3.5 text-muted-foreground" />
+                  Send Reminder
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator />
+
+                <ConfirmDeletionModal
+                  onConfirm={async () => {
+                    const isDeleted = await deleteInvoice(invoice.id);
+                    if (isDeleted) {
+                      toast.success("Invoice deleted successfully");
+                      navigate({ to: "/invoices", replace: true });
+                    }
+
+                    return isDeleted;
+                  }}
+                  isPending={isDeleting}
+                  errorMessage={
+                    isError ? "Failed to delete invoice" : undefined
+                  }
+                  description="Are you sure you want to delete this invoice? This action cannot be reversed after confirmation."
+                  trigger={
+                    <DropdownMenuItem
+                      variant="destructive"
+                      onSelect={(e) => e.preventDefault()}
+                    >
+                      <Trash2 className="w-3.5 h-3.5 mr-2 size-3.5 text-muted-foreground" />
+                      Delete Invoice
+                    </DropdownMenuItem>
+                  }
                 />
-                Edit Invoice
-              </DropdownMenuItem>
-
-              <DropdownMenuItem
-                className="text-xs cursor-pointer"
-                onClick={handleDuplicate}
-              >
-                <HugeiconsIcon
-                  icon={Copy01Icon}
-                  className="mr-2 size-3.5 text-muted-foreground"
-                />
-                Duplicate Invoice
-              </DropdownMenuItem>
-
-              <DropdownMenuItem
-                className="text-xs cursor-pointer"
-                onClick={handleSendReminder}
-              >
-                <HugeiconsIcon
-                  icon={SentIcon}
-                  className="mr-2 size-3.5 text-muted-foreground"
-                />
-                Send Reminder
-              </DropdownMenuItem>
-
-              <DropdownMenuSeparator />
-
-              <DropdownMenuItem
-                className="text-xs text-destructive cursor-pointer focus:bg-destructive/5 focus:text-destructive"
-                onClick={handleDelete}
-              >
-                <HugeiconsIcon icon={Delete01Icon} className="mr-2 size-3.5" />
-                Delete Invoice
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </ButtonGroup>
         </div>
       </div>
 

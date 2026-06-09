@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate, useParams } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { createContext, type ReactNode, useContext } from "react";
 import {
   useFieldArray,
@@ -30,19 +30,18 @@ const InvoiceFormContext = createContext<InvoiceFormContextType | undefined>(
 
 type InvoiceFormProviderProps = {
   children: ReactNode;
+  invoiceId?: string;
   initialInvoice?: InvoiceBase;
   action?: "create" | "edit";
 };
 
 export function InvoiceFormProvider({
   children,
+  invoiceId,
   initialInvoice,
   action = "create",
 }: InvoiceFormProviderProps) {
   const navigate = useNavigate();
-  const { invoiceId } = useParams({
-    from: "/(protected)/invoices/$invoiceId/edit",
-  });
 
   const { createInvoice, isCreating } = useCreateInvoice();
   const { updateInvoice, isUpdating } = useUpdateInvoice();
@@ -81,7 +80,7 @@ export function InvoiceFormProvider({
       }
 
       if (action === "edit") {
-        await updateInvoice({ ...data, id: invoiceId });
+        await updateInvoice({ ...data, id: invoiceId! });
         toast.success("Invoice updated successfully!");
         navigate({ to: `/invoices`, replace: true });
       }

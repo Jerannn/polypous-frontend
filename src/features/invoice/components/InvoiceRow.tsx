@@ -6,13 +6,13 @@ import { toast } from "sonner";
 import ConfirmDeletionModal from "@/components/ConfirmDeletionModal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +25,7 @@ type InvoiceRowProps = {
 
 export default function InvoiceRow({ invoice }: InvoiceRowProps) {
   const { deleteInvoice, isDeleting, isError } = useDeleteInvoice();
+
   return (
     <TableRow key={invoice.id}>
       <TableCell className="max-w-60 font-medium">
@@ -57,59 +58,36 @@ export default function InvoiceRow({ invoice }: InvoiceRowProps) {
         </Badge>
       </TableCell>
       <TableCell className="flex items-center justify-end text-right space-x-3">
-        <Popover>
-          <PopoverTrigger asChild>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <EllipsisVertical />
             </Button>
-          </PopoverTrigger>
-          <PopoverContent
-            className="w-36 p-1 gap-0 overflow-hidden"
-            align="end"
-          >
-            <Button
-              variant="ghost"
-              className="hover:bg-accent cursor-pointer w-full"
-              asChild
-            >
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent align="end" className="w-36">
+            <DropdownMenuItem asChild className="text-xs cursor-pointer">
               <Link
                 to="/invoices/$invoiceId/details"
                 params={{ invoiceId: invoice.id }}
               >
-                <Item size="xs" className="p-0 ">
-                  <ItemContent className="flex-row space-x-2">
-                    <ItemMedia>
-                      <Form className="w-3.5 h-3.5" />
-                    </ItemMedia>
-                    <ItemTitle className="text-xs/relaxed font-normal">
-                      View Details
-                    </ItemTitle>
-                  </ItemContent>
-                </Item>
+                <Form className="w-3.5 h-3.5 text-muted-foreground" />
+                View Details
               </Link>
-            </Button>
-            <Button
-              variant="ghost"
-              className="hover:bg-accent cursor-pointer"
-              asChild
-            >
+            </DropdownMenuItem>
+
+            <DropdownMenuItem asChild className="text-xs cursor-pointer">
               <Link
                 to="/invoices/$invoiceId/edit"
                 params={{ invoiceId: invoice.id }}
               >
-                <Item size="xs" className="p-0 ">
-                  <ItemContent className="flex-row space-x-2">
-                    <ItemMedia>
-                      <FilePenLine className="w-3.5 h-3.5" />
-                    </ItemMedia>
-                    <ItemTitle className="text-xs/relaxed font-normal">
-                      Edit
-                    </ItemTitle>
-                  </ItemContent>
-                </Item>
+                <FilePenLine className="w-3.5 h-3.5 text-muted-foreground" />
+                Edit
               </Link>
-            </Button>
-            <Separator className="my-1 -mx-1" style={{ width: "180px" }} />
+            </DropdownMenuItem>
+
+            <DropdownMenuSeparator />
+
             <ConfirmDeletionModal
               onConfirm={async () => {
                 const isDeleted = await deleteInvoice(invoice.id);
@@ -121,22 +99,18 @@ export default function InvoiceRow({ invoice }: InvoiceRowProps) {
               errorMessage={isError ? "Failed to delete invoice" : undefined}
               description="Are you sure you want to delete this invoice? This action cannot be reversed after confirmation."
               trigger={
-                <Button variant="destructive" className="w-full">
-                  <Item size="xs" className="p-0 ">
-                    <ItemContent className="flex-row space-x-2">
-                      <ItemMedia>
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </ItemMedia>
-                      <ItemTitle className="text-xs/relaxed font-normal">
-                        Delete
-                      </ItemTitle>
-                    </ItemContent>
-                  </Item>
-                </Button>
+                <DropdownMenuItem
+                  variant="destructive"
+                  className="text-xs cursor-pointer"
+                  onSelect={(e) => e.preventDefault()}
+                >
+                  <Trash2 className="w-3.5 h-3.5 text-muted-foreground" />
+                  Delete
+                </DropdownMenuItem>
               }
             />
-          </PopoverContent>
-        </Popover>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </TableCell>
     </TableRow>
   );

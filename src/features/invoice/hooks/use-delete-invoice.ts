@@ -12,7 +12,9 @@ export default function useDeleteInvoice() {
     isError,
   } = useMutation({
     mutationFn: (id: string) => deleteInvoiceApi(id),
-    onSuccess: () => {
+    onSuccess: (_, invoiceId) => {
+      queryClient.removeQueries({ queryKey: invoiceKeys.detail(invoiceId) });
+
       queryClient.invalidateQueries({
         queryKey: invoiceKeys.all,
         exact: false,

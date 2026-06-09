@@ -9,6 +9,7 @@ import type {
   InvoiceQueryPayload,
   InvoiceWithItemsAndClient,
   Options,
+  RecordPaymentPayload,
 } from "./types";
 
 export const createInvoice = async (payload: InvoiceBase): Promise<Invoice> => {
@@ -88,4 +89,15 @@ export const deleteInvoice = async (id: string): Promise<boolean> => {
   });
 
   return response.data.isDeleted;
+};
+
+export const recordPayment = async (
+  invoiceId: string,
+  payload: RecordPaymentPayload,
+): Promise<void> => {
+  await api(`/payments/${invoiceId}`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+  return;
 };

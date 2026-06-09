@@ -1,11 +1,16 @@
 import { z } from "zod";
 
-import type { invoiceQuerySchema, invoiceSchema } from "./schema";
+import {
+  type invoiceQuerySchema,
+  type invoiceSchema,
+  recordPaymentSchema,
+} from "./schema";
 
 export type InvoiceStatus = "PAID" | "UNPAID" | "OVERDUE" | "CANCELLED";
 export type InvoiceBase = z.infer<typeof invoiceSchema>;
 export type Options = Record<string, string>[];
 export type InvoiceQueryPayload = z.infer<typeof invoiceQuerySchema>;
+export type RecordPaymentPayload = z.infer<typeof recordPaymentSchema>;
 export type Cursor = {
   id: string;
   createdAt: string;
