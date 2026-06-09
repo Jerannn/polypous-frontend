@@ -28,7 +28,11 @@ function EditInvoice() {
   };
 
   return (
-    <InvoiceFormProvider initialInvoice={invoice} action="edit">
+    <InvoiceFormProvider
+      initialInvoice={invoice}
+      action="edit"
+      invoiceId={invoiceId}
+    >
       <InvoiceForm />
     </InvoiceFormProvider>
   );
