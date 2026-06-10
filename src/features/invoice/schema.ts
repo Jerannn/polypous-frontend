@@ -20,14 +20,14 @@ const invoiceItemSchema = z.object({
 
 export const invoiceSchema = z
   .object({
-    clientId: z.string().trim().min(1, "Client ID is required"),
+    clientId: z.string().trim().min(1, "Please select a client"),
     taxRate: z
       .number()
       .min(0, "Tax rate cannot be negative")
       .max(100, "Tax rate cannot exceed 100")
       .optional(),
-    issueDate: z.coerce.date<Date>("Issue date is required"),
-    dueDate: z.coerce.date<Date>("Due date is required"),
+    issueDate: z.coerce.date<Date>("Please select an issue date"),
+    dueDate: z.coerce.date<Date>("Please select a due date"),
     notes: z
       .string()
       .trim()
@@ -49,7 +49,8 @@ export const invoiceQuerySchema = z.object({
     .number()
     .min(1)
     .max(MAX_PAGE_SIZE, `Limit must not exceed ${DEFAULT_PAGE_SIZE}`)
-    .default(DEFAULT_PAGE_SIZE),
+    .default(DEFAULT_PAGE_SIZE)
+    .catch(DEFAULT_PAGE_SIZE),
   search: z.string().trim().optional().default(""),
 });
 

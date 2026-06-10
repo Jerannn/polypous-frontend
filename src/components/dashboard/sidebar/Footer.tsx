@@ -33,14 +33,16 @@ export default function Footer() {
               size="lg"
               className="hover:bg-muted hover:text-secondary-foreground focus-visible:ring-0 cursor-pointer"
             >
-              <Avatar className="h-8 w-8 rounded-lg grayscale">
+              <Avatar className="h-8 w-8 rounded-full">
                 <AvatarImage src={user?.avatarUrl || ""} alt={user?.fullName} />
-                <AvatarFallback className="rounded-lg">
+                <AvatarFallback className="rounded-full bg-primary text-primary-foreground uppercase">
                   {user?.fullName?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-xs leading-tight">
-                <span className="truncate font-medium">{user?.fullName}</span>
+                <span className="truncate font-medium capitalize">
+                  {user?.fullName}
+                </span>
                 <span className="truncate text-xs text-muted-foreground">
                   {user?.email}
                 </span>
@@ -61,12 +63,14 @@ export default function Footer() {
                     src={user?.avatarUrl || ""}
                     alt={user?.fullName}
                   />
-                  <AvatarFallback className="rounded-lg">
+                  <AvatarFallback className="rounded-full bg-primary text-primary-foreground uppercase">
                     {user?.fullName?.charAt(0)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-xs leading-tight">
-                  <span className="truncate font-medium">{user?.fullName}</span>
+                  <span className="truncate font-medium capitalize">
+                    {user?.fullName}
+                  </span>
                   <span className="truncate text-xs text-muted-foreground">
                     {user?.email}
                   </span>

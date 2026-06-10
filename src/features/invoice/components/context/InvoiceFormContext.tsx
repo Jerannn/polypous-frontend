@@ -9,10 +9,10 @@ import {
 } from "react-hook-form";
 import { toast } from "sonner";
 
-import useCreateInvoice from "./hooks/use-create-invoice";
-import useUpdateInvoice from "./hooks/use-update-invoice";
-import { invoiceSchema } from "./schema";
-import type { InvoiceBase } from "./types";
+import useCreateInvoice from "@/features/invoice/hooks/use-create-invoice";
+import useUpdateInvoice from "@/features/invoice/hooks/use-update-invoice";
+import { invoiceSchema } from "@/features/invoice/schema";
+import type { InvoiceBase } from "@/features/invoice/types";
 
 type InvoiceFormContextType = {
   action: string;

@@ -9,9 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-import { useInvoiceForm } from "../../InvoiceFormContext";
-import InvoiceItemField from "./InvoiceItemField";
+import { useInvoiceForm } from "@/features/invoice/components/context/InvoiceFormContext";
+import InvoiceItemField from "@/features/invoice/components/form/InvoiceItemField";
 
 export default function InvoiceItemsCard() {
   const { onAddItem, fields, isSubmitting } = useInvoiceForm();

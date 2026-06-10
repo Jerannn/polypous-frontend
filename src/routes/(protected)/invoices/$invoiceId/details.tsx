@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import Invoice from "@/features/invoice/components/Invoice";
+import Invoice from "@/features/invoice/components/details/Invoice";
 import { invoiceQueryOptions } from "@/features/invoice/queries";
 import { queryClient } from "@/lib/queryClient";
 

@@ -4,8 +4,7 @@ import { useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-
-import { useInvoiceForm } from "../../InvoiceFormContext";
+import { useInvoiceForm } from "@/features/invoice/components/context/InvoiceFormContext";
 
 type InvoiceItemFieldProps = {
   index: number;
@@ -63,7 +62,8 @@ export default function InvoiceItemField({ index }: InvoiceItemFieldProps) {
           <Input
             type="text"
             id="unitPrice"
-            placeholder="0"
+            placeholder="0.00"
+            step="0.01"
             disabled={isSubmitting}
             {...register(`items.${index}.unitPrice`, { valueAsNumber: true })}
           />

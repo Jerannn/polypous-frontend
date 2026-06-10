@@ -8,8 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-
-import { useInvoiceForm } from "../../InvoiceFormContext";
+import { useInvoiceForm } from "@/features/invoice/components/context/InvoiceFormContext";
 
 export default function InvoiceSummaryCard() {
   const { form } = useInvoiceForm();

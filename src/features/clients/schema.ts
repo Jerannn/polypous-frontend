@@ -18,6 +18,11 @@ export const createClientSchema = z.object({
 
 export const querySchema = z.object({
   page: z.coerce.number().min(1).catch(1),
-  limit: z.coerce.number().min(1).max(MAX_PAGE_SIZE).catch(DEFAULT_PAGE_SIZE),
+  limit: z.coerce
+    .number()
+    .min(1)
+    .max(MAX_PAGE_SIZE, `Limit must not exceed ${DEFAULT_PAGE_SIZE}`)
+    .default(DEFAULT_PAGE_SIZE)
+    .catch(DEFAULT_PAGE_SIZE),
   search: z.string().trim().catch(""),
 });
