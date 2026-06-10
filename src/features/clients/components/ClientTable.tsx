@@ -45,7 +45,7 @@ export default function ClientTable() {
         <TableLoadingState
           title="All Clients"
           header={<ClientTableHeader />}
-          skeletonRow={<SkeletonRow type="client" />}
+          skeletonRow={<SkeletonRow rowCount={query.limit} type="client" />}
         />
       }
       errorState={

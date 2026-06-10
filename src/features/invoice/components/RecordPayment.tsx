@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
+import ActionButtonContent from "@/components/ActionButtonContent";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -28,6 +29,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Textarea } from "@/components/ui/textarea";
 
 import useRecordPayment from "../hooks/use-record-payment";
 import { recordPaymentSchema } from "../schema";
@@ -66,7 +68,13 @@ export default function RecordPayment() {
   const paymentDate = useWatch({ control, name: "paymentDate" });
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(open) => {
+        setOpen(open);
+        reset();
+      }}
+    >
       <DialogTrigger asChild>
         <Button variant="outline">
           <Receipt className="mr-2 h-5 w-5" />
@@ -87,9 +95,9 @@ export default function RecordPayment() {
                 type="number"
                 id="amount"
                 placeholder="0.00"
-                step="any"
+                step="0.01"
                 disabled={isRecording}
-                {...register("amount")}
+                {...register("amount", { valueAsNumber: true })}
               />
               {errors.amount && (
                 <FieldError>{errors.amount.message}</FieldError>
@@ -159,8 +167,7 @@ export default function RecordPayment() {
 
             <Field>
               <FieldLabel htmlFor="notes">Notes</FieldLabel>
-              <Input
-                type="text"
+              <Textarea
                 id="notes"
                 placeholder="e.g. Payment for invoice #123"
                 disabled={isRecording}
@@ -175,7 +182,10 @@ export default function RecordPayment() {
             className="w-full py-4 mt-4"
             disabled={isRecording}
           >
-            {isRecording ? "Recording..." : "Record Payment"}
+            <ActionButtonContent
+              action={isRecording ? "Recording..." : "Record Payment"}
+              isLoading={isRecording}
+            />
           </Button>
         </form>
       </DialogContent>

@@ -18,10 +18,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { useInvoiceForm } from "@/features/invoice/components/context/InvoiceFormContext";
+import useRetrieveOptionts from "@/features/invoice/hooks/use-retrieve-options";
 import { useDebounce } from "@/hooks/useDebounce";
-
-import useRetrieveOptionts from "../../hooks/use-retrieve-options";
-import { useInvoiceForm } from "../../InvoiceFormContext";
 
 export default function ClientSelectPopover() {
   const { form, isSubmitting } = useInvoiceForm();

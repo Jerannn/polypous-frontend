@@ -10,9 +10,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
-import { useInvoiceForm } from "../../InvoiceFormContext";
-import ClientSelectPopover from "./ClientSelectPopover";
+import { Textarea } from "@/components/ui/textarea";
+import { useInvoiceForm } from "@/features/invoice/components/context/InvoiceFormContext";
+import ClientSelectPopover from "@/features/invoice/components/form/ClientSelectPopover";
 
 export default function InvoiceDetailsForm() {
   const { form, isSubmitting } = useInvoiceForm();
@@ -38,6 +38,7 @@ export default function InvoiceDetailsForm() {
           id="taxRate"
           placeholder="0"
           type="number"
+          step="0.01"
           disabled={isSubmitting}
           {...register("taxRate", { valueAsNumber: true })}
         />
@@ -107,6 +108,17 @@ export default function InvoiceDetailsForm() {
           </PopoverContent>
         </Popover>
         {errors.dueDate && <FieldError>{errors.dueDate.message}</FieldError>}
+      </Field>
+
+      <Field className="col-span-2">
+        <FieldLabel htmlFor="notes">Notes</FieldLabel>
+        <Textarea
+          id="notes"
+          placeholder="e.g. Include tax, shipping costs or terms and conditions"
+          disabled={isSubmitting}
+          {...register("notes")}
+        />
+        {errors.notes && <FieldError>{errors.notes.message}</FieldError>}
       </Field>
     </div>
   );

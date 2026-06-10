@@ -3,11 +3,10 @@ import { useNavigate } from "@tanstack/react-router";
 import ActionButtonContent from "@/components/ActionButtonContent";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
-
-import { useInvoiceForm } from "../../InvoiceFormContext";
-import InvoiceDetailsCard from "./InvoiceDetailsCard";
-import InvoiceItemsCard from "./InvoiceItemsCard";
-import InvoiceSummaryCard from "./InvoiceSummaryCard";
+import { useInvoiceForm } from "@/features/invoice/components/context/InvoiceFormContext";
+import InvoiceDetailsCard from "@/features/invoice/components/form/InvoiceDetailsCard";
+import InvoiceItemsCard from "@/features/invoice/components/form/InvoiceItemsCard";
+import InvoiceSummaryCard from "@/features/invoice/components/form/InvoiceSummaryCard";
 
 export default function InvoiceForm() {
   const navigate = useNavigate();
