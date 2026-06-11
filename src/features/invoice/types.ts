@@ -53,10 +53,28 @@ export type InvoiceClient = {
   address: string;
 };
 
-export type InvoiceListItem = Invoice & { clientName: string };
-export type InvoiceWithItemsAndClient = Invoice & {
-  client: InvoiceClient;
-  items: InvoiceItem[];
+export type InvoiceFreelancer = {
   fullName: string;
   email: string;
+  currency: string;
+};
+
+export type InvoicePayment = {
+  id: string;
+  amount: number;
+  paymentMethod: string;
+  referenceNumber: string | null;
+  paymentDate: Date | string;
+  notes: string | null;
+};
+
+export type InvoiceListItem = Invoice & { clientName: string };
+export type InvoiceWithItemsAndClient = Invoice & {
+  freelancer: InvoiceFreelancer;
+  client: InvoiceClient;
+  items: InvoiceItem[];
+  payments: InvoicePayment[];
+  taxAmount: number;
+  amountPaid: number;
+  balance: number;
 };

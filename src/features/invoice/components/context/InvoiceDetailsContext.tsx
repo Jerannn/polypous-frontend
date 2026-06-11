@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getRouteApi } from "@tanstack/react-router";
-import { createContext, type ReactNode,useContext } from "react";
+import { createContext, type ReactNode, useContext } from "react";
 
 import { invoiceQueryOptions } from "../../queries";
 import type { InvoiceWithItemsAndClient } from "../../types";
@@ -10,6 +10,7 @@ const routeApi = getRouteApi("/(protected)/invoices/$invoiceId");
 type InvoiceDetailsContextType = {
   invoice: InvoiceWithItemsAndClient;
   invoiceId: string;
+  currency: string;
 };
 
 const InvoiceDetailsContext = createContext<
@@ -32,6 +33,7 @@ export function InvoiceDetailsProvider({
       value={{
         invoice,
         invoiceId,
+        currency: invoice?.freelancer.currency,
       }}
     >
       {children}

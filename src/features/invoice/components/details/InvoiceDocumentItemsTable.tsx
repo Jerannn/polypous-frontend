@@ -43,10 +43,10 @@ export default function InvoiceDocumentItemsTable() {
               {item.quantity}
             </TableCell>
             <TableCell className="text-right text-xs text-muted-foreground print:text-gray-600 py-4">
-              ${item.unitPrice}
+              USD {item.unitPrice}
             </TableCell>
             <TableCell className="text-right text-xs font-semibold text-foreground print:text-black py-4">
-              ${item.total}
+              USD {item.total}
             </TableCell>
           </TableRow>
         ))}
