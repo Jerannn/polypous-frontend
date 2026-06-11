@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   ChevronLeft,
-  CircleCheckBig,
   Copy,
   Download,
   Ellipsis,
@@ -25,7 +24,6 @@ import {
 
 import useDeleteInvoice from "../../hooks/use-delete-invoice";
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
-import RecordPayment from "../RecordPayment";
 
 export default function InvoiceDetailsHeader() {
   const navigate = useNavigate();
@@ -65,17 +63,6 @@ export default function InvoiceDetailsHeader() {
 
       <div className="flex flex-wrap items-center gap-2">
         <ButtonGroup>
-          <Button
-            variant="outline"
-            className="text-primary bg-primary/10 hover:bg-accent/10"
-            // onClick={handleMarkPaid}
-            disabled={invoice.status === "PAID"}
-          >
-            <CircleCheckBig className="mr-2 h-5 w-5" />
-            {invoice.status !== "PAID" ? "Mark Paid" : "Paid"}
-          </Button>
-
-          <RecordPayment />
           <Button
             variant="outline"
             //   onClick={handleDownloadPDF}

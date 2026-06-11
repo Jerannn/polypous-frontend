@@ -1,7 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { InvoiceDetailsProvider } from "../context/InvoiceDetailsContext";
 import InvoiceDetailsHeader from "./InvoiceDetailsHeader";
 import InvoiceDocument from "./InvoiceDocument";
+import PaymentHistory from "./PaymentHistory";
+import PaymentSummary from "./PaymentSummary";
 
 export default function Invoice() {
   return (
@@ -10,15 +11,9 @@ export default function Invoice() {
         <InvoiceDetailsHeader />
         <div className="grid items-start grid-cols-1 lg:grid-cols-[2fr_350px] gap-4">
           <InvoiceDocument />
-          <div>
-            <Card>
-              <CardHeader>
-                <CardTitle>Notes</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-              </CardContent>
-            </Card>
+          <div className="space-y-4">
+            <PaymentSummary />
+            <PaymentHistory />
           </div>
         </div>
       </InvoiceDetailsProvider>

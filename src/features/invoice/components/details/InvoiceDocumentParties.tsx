@@ -10,33 +10,46 @@ import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
 export default function InvoiceDocumentParties() {
   const { invoice } = useInvoiceDetails();
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <Item variant="muted" size="xs" className="items-start">
+    <div className="grid grid-cols-2 gap-8">
+      <Item variant="default" size="xs" className="items-start">
         <ItemContent>
-          <h3 className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground print:text-gray-500">
-            FROM
-          </h3>
-          <ItemTitle>Frelancer</ItemTitle>
-          <ItemDescription className="capitalize">
-            {invoice?.fullName}
-          </ItemDescription>
-          <ItemDescription> {invoice?.email}</ItemDescription>
+          <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-muted-foreground">
+            From
+          </p>
+
+          <ItemTitle className="text-base">Freelancer</ItemTitle>
+
+          <div className="mt-2">
+            <ItemDescription className="capitalize">
+              {invoice?.freelancer.fullName}
+            </ItemDescription>
+
+            <ItemDescription>{invoice?.freelancer.email}</ItemDescription>
+          </div>
         </ItemContent>
       </Item>
 
-      <Item variant="muted" size="xs">
+      <Item variant="default" size="xs" className="items-start">
         <ItemContent>
-          <h3 className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground print:text-gray-500">
-            BILL TO
-          </h3>
-          <ItemTitle>{invoice?.client.name}</ItemTitle>
-          <ItemDescription>{invoice?.client.email}</ItemDescription>
-          {invoice?.client.phone && (
-            <ItemDescription>{invoice?.client.phone}</ItemDescription>
-          )}
-          {invoice?.client.address && (
-            <ItemDescription>{invoice?.client.address}</ItemDescription>
-          )}
+          <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-muted-foreground">
+            Bill To
+          </p>
+
+          <ItemTitle className="text-base">{invoice?.client.name}</ItemTitle>
+
+          <div className="mt-2">
+            <ItemDescription>{invoice?.client.email}</ItemDescription>
+
+            {invoice?.client.phone && (
+              <ItemDescription>{invoice?.client.phone}</ItemDescription>
+            )}
+
+            {invoice?.client.address && (
+              <ItemDescription className="capitalize">
+                {invoice?.client.address}
+              </ItemDescription>
+            )}
+          </div>
         </ItemContent>
       </Item>
     </div>

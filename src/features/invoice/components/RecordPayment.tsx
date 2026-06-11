@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "@tanstack/react-router";
 import { format } from "date-fns";
-import { Receipt } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
@@ -34,6 +34,7 @@ import { Textarea } from "@/components/ui/textarea";
 import useRecordPayment from "../hooks/use-record-payment";
 import { recordPaymentSchema } from "../schema";
 import type { RecordPaymentPayload } from "../types";
+import { useInvoiceDetails } from "./context/InvoiceDetailsContext";
 
 export default function RecordPayment() {
   const { invoiceId } = useParams({
@@ -41,12 +42,14 @@ export default function RecordPayment() {
   });
 
   const [open, setOpen] = useState(false);
+  const { invoice } = useInvoiceDetails();
   const { recordPayment, isRecording } = useRecordPayment(invoiceId);
   const {
     control,
     register,
     handleSubmit,
     formState: { errors },
+    setError,
     reset,
   } = useForm<RecordPaymentPayload>({
     resolver: zodResolver(recordPaymentSchema),
@@ -58,14 +61,20 @@ export default function RecordPayment() {
     },
   });
 
+  const paymentDate = useWatch({ control, name: "paymentDate" });
+  const amount = useWatch({ control, name: "amount" });
+
   const onSubmit = async (data: RecordPaymentPayload) => {
+    if (amount > invoice.balance) {
+      setError("amount", { message: "Amount must not exceed invoice balance" });
+      return;
+    }
+
     await recordPayment(data);
     toast.success("Payment recorded successfully!");
     setOpen(false);
     reset();
   };
-
-  const paymentDate = useWatch({ control, name: "paymentDate" });
 
   return (
     <Dialog
@@ -76,9 +85,8 @@ export default function RecordPayment() {
       }}
     >
       <DialogTrigger asChild>
-        <Button variant="outline">
-          <Receipt className="mr-2 h-5 w-5" />
-          Record Payment
+        <Button variant="default" className="w-full py-4">
+          <Plus /> Record Payment
         </Button>
       </DialogTrigger>
       <DialogContent>

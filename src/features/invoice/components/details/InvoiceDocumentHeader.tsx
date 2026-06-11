@@ -6,7 +6,7 @@ import { CardHeader } from "@/components/ui/card";
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
 
 export default function InvoiceDocumentHeader() {
-  const { invoice } = useInvoiceDetails();
+  const { invoice, currency } = useInvoiceDetails();
   return (
     <CardHeader className="px-0">
       <img src={logo} alt="Polypous Logo" className="w-7 h-7 object-contain" />
@@ -35,7 +35,7 @@ export default function InvoiceDocumentHeader() {
           BALANCE DUE
         </p>
         <p className="text-lg font-bold text-foreground print:text-black">
-          ${invoice?.total}
+          {currency} {invoice?.balance}
         </p>
       </div>
     </CardHeader>
