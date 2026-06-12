@@ -101,3 +101,11 @@ export const recordPayment = async (
   });
   return;
 };
+
+export const downloadInvoicePDF = async (id: string): Promise<Blob> => {
+  const response = await api(`/invoices/${id}/pdf`, {
+    method: "GET",
+  });
+
+  return response.blob();
+};

@@ -32,8 +32,8 @@ function ProtectedLayout() {
     <div className="min-h-svh">
       <SidebarProvider>
         <AppSidebar />
-        <SidebarInset className="relative overflow-hidden">
-          <header className="flex items-center gap-2 border-b border-border px-4 py-3">
+        <SidebarInset className="relative max-h-[calc(100vh-18px)] overflow-hidden">
+          <header className="sticky top-0 z-10 flex items-center gap-2 border-b bg-background px-4 py-3">
             <SidebarTrigger />
             <Separator orientation="vertical" className="self-stretch" />
             {navItem && (
@@ -45,7 +45,7 @@ function ProtectedLayout() {
               </div>
             )}
           </header>
-          <main className="p-4 flex-1">
+          <main className="p-4 flex-1 overflow-y-auto">
             <Outlet />
           </main>
         </SidebarInset>

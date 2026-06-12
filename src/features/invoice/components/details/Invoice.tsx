@@ -6,7 +6,7 @@ import PaymentSummary from "./PaymentSummary";
 
 export default function Invoice() {
   return (
-    <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-6 print:p-0">
+    <div className="mx-auto max-w-5xl space-y-6 p-4 md:p-6 print:p-0">
       <InvoiceDetailsProvider>
         <InvoiceDetailsHeader />
         <div className="grid items-start grid-cols-1 lg:grid-cols-[2fr_350px] gap-4">
