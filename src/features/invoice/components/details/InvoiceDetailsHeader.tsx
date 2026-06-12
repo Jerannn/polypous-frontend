@@ -11,7 +11,6 @@ import {
 import { toast } from "sonner";
 
 import ConfirmDeletionModal from "@/components/ConfirmDeletionModal";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import {
@@ -24,12 +23,21 @@ import {
 
 import useDeleteInvoice from "../../hooks/use-delete-invoice";
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
+import env from "@/utils/env";
 
 export default function InvoiceDetailsHeader() {
   const navigate = useNavigate();
   const { invoiceId, invoice } = useInvoiceDetails();
 
   const { deleteInvoice, isDeleting, isError } = useDeleteInvoice();
+
+  const handleDownloadPDF = () => {
+    window.open(
+      `${env.API_URL}/invoices/${invoiceId}/pdf`,
+      "_blank",
+      "noopener,noreferrer",
+    );
+  };
 
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between print:hidden">
@@ -43,30 +51,15 @@ export default function InvoiceDetailsHeader() {
             Back to Invoices
           </Link>
         </Button>
-        <div className="flex items-center gap-2.5">
-          <h1 className="text-xl font-bold tracking-tight text-foreground">
-            {invoice.invoiceNumber}
-          </h1>
-          <Badge
-            className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold border-transparent capitalize ${
-              invoice.status === "PAID"
-                ? "bg-primary/10 text-primary hover:bg-primary/10"
-                : invoice.status === "UNPAID"
-                  ? "bg-accent/10 text-accent hover:bg-accent/10"
-                  : "bg-destructive/10 text-destructive hover:bg-destructive/10"
-            }`}
-          >
-            {invoice.status}
-          </Badge>
-        </div>
+
+        <h1 className="text-xl font-bold tracking-tight text-foreground">
+          {invoice.invoiceNumber}
+        </h1>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
         <ButtonGroup>
-          <Button
-            variant="outline"
-            //   onClick={handleDownloadPDF}
-          >
+          <Button variant="outline" onClick={handleDownloadPDF}>
             <Download className="mr-2 h-5 w-5" />
             Print / PDF
           </Button>

@@ -35,6 +35,7 @@ import useRecordPayment from "../hooks/use-record-payment";
 import { recordPaymentSchema } from "../schema";
 import type { RecordPaymentPayload } from "../types";
 import { useInvoiceDetails } from "./context/InvoiceDetailsContext";
+import { ApiError } from "@/utils/apiError";
 
 export default function RecordPayment() {
   const { invoiceId } = useParams({
@@ -70,10 +71,23 @@ export default function RecordPayment() {
       return;
     }
 
-    await recordPayment(data);
-    toast.success("Payment recorded successfully!");
-    setOpen(false);
-    reset();
+    try {
+      await recordPayment(data);
+      toast.success("Payment recorded successfully!");
+      setOpen(false);
+      reset();
+    } catch (error) {
+      if (error instanceof ApiError && error.statusCode === 400) {
+        const errorData = error.error;
+
+        Object.entries(errorData.error).forEach(([field, message]) => {
+          setError(field as keyof RecordPaymentPayload, {
+            type: "server",
+            message: message,
+          });
+        });
+      }
+    }
   };
 
   return (
@@ -137,6 +151,9 @@ export default function RecordPayment() {
                 disabled={isRecording}
                 {...register("referenceNumber")}
               />
+              {errors.referenceNumber && (
+                <FieldError>{errors.referenceNumber.message}</FieldError>
+              )}
             </Field>
 
             <Field>

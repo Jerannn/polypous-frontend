@@ -1,13 +1,4 @@
-import { CircleCheckBig } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldLabel } from "@/components/ui/field";
 import {
   Item,
@@ -19,6 +10,8 @@ import { Progress } from "@/components/ui/progress";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
 import RecordPayment from "../RecordPayment";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export default function PaymentSummary() {
   const { invoice, currency } = useInvoiceDetails();
@@ -28,12 +21,12 @@ export default function PaymentSummary() {
     <Card>
       <CardHeader>
         <CardTitle>Payment Summary</CardTitle>
-        <CardAction>
+        {/* <CardAction>
           <Button variant="outline" size="sm" className="text-foreground">
             <CircleCheckBig />
             Mark as Paid
           </Button>
-        </CardAction>
+        </CardAction> */}
       </CardHeader>
       <CardContent className="space-y-4">
         <Item className="p-0">
@@ -45,6 +38,19 @@ export default function PaymentSummary() {
               {currency}{" "}
               {invoice?.balance ? invoice?.balance : invoice?.amountPaid}
             </ItemDescription>
+            <Badge variant="outline">
+              <span
+                className={cn(
+                  "mr-1 h-2 w-2 rounded-full",
+                  invoice.status === "PAID"
+                    ? "bg-primary"
+                    : invoice.status === "UNPAID"
+                      ? "bg-accent"
+                      : "bg-destructive",
+                )}
+              ></span>
+              {invoice?.status}
+            </Badge>
           </ItemContent>
         </Item>
 
