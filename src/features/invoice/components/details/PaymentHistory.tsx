@@ -8,13 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemMedia,
-  ItemTitle,
-} from "@/components/ui/item";
+import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
 
@@ -29,7 +23,7 @@ export default function PaymentHistory() {
           {invoice.payments.length} records
         </CardDescription>
       </CardHeader>
-      <CardContent className="max-h-114 overflow-auto no-scrollbar space-y-4 p-0">
+      <CardContent className="max-h-114 overflow-auto no-scrollbar space-y-2 p-0">
         {invoice.payments.map((payment) => (
           <Item variant="muted" className="bg-primary/10" key={payment.id}>
             <ItemMedia variant="icon">
@@ -40,12 +34,12 @@ export default function PaymentHistory() {
                 <ItemTitle>
                   {currency} {payment.amount}
                 </ItemTitle>
-                <ItemDescription className="capitalize text-xs">
+                {/* <ItemDescription className="capitalize text-xs">
                   {payment.paymentMethod}
                 </ItemDescription>
                 <span className="text-muted-foreground text-xs">
                   {payment.referenceNumber}
-                </span>
+                </span> */}
               </div>
 
               <span className="text-muted-foreground text-xs">

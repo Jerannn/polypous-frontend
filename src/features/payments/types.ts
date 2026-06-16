@@ -25,3 +25,10 @@ export type PaymentListItem = {
   paymentMethod: string;
   referenceNumber: string | null;
 };
+
+export type PaymentStats = {
+  totalRevenue: string;
+  monthlyRevenue: string;
+  totalPayments: string;
+  averagePayment: string;
+};

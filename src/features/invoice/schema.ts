@@ -60,7 +60,7 @@ export const recordPaymentSchema = z.object({
     .nonnegative("Amount cannot be negative")
     .transform((val) => parseFloat(val.toFixed(2))),
   paymentMethod: z.string().trim().min(1, "Payment method is required"),
+  paymentDate: z.coerce.date<Date>().catch(new Date()),
   referenceNumber: z.string().trim().max(255).optional(),
-  paymentDate: z.coerce.date<Date>().optional(),
   notes: z.string().trim().max(1000).optional(),
 });

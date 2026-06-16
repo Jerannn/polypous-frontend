@@ -11,6 +11,7 @@ import type {
   Options,
   RecordPaymentPayload,
 } from "./types";
+import { format } from "date-fns";
 
 export const createInvoice = async (payload: InvoiceBase): Promise<Invoice> => {
   const response = await api("/invoices", {
@@ -97,7 +98,10 @@ export const recordPayment = async (
 ): Promise<void> => {
   await api(`/payments/${invoiceId}`, {
     method: "POST",
-    body: JSON.stringify(payload),
+    body: JSON.stringify({
+      ...payload,
+      paymentDate: format(payload.paymentDate, "yyyy-MM-dd"),
+    }),
   });
   return;
 };

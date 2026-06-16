@@ -1,7 +1,11 @@
 import { api } from "@/lib/apiClient";
 import type { Meta } from "@/types/shared.types";
 
-import type { PaymentListItem, PaymentQueryPayload } from "./types";
+import type {
+  PaymentListItem,
+  PaymentQueryPayload,
+  PaymentStats,
+} from "./types";
 
 export const retrievePayments = async (
   query: PaymentQueryPayload,
@@ -17,4 +21,12 @@ export const retrievePayments = async (
   });
 
   return response.data;
+};
+
+export const retrievePaymentStats = async (): Promise<PaymentStats> => {
+  const response = await api("/payments/stats", {
+    method: "GET",
+  });
+
+  return response.data.stats;
 };

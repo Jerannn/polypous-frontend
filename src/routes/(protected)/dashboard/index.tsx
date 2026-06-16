@@ -1,3 +1,4 @@
+import DashboardContainer from "@/features/dashboard/components/DashboardContainer";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(protected)/dashboard/")({
@@ -5,5 +6,5 @@ export const Route = createFileRoute("/(protected)/dashboard/")({
 });
 
 function DashboardPage() {
-  return <div>DASHBOARD</div>;
+  return <DashboardContainer />;
 }
