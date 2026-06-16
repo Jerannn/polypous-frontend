@@ -7,7 +7,7 @@ import useRetrievePaymentStats from "../hooks/use-retrieve-payment-stats";
 import { format } from "date-fns";
 
 export default function PaymentStats() {
-  const { stats, isPending, isError } = useRetrievePaymentStats();
+  const { stats } = useRetrievePaymentStats();
 
   // to follow
   return (
