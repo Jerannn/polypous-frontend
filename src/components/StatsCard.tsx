@@ -12,14 +12,14 @@ type StatsCardProps = {
   title: string;
   value: string;
   description: string;
-  icone: LucideIcon;
+  icon: LucideIcon;
 };
 
 export default function StatsCard({
   title,
   value,
   description,
-  icone: Icon,
+  icon: Icon,
 }: StatsCardProps) {
   return (
     <Item variant="muted" className="max-w-56 w-full">
