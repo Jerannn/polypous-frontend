@@ -30,12 +30,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
+import { ApiError } from "@/utils/apiError";
 
 import useRecordPayment from "../hooks/use-record-payment";
 import { recordPaymentSchema } from "../schema";
 import type { RecordPaymentPayload } from "../types";
 import { useInvoiceDetails } from "./context/InvoiceDetailsContext";
-import { ApiError } from "@/utils/apiError";
 
 export default function RecordPayment() {
   const { invoiceId } = useParams({

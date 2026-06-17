@@ -57,3 +57,30 @@ export const LIMIT = DEFAULT_PAGE_SIZE;
 export function getNavItemByPathname(pathname: string) {
   return navMainList.find((item) => item.url === pathname);
 }
+
+export const INVOICESTATUSCLASSES: Record<string, string> = {
+  paid: "text-primary",
+  unpaid: "text-accent",
+  overdue: "text-destructive",
+} as const;
+
+export const CURRENCIES = [
+  { code: "PHP", locale: "en-PH", symbol: "₱", name: "Philippine Peso" },
+  { code: "USD", locale: "en-US", symbol: "$", name: "US Dollar" },
+  { code: "EUR", locale: "de-DE", symbol: "€", name: "Euro" },
+  { code: "GBP", locale: "en-GB", symbol: "£", name: "British Pound" },
+  { code: "JPY", locale: "ja-JP", symbol: "¥", name: "Japanese Yen" },
+  { code: "CNY", locale: "zh-CN", symbol: "¥", name: "Chinese Yuan" },
+  { code: "INR", locale: "hi-IN", symbol: "₹", name: "Indian Rupee" },
+  { code: "IDR", locale: "id-ID", symbol: "Rp", name: "Indonesian Rupiah" },
+  { code: "BRL", locale: "pt-BR", symbol: "R$", name: "Brazilian Real" },
+  { code: "RUB", locale: "ru-RU", symbol: "₽", name: "Russian Ruble" },
+  { code: "KRW", locale: "ko-KR", symbol: "₩", name: "South Korean Won" },
+  { code: "MXN", locale: "es-MX", symbol: "$", name: "Mexican Peso" },
+  { code: "VND", locale: "vi-VN", symbol: "₫", name: "Vietnamese Dong" },
+  { code: "TRY", locale: "tr-TR", symbol: "₺", name: "Turkish Lira" },
+  { code: "CZK", locale: "cs-CZ", symbol: "Kč", name: "Czech Koruna" },
+  { code: "SEK", locale: "sv-SE", symbol: "kr", name: "Swedish Krona" },
+  { code: "NOK", locale: "nb-NO", symbol: "kr", name: "Norwegian Krone" },
+  { code: "DKK", locale: "da-DK", symbol: "kr", name: "Danish Krone" },
+];

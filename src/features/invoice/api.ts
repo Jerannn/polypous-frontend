@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 import { api } from "@/lib/apiClient";
 import type { Meta } from "@/types/shared.types";
 
@@ -11,7 +13,6 @@ import type {
   Options,
   RecordPaymentPayload,
 } from "./types";
-import { format } from "date-fns";
 
 export const createInvoice = async (payload: InvoiceBase): Promise<Invoice> => {
   const response = await api("/invoices", {
