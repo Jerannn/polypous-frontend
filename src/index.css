@@ -138,8 +138,12 @@
 
   :root {
     --chart-1: var(--color-primary);
-    --pie-1: color-mix(in srgb, var(--color-primary) 90%, transparent);
-    --pie-2: color-mix(in srgb, var(--color-accent) 90%, transparent);
-    --pie-3: color-mix(in srgb, var(--color-destructive) 90%, transparent);
+    --pie-paid: color-mix(in srgb, var(--color-primary) 90%, transparent);
+    --pie-unpaid: color-mix(in srgb, var(--color-accent) 90%, transparent);
+    --pie-overdue: color-mix(
+      in srgb,
+      var(--color-destructive) 90%,
+      transparent
+    );
   }
 }

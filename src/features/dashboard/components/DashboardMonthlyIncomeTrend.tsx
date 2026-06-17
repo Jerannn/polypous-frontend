@@ -1,22 +1,16 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-  type ChartConfig,
 } from "@/components/ui/chart";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const chartData = [
-  { month: "Jan", income: 80 },
-  { month: "Feb", income: 200 },
-  { month: "Mar", income: 120 },
-  { month: "Apr", income: 190 },
-  { month: "May", income: 130 },
-  { month: "Jun", income: 140 },
-];
+import type { MonthlyIncome } from "../types";
 
 const chartConfig = {
   income: {
@@ -25,7 +19,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export default function DashboardMonthlyIncomeTrend() {
+type DashboardMonthlyIncomeTrendProps = {
+  monthlyIncome: MonthlyIncome[];
+};
+
+export default function DashboardMonthlyIncomeTrend({
+  monthlyIncome,
+}: DashboardMonthlyIncomeTrendProps) {
   return (
     <Card>
       <CardHeader>
@@ -33,7 +33,7 @@ export default function DashboardMonthlyIncomeTrend() {
       </CardHeader>
       <CardContent className="ps-0">
         <ChartContainer config={chartConfig} className="h-full w-full">
-          <BarChart accessibilityLayer data={chartData}>
+          <BarChart accessibilityLayer data={monthlyIncome}>
             <CartesianGrid vertical={true} />
             <XAxis
               dataKey="month"

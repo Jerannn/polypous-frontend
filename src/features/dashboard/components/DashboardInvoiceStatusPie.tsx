@@ -1,19 +1,16 @@
 import { LabelList, Pie, PieChart } from "recharts";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-  type ChartConfig,
 } from "@/components/ui/chart";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const chartData = [
-  { status: "paid", count: 80, fill: "var(--pie-1)" },
-  { status: "unpaid", count: 200, fill: "var(--pie-2)" },
-  { status: "overdue", count: 120, fill: "var(--pie-3)" },
-];
+import type { InvoiceStatus } from "../types";
 
 const chartConfig = {
   paid: {
@@ -27,7 +24,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export default function DashboardInvoiceStatusPie() {
+type DashboardInvoiceStatusPieProps = {
+  invoiceStatus: InvoiceStatus[];
+};
+
+export default function DashboardInvoiceStatusPie({
+  invoiceStatus,
+}: DashboardInvoiceStatusPieProps) {
   return (
     <Card>
       <CardHeader>
@@ -37,7 +40,11 @@ export default function DashboardInvoiceStatusPie() {
         <ChartContainer config={chartConfig} className="h-full w-full">
           <PieChart>
             <Pie
-              data={chartData}
+              data={invoiceStatus.map((invoice) => ({
+                ...invoice,
+                status: invoice.status.toLowerCase(),
+                fill: `var(--pie-${invoice.status.toLowerCase()})`,
+              }))}
               dataKey="count"
               label={({ payload, ...props }) => {
                 return (

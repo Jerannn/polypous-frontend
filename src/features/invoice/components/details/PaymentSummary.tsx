@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldLabel } from "@/components/ui/field";
 import {
@@ -7,11 +8,10 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
 import RecordPayment from "../RecordPayment";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
 
 export default function PaymentSummary() {
   const { invoice, currency } = useInvoiceDetails();

@@ -1,10 +1,10 @@
+import { format } from "date-fns";
 import { BadgeDollarSign, CalendarDays, Wallet } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
 
 import StatsCard from "../../../components/StatsCard";
 import useRetrievePaymentStats from "../hooks/use-retrieve-payment-stats";
-import { format } from "date-fns";
 
 export default function PaymentStats() {
   const { stats } = useRetrievePaymentStats();

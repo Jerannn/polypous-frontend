@@ -1,42 +1,42 @@
-import StatsCard from "@/components/StatsCard";
-import { Card, CardContent } from "@/components/ui/card";
 import { BadgeCheck, BadgeDollarSign, Clock, OctagonAlert } from "lucide-react";
 
-const stats = {
-  totalIncome: "999.99",
-  paidInvoices: "28",
-  unpaidInvoices: "9",
-  overdueInvoices: "3",
+import StatsCard from "@/components/StatsCard";
+import { Card, CardContent } from "@/components/ui/card";
+
+import type { Stats } from "../types";
+
+type DashboardStatsProps = {
+  stats: Stats;
 };
 
-export default function DashboardStats() {
+export default function DashboardStats({ stats }: DashboardStatsProps) {
   return (
     <Card className="bg-transparent ring-0">
       <CardContent className="flex justify-start gap-4 px-0">
         <StatsCard
           title={"Total Income"}
-          value={`$${stats?.totalIncome || "0"}`}
+          value={`$${stats?.totalMonthlyRevenue || "0"}`}
           description={"This month"}
           icon={BadgeDollarSign}
         />
 
         <StatsCard
           title={"Paid Invoices"}
-          value={`${stats?.paidInvoices || "0"}`}
+          value={`${stats?.paidCount || "0"}`}
           description={"Successfully paid"}
           icon={BadgeCheck}
         />
 
         <StatsCard
           title={"Unpaid Invoices"}
-          value={stats?.unpaidInvoices || "0"}
+          value={stats?.unpaidCount || "0"}
           description={"Awaiting payment"}
           icon={Clock}
         />
 
         <StatsCard
           title={"Overdue Invoices"}
-          value={`${stats?.overdueInvoices || "0"}`}
+          value={`${stats?.overdueCount || "0"}`}
           description={"Needs attention"}
           icon={OctagonAlert}
         />

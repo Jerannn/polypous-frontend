@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { paymentKeys } from "../queryKeys";
+
 import { retrievePaymentStats as retrievePaymentStatsApi } from "../api";
+import { paymentKeys } from "../queryKeys";
 
 export default function useRetrievePaymentStats() {
   const {
