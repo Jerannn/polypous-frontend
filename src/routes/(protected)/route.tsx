@@ -1,7 +1,11 @@
-import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Outlet,
+  redirect,
+  useLocation,
+} from "@tanstack/react-router";
 
 import AppSidebar from "@/components/dashboard/sidebar/AppSidebar";
-import ProtectedRoutePending from "@/components/routing/ProtectedRoutePending";
 import RouteError from "@/components/routing/RouteError";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -9,13 +13,20 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { authGuard } from "@/features/auth/utils/authGuard";
 import { APP_NAME, getNavItemByPathname } from "@/utils/constants";
 
 export const Route = createFileRoute("/(protected)")({
+  beforeLoad: ({ context, location }) => {
+    if (!context.auth.isAuthenticated) {
+      throw redirect({
+        to: "/auth/login",
+        search: {
+          redirect: location.href,
+        },
+      });
+    }
+  },
   component: ProtectedLayout,
-  loader: () => authGuard(),
-  pendingComponent: ProtectedRoutePending,
   errorComponent: (props) => (
     <RouteError {...props} title="Unable to verify your session" showSignIn />
   ),

@@ -1,20 +1,27 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import type { AuthState } from "@/features/auth/AuthProvider";
 
-const RootLayout = () => (
-  <>
-    <div className="bg-background">
-      <TooltipProvider>
-        <Outlet />
-      </TooltipProvider>
+interface MyRouterContext {
+  auth: AuthState;
+}
 
-      <Toaster position="top-center" />
-    </div>
-    {import.meta.env.DEV && <TanStackRouterDevtools position="bottom-right" />}
-  </>
-);
+export const Route = createRootRouteWithContext<MyRouterContext>()({
+  component: () => (
+    <>
+      <div className="bg-background">
+        <TooltipProvider>
+          <Outlet />
+        </TooltipProvider>
 
-export const Route = createRootRoute({ component: RootLayout });
+        <Toaster position="top-center" />
+      </div>
+      {import.meta.env.DEV && (
+        <TanStackRouterDevtools position="bottom-right" />
+      )}
+    </>
+  ),
+});

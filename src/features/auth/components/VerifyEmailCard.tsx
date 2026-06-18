@@ -35,11 +35,14 @@ export default function VerifyEmailCard() {
     defaultValues: { otp: "" },
     reValidateMode: "onSubmit",
   });
+
   const navigate = useNavigate();
+
   const { email } = routeApi.useSearch();
   const { data: otpData } = useSuspenseQuery(
     otpQueryOptions(email, "register"),
   );
+
   const initialExpiry =
     otpData?.status === "success" ? otpData.data.otp.expiresAt : null;
   const { countdown, setExpiresAt, isTimerActive } = useOtpTimer(initialExpiry);

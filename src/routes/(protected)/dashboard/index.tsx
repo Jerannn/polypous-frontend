@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import PendingState from "@/components/states/PendingState";
 import DashboardContainer from "@/features/dashboard/components/DashboardContainer";
 import { overviewQueryOptions } from "@/features/dashboard/queries";
 import { queryClient } from "@/lib/queryClient";
@@ -9,6 +10,7 @@ export const Route = createFileRoute("/(protected)/dashboard/")({
   loader: async () => {
     await queryClient.ensureQueryData(overviewQueryOptions());
   },
+  pendingComponent: () => <PendingState />,
 });
 
 function DashboardPage() {

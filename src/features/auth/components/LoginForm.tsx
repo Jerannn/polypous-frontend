@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { getRouteApi, Link, useNavigate } from "@tanstack/react-router";
 import { EyeOffIcon, Lock, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -25,14 +25,19 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import useLogin from "@/features/auth/hooks/use-login";
 import { loginSchema } from "@/features/auth/schema";
 import type { LoginPayload } from "@/features/auth/types";
 import { ApiError } from "@/utils/apiError";
 
+import { useAuth } from "../AuthProvider";
+
+const routeApi = getRouteApi("/(public)/auth/login/");
+
 export default function LoginForm() {
   const navigate = useNavigate();
-  const { login, isLoggingIn } = useLogin();
+  const { login, isLoggingIn } = useAuth();
+  const { redirect } = routeApi.useSearch();
+
   const {
     register,
     handleSubmit,
@@ -40,18 +45,19 @@ export default function LoginForm() {
     setError,
   } = useForm<LoginPayload>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "jeran@gmail.com",
+      password: "jeran123",
+    },
   });
 
   const onSubmit = async (data: LoginPayload) => {
     try {
-      const user = await login(data);
-      if (user) {
-        navigate({
-          to: "/dashboard",
-          replace: true,
-        });
-        toast.success("Logged in successfully!");
-      }
+      await login(data.email, data.password);
+      navigate({
+        to: redirect,
+      });
+      toast.success("Logged in successfully!");
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         const errorData = error.error;
