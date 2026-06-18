@@ -25,13 +25,14 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import useRegister from "@/features/auth/hooks/use-register";
 import { registerSchema } from "@/features/auth/schema";
 import type { RegisterPayload } from "@/features/auth/types";
 import { ApiError } from "@/utils/apiError";
 
+import { useAuth } from "../AuthProvider";
+
 export default function RegisterForm() {
-  const { registerUser, isRegistering } = useRegister();
+  const { register: registerUser, isRegistering } = useAuth();
   const navigate = useNavigate();
 
   const {
@@ -45,15 +46,13 @@ export default function RegisterForm() {
 
   const onSubmit = async (data: RegisterPayload) => {
     try {
-      const newUser = await registerUser(data);
-      if (newUser) {
-        navigate({
-          to: "/auth/verify-email",
-          search: {
-            email: newUser.email,
-          },
-        });
-      }
+      await registerUser(data);
+      navigate({
+        to: "/auth/verify-email",
+        search: {
+          email: data.email,
+        },
+      });
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         const errorData = error.error;
@@ -197,6 +196,7 @@ export default function RegisterForm() {
             Already have an account?
             <Link
               to="/auth/login"
+              search={{ redirect: "dashboard" }}
               className="pl-1 text-primary hover:underline"
             >
               Log in

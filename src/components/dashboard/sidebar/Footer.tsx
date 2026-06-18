@@ -16,12 +16,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import useLogout from "@/features/auth/hooks/use-logout";
-import useAuthStore from "@/features/auth/store";
+import { useAuth } from "@/features/auth/AuthProvider";
 
 export default function Footer() {
-  const user = useAuthStore((state) => state.user);
-  const { logout, isLoggingOut } = useLogout();
+  const { logout, isLoggingOut, user } = useAuth();
   const { isMobile } = useSidebar();
 
   return (

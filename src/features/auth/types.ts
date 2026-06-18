@@ -18,12 +18,10 @@ export type User = {
   readonly id: string;
   fullName: string;
   email: string;
-  passwordHash: string | undefined;
   currency: string;
   avatarUrl: string | null;
   publicId: string | null;
-  created_at: Date;
-  updated_at: Date;
+  isActive: boolean;
 };
 
 export type Otp = {

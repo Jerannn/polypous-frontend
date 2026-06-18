@@ -1,15 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { login as loginApi } from "../api";
-import { syncAuthUser } from "../utils/authSession";
+import { authKeys } from "../queryKeys";
 
 export default function useLogin() {
   const { mutateAsync: login, isPending: isLoggingIn } = useMutation({
-    mutationKey: ["login"],
+    mutationKey: authKeys.login(),
     mutationFn: loginApi,
-    onSuccess: (user) => {
-      syncAuthUser(user);
-    },
   });
   return { login, isLoggingIn };
 }

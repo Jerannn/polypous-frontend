@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
+import PendingState from "@/components/states/PendingState";
 import { InvoiceFormProvider } from "@/features/invoice/components/context/InvoiceFormContext";
 import InvoiceForm from "@/features/invoice/components/form/InvoiceForm";
 import { invoiceQueryOptions } from "@/features/invoice/queries";
@@ -11,6 +12,7 @@ export const Route = createFileRoute("/(protected)/invoices/$invoiceId/edit")({
   loader: async ({ params }) => {
     await queryClient.ensureQueryData(invoiceQueryOptions(params.invoiceId));
   },
+  pendingComponent: () => <PendingState />,
 });
 
 function EditInvoice() {

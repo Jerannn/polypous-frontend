@@ -1,19 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
 
 import { logout as logoutApi } from "../api";
-import { clearAuthSession } from "../utils/authSession";
+import { authKeys } from "../queryKeys";
 
 export default function useLogout() {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { mutate: logout, isPending: isLoggingOut } = useMutation({
+  const { mutateAsync: logout, isPending: isLoggingOut } = useMutation({
     mutationFn: logoutApi,
-    onSettled: () => {
-      clearAuthSession();
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: authKeys.me() });
       queryClient.clear();
-      navigate({ to: "/auth/login", replace: true });
     },
   });
 
