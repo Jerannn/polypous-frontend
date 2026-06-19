@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import { CircleUser, EllipsisVertical, LogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -19,6 +20,7 @@ import {
 import { useAuth } from "@/features/auth/AuthProvider";
 
 export default function Footer() {
+  const navigate = useNavigate();
   const { logout, isLoggingOut, user } = useAuth();
   const { isMobile } = useSidebar();
 
@@ -86,9 +88,11 @@ export default function Footer() {
             <DropdownMenuItem
               variant="destructive"
               disabled={isLoggingOut}
-              onSelect={(event) => {
+              onSelect={async (event) => {
                 event.preventDefault();
-                logout();
+                if (await logout()) {
+                  navigate({ to: "/auth/login" });
+                }
               }}
             >
               <LogOut />

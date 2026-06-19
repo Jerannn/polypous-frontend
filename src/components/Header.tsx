@@ -17,9 +17,7 @@ export default function Header() {
 
         <div className="flex items-center gap-5">
           <Button className="py-4 px-4" asChild>
-            <Link to="/auth/login" search={{ redirect: "/dashboard" }}>
-              Login
-            </Link>
+            <Link to="/auth/login">Login</Link>
           </Button>
         </div>
       </div>

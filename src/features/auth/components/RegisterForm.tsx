@@ -196,7 +196,6 @@ export default function RegisterForm() {
             Already have an account?
             <Link
               to="/auth/login"
-              search={{ redirect: "dashboard" }}
               className="pl-1 text-primary hover:underline"
             >
               Log in

@@ -20,7 +20,7 @@ export interface AuthState {
   // actions
   login: (email: string, password: string) => Promise<void>;
   register: (payload: RegisterPayload) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthState | undefined>(undefined);
@@ -54,9 +54,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await registerUser(payload);
   };
 
-  const logout = async () => {
-    await logoutUser();
+  const logout = async (): Promise<boolean> => {
     setUser(null);
+
+    try {
+      await logoutUser();
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+
+    return true;
   };
 
   return (

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getRouteApi, Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { EyeOffIcon, Lock, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -31,12 +31,9 @@ import { ApiError } from "@/utils/apiError";
 
 import { useAuth } from "../AuthProvider";
 
-const routeApi = getRouteApi("/(public)/auth/login/");
-
 export default function LoginForm() {
   const navigate = useNavigate();
   const { login, isLoggingIn } = useAuth();
-  const { redirect } = routeApi.useSearch();
 
   const {
     register,
@@ -55,7 +52,7 @@ export default function LoginForm() {
     try {
       await login(data.email, data.password);
       navigate({
-        to: redirect,
+        to: "/dashboard",
       });
       toast.success("Logged in successfully!");
     } catch (error: unknown) {

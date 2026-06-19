@@ -11,8 +11,8 @@ export default function useCheckAuth() {
   } = useQuery({
     queryKey: authKeys.me(),
     queryFn: getMeApi,
-    staleTime: 5 * 60 * 1000,
     retry: false,
   });
+
   return { currentUser, isCheckingAuth, isError };
 }

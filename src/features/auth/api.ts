@@ -71,12 +71,10 @@ export const getMe = async (): Promise<User> => {
   return response.data.user;
 };
 
-export const logout = async (): Promise<void> => {
-  try {
-    await api("/auth/logout", {
-      method: "POST",
-    });
-  } catch {
-    // Cookie may already be cleared; client session cleanup still runs.
-  }
+export const logout = async (): Promise<string> => {
+  const response = await api("/auth/logout", {
+    method: "POST",
+  });
+
+  return response.status;
 };
