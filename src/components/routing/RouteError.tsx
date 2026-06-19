@@ -60,7 +60,6 @@ export default function RouteError({
               onClick={() =>
                 router.navigate({
                   to: "/auth/login",
-                  search: { redirect: "/" },
                   replace: true,
                 })
               }
