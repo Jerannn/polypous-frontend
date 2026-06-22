@@ -1,5 +1,6 @@
 import { api } from "@/lib/apiClient";
 import type { FailResponse, SuccessResponse } from "@/types/response.types";
+import { ApiError } from "@/utils/apiError";
 
 import type {
   LoginPayload,
@@ -59,16 +60,23 @@ export const resendOtp = async (payload: ResendOtpPayload): Promise<Otp> => {
   return response.data.otp;
 };
 
-export const getMe = async (): Promise<User> => {
-  const response = await api("/users/me", {
-    method: "GET",
-  });
+export const getMe = async (): Promise<User | null> => {
+  try {
+    const response = await api("/users/me", {
+      method: "GET",
+    });
 
-  if (response.status === "fail") {
-    throw new Error(response.message);
+    if (response.status === "fail") {
+      return null;
+    }
+
+    return response.data.user;
+  } catch (error) {
+    if (error instanceof ApiError && error.statusCode === 401) {
+      return null;
+    }
+    throw error;
   }
-
-  return response.data.user;
 };
 
 export const logout = async (): Promise<string> => {

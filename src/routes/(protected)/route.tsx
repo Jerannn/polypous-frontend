@@ -6,7 +6,6 @@ import {
 } from "@tanstack/react-router";
 
 import AppSidebar from "@/components/dashboard/sidebar/AppSidebar";
-import ProtectedRoutePending from "@/components/routing/ProtectedRoutePending";
 import RouteError from "@/components/routing/RouteError";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -14,12 +13,12 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { useAuth } from "@/features/auth/AuthProvider";
+import { getMeFromCache } from "@/features/auth/queries";
 import { APP_NAME, getNavItemByPathname } from "@/utils/constants";
 
 export const Route = createFileRoute("/(protected)")({
   beforeLoad: ({ context }) => {
-    if (!context.auth.isAuthenticated) {
+    if (!getMeFromCache(context.queryClient)) {
       throw redirect({
         to: "/auth/login",
       });
@@ -35,11 +34,8 @@ export const Route = createFileRoute("/(protected)")({
 });
 
 function ProtectedLayout() {
-  const { isAuthenticated } = useAuth();
   const location = useLocation();
   const navItem = getNavItemByPathname(location.pathname);
-
-  if (!isAuthenticated) return <ProtectedRoutePending />;
 
   return (
     <div className="min-h-svh">

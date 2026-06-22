@@ -1,8 +1,4 @@
-import {
-  type ErrorComponentProps,
-  isRedirect,
-  useRouter,
-} from "@tanstack/react-router";
+import { type ErrorComponentProps, isRedirect } from "@tanstack/react-router";
 import { AlertCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -24,10 +20,7 @@ export default function RouteError({
   error,
   reset,
   title = "Unable to load this page",
-  showSignIn = false,
 }: RouteErrorProps) {
-  const router = useRouter();
-
   if (isRedirect(error)) {
     throw error;
   }
@@ -40,7 +33,7 @@ export default function RouteError({
         : "Something went wrong. Please try again.";
 
   return (
-    <div className="flex min-h-[50vh] items-center justify-center p-6">
+    <div className="flex min-h-screen items-center justify-center p-6">
       <Empty className="max-w-md border-none">
         <EmptyMedia variant="icon">
           <AlertCircle className="text-destructive" />
@@ -53,20 +46,6 @@ export default function RouteError({
           <Button type="button" onClick={() => reset()}>
             Try again
           </Button>
-          {showSignIn && (
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() =>
-                router.navigate({
-                  to: "/auth/login",
-                  replace: true,
-                })
-              }
-            >
-              Sign in
-            </Button>
-          )}
         </div>
       </Empty>
     </div>
