@@ -11,9 +11,11 @@ import {
 import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 export default function PaymentHistory() {
-  const { invoice, currency } = useInvoiceDetails();
+  const { invoice } = useInvoiceDetails();
+  const formatCurrency = useCurrencyFormatter();
 
   return (
     <Card className="p-4">
@@ -31,15 +33,7 @@ export default function PaymentHistory() {
             </ItemMedia>
             <ItemContent className="flex-row justify-between gap-0">
               <div>
-                <ItemTitle>
-                  {currency} {payment.amount}
-                </ItemTitle>
-                {/* <ItemDescription className="capitalize text-xs">
-                  {payment.paymentMethod}
-                </ItemDescription>
-                <span className="text-muted-foreground text-xs">
-                  {payment.referenceNumber}
-                </span> */}
+                <ItemTitle>{formatCurrency(payment.amount)}</ItemTitle>
               </div>
 
               <span className="text-muted-foreground text-xs">

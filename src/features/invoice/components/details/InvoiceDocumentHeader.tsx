@@ -4,9 +4,12 @@ import logo from "@/assets/img/logo.svg";
 import { CardHeader } from "@/components/ui/card";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 export default function InvoiceDocumentHeader() {
-  const { invoice, currency } = useInvoiceDetails();
+  const { invoice } = useInvoiceDetails();
+  const formatCurrency = useCurrencyFormatter();
+
   return (
     <CardHeader className="px-0">
       <img src={logo} alt="Polypous Logo" className="w-7 h-7 object-contain" />
@@ -35,7 +38,7 @@ export default function InvoiceDocumentHeader() {
           BALANCE DUE
         </p>
         <p className="text-lg font-bold text-foreground print:text-black">
-          {currency} {invoice?.balance}
+          {formatCurrency(invoice?.balance)}
         </p>
       </div>
     </CardHeader>

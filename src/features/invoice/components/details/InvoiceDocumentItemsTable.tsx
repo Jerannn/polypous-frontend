@@ -8,9 +8,11 @@ import {
 } from "@/components/ui/table";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 export default function InvoiceDocumentItemsTable() {
   const { invoice } = useInvoiceDetails();
+  const formatCurrency = useCurrencyFormatter();
 
   return (
     <Table>
@@ -43,10 +45,10 @@ export default function InvoiceDocumentItemsTable() {
               {item.quantity}
             </TableCell>
             <TableCell className="text-right text-xs text-muted-foreground print:text-gray-600 py-4">
-              USD {item.unitPrice}
+              {formatCurrency(item.unitPrice)}
             </TableCell>
             <TableCell className="text-right text-xs font-semibold text-foreground print:text-black py-4">
-              USD {item.total}
+              {formatCurrency(item.total)}
             </TableCell>
           </TableRow>
         ))}

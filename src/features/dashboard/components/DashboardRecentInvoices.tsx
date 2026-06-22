@@ -19,9 +19,9 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { INVOICESTATUSCLASSES } from "@/utils/constants";
-import { formatCurrency } from "@/utils/formatCurrency";
 
 import type { RecentInvoice } from "../types";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 type DashboardRecentInvoicesProps = {
   recentInvoices: RecentInvoice[];
@@ -30,6 +30,8 @@ type DashboardRecentInvoicesProps = {
 export default function DashboardRecentInvoices({
   recentInvoices,
 }: DashboardRecentInvoicesProps) {
+  const formatCurrency = useCurrencyFormatter();
+
   return (
     <Card>
       <CardHeader>
@@ -75,7 +77,7 @@ export default function DashboardRecentInvoices({
                   )}
                 >
                   {invoice.status.toLowerCase() === "paid" && "+"}
-                  {formatCurrency(Number(invoice.total), "USD")}
+                  {formatCurrency(Number(invoice.total))}
                 </TableCell>
               </TableRow>
             ))}

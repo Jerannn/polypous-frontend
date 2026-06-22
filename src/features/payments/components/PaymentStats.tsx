@@ -5,9 +5,11 @@ import { Card, CardContent } from "@/components/ui/card";
 
 import StatsCard from "../../../components/StatsCard";
 import useRetrievePaymentStats from "../hooks/use-retrieve-payment-stats";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 export default function PaymentStats() {
   const { stats } = useRetrievePaymentStats();
+  const formatCurrency = useCurrencyFormatter();
 
   // to follow
   return (
@@ -15,14 +17,14 @@ export default function PaymentStats() {
       <CardContent className="flex justify-start gap-4 px-0">
         <StatsCard
           title={"Total Revenue"}
-          value={`$${stats?.totalRevenue || "0"}`}
+          value={`${formatCurrency(Number(stats?.totalRevenue)) || "0"}`}
           description={"All-time earnings"}
           icon={BadgeDollarSign}
         />
 
         <StatsCard
           title={"This Month"}
-          value={`$${stats?.monthlyRevenue || "0"}`}
+          value={`${formatCurrency(Number(stats?.monthlyRevenue)) || "0"}`}
           description={format(new Date(), "MMM yyyy")}
           icon={CalendarDays}
         />
@@ -36,7 +38,7 @@ export default function PaymentStats() {
 
         <StatsCard
           title={"Average Payment"}
-          value={`$${stats?.averagePayment || "0"}`}
+          value={`${formatCurrency(Number(stats?.averagePayment)) || "0"}`}
           description={"Per transaction"}
           icon={BadgeDollarSign}
         />

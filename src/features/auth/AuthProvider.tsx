@@ -1,3 +1,4 @@
+import type { UseMutateAsyncFunction } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
 
 import ProtectedRoutePending from "@/components/routing/ProtectedRoutePending";
@@ -9,7 +10,7 @@ import useLogin from "./hooks/use-login";
 import useLogout from "./hooks/use-logout";
 import useRegister from "./hooks/use-register";
 import { authKeys } from "./queryKeys";
-import type { RegisterPayload, User } from "./types";
+import type { LoginPayload, RegisterPayload, User } from "./types";
 
 export interface AuthState {
   isAuthenticated: boolean;
@@ -21,18 +22,18 @@ export interface AuthState {
   isLoggingOut: boolean;
 
   // actions
-  login: (email: string, password: string) => Promise<void>;
-  register: (payload: RegisterPayload) => Promise<void>;
-  logout: () => Promise<boolean>;
+  login: UseMutateAsyncFunction<User, Error, LoginPayload>;
+  register: UseMutateAsyncFunction<User, Error, RegisterPayload>;
+  logout: UseMutateAsyncFunction<string, Error, void>;
 }
 
 const AuthContext = createContext<AuthState | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { currentUser, isCheckingAuth, isError, error } = useCheckAuth();
-  const { login: loginUser, isLoggingIn } = useLogin();
-  const { registerUser, isRegistering } = useRegister();
-  const { logout: logoutUser, isLoggingOut } = useLogout();
+  const { login, isLoggingIn } = useLogin();
+  const { register, isRegistering } = useRegister();
+  const { logout, isLoggingOut } = useLogout();
 
   const isAuthenticated = !!currentUser;
 
@@ -45,24 +46,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       />
     );
   }
-
-  const login = async (email: string, password: string) => {
-    await loginUser({ email, password });
-  };
-
-  const register = async (payload: RegisterPayload) => {
-    await registerUser(payload);
-  };
-
-  const logout = async (): Promise<boolean> => {
-    try {
-      await logoutUser();
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-
-    return true;
-  };
 
   return (
     <AuthContext.Provider

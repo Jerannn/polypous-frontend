@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { EyeOffIcon, Lock, Mail } from "lucide-react";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -34,7 +33,7 @@ import { useAuth } from "../AuthProvider";
 
 export default function LoginForm() {
   const navigate = useNavigate();
-  const { login, isLoggingIn, isAuthenticated } = useAuth();
+  const { login, isLoggingIn } = useAuth();
 
   const {
     register,
@@ -49,16 +48,14 @@ export default function LoginForm() {
     },
   });
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate({ to: "/dashboard" });
-    }
-  }, [isAuthenticated, navigate]);
-
   const onSubmit = async (data: LoginPayload) => {
     try {
-      await login(data.email, data.password);
-      toast.success("Logged in successfully!");
+      await login(data, {
+        onSuccess: () => {
+          toast.success("Logged in successfully!");
+          navigate({ to: "/dashboard" });
+        },
+      });
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         const errorData = error.error;

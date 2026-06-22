@@ -10,7 +10,6 @@ const routeApi = getRouteApi("/(protected)/invoices/$invoiceId");
 type InvoiceDetailsContextType = {
   invoice: InvoiceWithItemsAndClient;
   invoiceId: string;
-  currency: string;
 };
 
 const InvoiceDetailsContext = createContext<
@@ -33,7 +32,6 @@ export function InvoiceDetailsProvider({
       value={{
         invoice,
         invoiceId,
-        currency: invoice?.freelancer.currency,
       }}
     >
       {children}

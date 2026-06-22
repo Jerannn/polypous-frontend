@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 
 import useDeleteInvoice from "../hooks/use-delete-invoice";
 import type { InvoiceListItem } from "../types";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 type InvoiceRowProps = {
   invoice: InvoiceListItem;
@@ -25,7 +26,7 @@ type InvoiceRowProps = {
 
 export default function InvoiceRow({ invoice }: InvoiceRowProps) {
   const { deleteInvoice, isDeleting, isError } = useDeleteInvoice();
-
+  const formatCurrency = useCurrencyFormatter();
   return (
     <TableRow key={invoice.id}>
       <TableCell className="max-w-60 font-medium">
@@ -39,7 +40,7 @@ export default function InvoiceRow({ invoice }: InvoiceRowProps) {
         {format(invoice.dueDate, "PPP")}
       </TableCell>
       <TableCell className="text-center font-medium">
-        ${invoice.total}
+        {formatCurrency(invoice.total)}
       </TableCell>
       <TableCell className="text-center">
         <Badge

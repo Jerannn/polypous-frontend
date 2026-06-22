@@ -27,11 +27,15 @@ export default function useVerifyEmailFlow({
   const handleVerify = async (data: VerifyCodePayload) => {
     clearErrors("otp");
     try {
-      const user = await verifyEmail({ email, otp: data.otp });
-      if (user) {
-        toast.success("Email verified successfully.");
-        navigate({ to: "/dashboard", replace: true });
-      }
+      await verifyEmail(
+        { email, otp: data.otp },
+        {
+          onSuccess: () => {
+            toast.success("Email verified successfully.");
+            navigate({ to: "/dashboard", replace: true });
+          },
+        },
+      );
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         const errorData = error.error;
@@ -64,11 +68,15 @@ export default function useVerifyEmailFlow({
   const handleResend = async () => {
     clearErrors("otp");
     try {
-      const newOtp = await resendOtp({ email, action: "register" });
-      if (newOtp) {
-        onResendSuccess(newOtp.expiresAt);
-        toast.success("Verification code has been resent.");
-      }
+      await resendOtp(
+        { email, action: "register" },
+        {
+          onSuccess: (newOtp) => {
+            onResendSuccess(newOtp.expiresAt);
+            toast.success("Verification code has been resent.");
+          },
+        },
+      );
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         const errorData = error.error;

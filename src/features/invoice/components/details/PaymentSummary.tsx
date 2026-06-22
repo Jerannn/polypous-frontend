@@ -12,9 +12,11 @@ import { cn } from "@/lib/utils";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
 import RecordPayment from "../RecordPayment";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 export default function PaymentSummary() {
-  const { invoice, currency } = useInvoiceDetails();
+  const { invoice } = useInvoiceDetails();
+  const formatCurrency = useCurrencyFormatter();
 
   const paymentPercentage = (invoice?.amountPaid / invoice?.total) * 100;
   return (
@@ -35,8 +37,9 @@ export default function PaymentSummary() {
               {invoice?.balance ? "Balance Due" : "Total Paid"}
             </ItemTitle>
             <ItemDescription className="text-2xl font-bold text-foreground">
-              {currency}{" "}
-              {invoice?.balance ? invoice?.balance : invoice?.amountPaid}
+              {formatCurrency(
+                invoice?.balance ? invoice?.balance : invoice?.amountPaid,
+              )}
             </ItemDescription>
             <Badge variant="outline">
               <span
@@ -58,7 +61,8 @@ export default function PaymentSummary() {
           <Progress value={paymentPercentage} />
           <FieldLabel>
             <span>
-              {currency} {invoice?.amountPaid} / {currency} {invoice?.total}
+              {formatCurrency(invoice?.amountPaid)} /{" "}
+              {formatCurrency(invoice?.total)}
             </span>
             <span className="ml-auto">{paymentPercentage.toFixed(2)}%</span>
           </FieldLabel>

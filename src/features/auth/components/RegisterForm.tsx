@@ -46,11 +46,14 @@ export default function RegisterForm() {
 
   const onSubmit = async (data: RegisterPayload) => {
     try {
-      await registerUser(data);
-      navigate({
-        to: "/auth/verify-email",
-        search: {
-          email: data.email,
+      await registerUser(data, {
+        onSuccess: () => {
+          navigate({
+            to: "/auth/verify-email",
+            search: {
+              email: data.email,
+            },
+          });
         },
       });
     } catch (error: unknown) {

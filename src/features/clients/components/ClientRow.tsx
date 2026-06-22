@@ -14,6 +14,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import useDeleteClient from "../hooks/use-delete-client";
 import type { Client } from "../types";
 import ClientForm from "./ClientForm";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 type ClientRowProps = {
   client: Client;
@@ -21,6 +22,8 @@ type ClientRowProps = {
 
 export default function ClientRow({ client }: ClientRowProps) {
   const { deleteClient, isDeleting, isError } = useDeleteClient();
+
+  const formatCurrency = useCurrencyFormatter();
 
   return (
     <TableRow key={client.id}>
@@ -68,10 +71,10 @@ export default function ClientRow({ client }: ClientRowProps) {
       </TableCell>
       <TableCell className="text-center">{client.invoiceCount}</TableCell>
       <TableCell className="text-primary text-center">
-        ${client.totalPaid}
+        {formatCurrency(client.totalPaid)}
       </TableCell>
       <TableCell className="text-accent text-center">
-        ${client.totalUnpaid}
+        {formatCurrency(client.totalUnpaid)}
       </TableCell>
       <TableCell className="flex items-center justify-end text-right space-x-3">
         <ClientForm
