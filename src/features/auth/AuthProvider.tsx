@@ -1,11 +1,14 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext } from "react";
 
 import ProtectedRoutePending from "@/components/routing/ProtectedRoutePending";
+import RouteError from "@/components/routing/RouteError";
+import { queryClient } from "@/lib/queryClient";
 
 import useCheckAuth from "./hooks/use-check-auth";
 import useLogin from "./hooks/use-login";
 import useLogout from "./hooks/use-logout";
 import useRegister from "./hooks/use-register";
+import { authKeys } from "./queryKeys";
 import type { RegisterPayload, User } from "./types";
 
 export interface AuthState {
@@ -26,28 +29,25 @@ export interface AuthState {
 const AuthContext = createContext<AuthState | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-
-  const { currentUser, isCheckingAuth } = useCheckAuth();
+  const { currentUser, isCheckingAuth, isError, error } = useCheckAuth();
   const { login: loginUser, isLoggingIn } = useLogin();
   const { registerUser, isRegistering } = useRegister();
   const { logout: logoutUser, isLoggingOut } = useLogout();
 
-  const isAuthenticated = !!user;
-
-  useEffect(() => {
-    if (currentUser) {
-      setUser(currentUser);
-    }
-  }, [currentUser]);
+  const isAuthenticated = !!currentUser;
 
   if (isCheckingAuth) return <ProtectedRoutePending />;
+  if (isError && error) {
+    return (
+      <RouteError
+        error={error}
+        reset={() => queryClient.invalidateQueries({ queryKey: authKeys.me() })}
+      />
+    );
+  }
 
   const login = async (email: string, password: string) => {
-    const response = await loginUser({ email, password });
-    if (response) {
-      setUser(response);
-    }
+    await loginUser({ email, password });
   };
 
   const register = async (payload: RegisterPayload) => {
@@ -55,8 +55,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async (): Promise<boolean> => {
-    setUser(null);
-
     try {
       await logoutUser();
     } catch (error) {
@@ -70,7 +68,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        user,
+        user: currentUser || null,
         isLoggingIn,
         isRegistering,
         isLoggingOut,

@@ -1,6 +1,9 @@
+import { authKeys } from "@/features/auth/queryKeys";
 import type { FailResponse } from "@/types/response.types";
 import { ApiError } from "@/utils/apiError";
 import env from "@/utils/env";
+
+import { queryClient } from "./queryClient";
 
 export async function api(path: string, options?: RequestInit) {
   try {
@@ -17,6 +20,10 @@ export async function api(path: string, options?: RequestInit) {
     });
 
     if (!res.ok) {
+      if (res.status === 401 && !path.endsWith("/users/me")) {
+        queryClient.setQueryData(authKeys.me(), null);
+      }
+
       const errorData = (await res.json()) as FailResponse;
 
       throw new ApiError(

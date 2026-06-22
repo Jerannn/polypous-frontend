@@ -1,18 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getMe as getMeApi } from "../api";
-import { authKeys } from "../queryKeys";
+import { meQueryOptions } from "../queries";
 
 export default function useCheckAuth() {
   const {
     data: currentUser,
     isPending: isCheckingAuth,
     isError,
-  } = useQuery({
-    queryKey: authKeys.me(),
-    queryFn: getMeApi,
-    retry: false,
-  });
+    error,
+    isFetching,
+  } = useQuery(meQueryOptions());
 
-  return { currentUser, isCheckingAuth, isError };
+  return { currentUser, isCheckingAuth, isError, error, isFetching };
 }

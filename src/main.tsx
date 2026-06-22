@@ -6,7 +6,6 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 
 import App from "./App";
-import RouteError from "./components/routing/RouteError";
 import { AuthProvider } from "./features/auth/AuthProvider";
 import { queryClient } from "./lib/queryClient";
 // Import the generated route tree
@@ -20,10 +19,10 @@ export const router = createRouter({
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
   defaultPendingMs: 0,
-  defaultErrorComponent: (props) => <RouteError {...props} />,
   defaultNotFoundComponent: () => <h1>Page not found - 404</h1>,
   context: {
     auth: undefined!,
+    queryClient,
   },
 });
 
