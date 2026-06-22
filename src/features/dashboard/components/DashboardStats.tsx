@@ -4,18 +4,21 @@ import StatsCard from "@/components/StatsCard";
 import { Card, CardContent } from "@/components/ui/card";
 
 import type { Stats } from "../types";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 type DashboardStatsProps = {
   stats: Stats;
 };
 
 export default function DashboardStats({ stats }: DashboardStatsProps) {
+  const formatCurrency = useCurrencyFormatter();
+
   return (
     <Card className="bg-transparent ring-0">
       <CardContent className="flex justify-start gap-4 px-0">
         <StatsCard
           title={"Total Income"}
-          value={`$${stats?.totalMonthlyRevenue || "0"}`}
+          value={`${formatCurrency(Number(stats?.totalMonthlyRevenue)) || "0"}`}
           description={"This month"}
           icon={BadgeDollarSign}
         />

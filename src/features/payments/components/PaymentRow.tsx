@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 
 import type { PaymentListItem } from "../types";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 type PaymentRowProps = {
   payment: PaymentListItem;
@@ -14,6 +15,7 @@ type PaymentRowProps = {
 
 export default function PaymentRow({ payment }: PaymentRowProps) {
   const [isCopied, setIsCopied] = useState(false);
+  const formatCurrency = useCurrencyFormatter();
 
   const handleCopy = async () => {
     if (!payment.referenceNumber) return;
@@ -33,7 +35,9 @@ export default function PaymentRow({ payment }: PaymentRowProps) {
       <TableCell>{format(payment.paymentDate, "PPP")}</TableCell>
       <TableCell>{payment.invoiceNumber}</TableCell>
       <TableCell>{payment.clientName}</TableCell>
-      <TableCell className="text-primary">${payment.amount}</TableCell>
+      <TableCell className="text-primary">
+        {formatCurrency(payment.amount)}
+      </TableCell>
       <TableCell>
         <Badge variant="default">{payment.paymentMethod}</Badge>
       </TableCell>

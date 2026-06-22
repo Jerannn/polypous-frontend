@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { clientsKeys } from "@/features/clients/queryKeys";
+import { dashboardKeys } from "@/features/dashboard/queryKeys";
 import { invoiceKeys } from "@/features/invoice/queryKeys";
 import { paymentKeys } from "@/features/payments/queryKeys";
 
@@ -20,6 +21,7 @@ export default function useLogout() {
       queryClient.removeQueries({ queryKey: invoiceKeys.all });
       queryClient.removeQueries({ queryKey: clientsKeys.all });
       queryClient.removeQueries({ queryKey: paymentKeys.all });
+      queryClient.removeQueries({ queryKey: dashboardKeys.all });
       queryClient.setQueryData(authKeys.me(), null);
     },
   });

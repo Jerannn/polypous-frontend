@@ -90,9 +90,8 @@ export default function Footer() {
               disabled={isLoggingOut}
               onSelect={async (event) => {
                 event.preventDefault();
-                if (await logout()) {
-                  navigate({ to: "/auth/login" });
-                }
+                await logout();
+                navigate({ to: "/auth/login" });
               }}
             >
               <LogOut />
