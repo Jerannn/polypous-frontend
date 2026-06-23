@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/chart";
 
 import type { MonthlyIncome } from "../types";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 const chartConfig = {
   income: {
@@ -26,6 +27,8 @@ type DashboardMonthlyIncomeTrendProps = {
 export default function DashboardMonthlyIncomeTrend({
   monthlyIncome,
 }: DashboardMonthlyIncomeTrendProps) {
+  const formatCurrency = useCurrencyFormatter();
+
   return (
     <Card>
       <CardHeader>
@@ -42,10 +45,34 @@ export default function DashboardMonthlyIncomeTrend({
               axisLine={true}
               tickFormatter={(value) => value.slice(0, 3)}
             />
-            <YAxis />
+            <YAxis
+              width={85}
+              tickFormatter={(value) => formatCurrency(value)}
+            />
 
             <Bar dataKey="income" fill="var(--color-income)" radius={4} />
-            <ChartTooltip content={<ChartTooltipContent />} />
+            <ChartTooltip
+              formatter={(value, name, payload) => {
+                const month = payload?.payload?.month;
+                return (
+                  <div className="w-full flex gap-2">
+                    <div className="h-full w-1 bg-primary rounded-lg"></div>
+                    <div>
+                      <h1 className="font-medium">{month}</h1>
+                      <div className="flex justify-between items-center gap-2">
+                        <span className="text-muted-foreground capitalize">
+                          {name}
+                        </span>
+                        <span className="font-mono font-medium text-foreground tabular-nums">
+                          {formatCurrency(Number(value))}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }}
+              content={<ChartTooltipContent indicator="line" />}
+            />
             <ChartLegend content={<ChartLegendContent />} />
           </BarChart>
         </ChartContainer>
