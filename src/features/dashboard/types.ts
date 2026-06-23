@@ -7,7 +7,7 @@ export type Stats = {
 
 export type MonthlyIncome = {
   month: string;
-  amount: number;
+  income: number;
 };
 
 export type InvoiceStatus = {
