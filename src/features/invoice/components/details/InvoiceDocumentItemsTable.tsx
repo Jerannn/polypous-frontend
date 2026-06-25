@@ -6,9 +6,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
-import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 export default function InvoiceDocumentItemsTable() {
   const { invoice } = useInvoiceDetails();

@@ -5,9 +5,9 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 import type { PaymentListItem } from "../types";
-import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 type PaymentRowProps = {
   payment: PaymentListItem;

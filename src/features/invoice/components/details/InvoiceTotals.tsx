@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
-import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 export default function InvoiceTotals() {
   const { invoice } = useInvoiceDetails();

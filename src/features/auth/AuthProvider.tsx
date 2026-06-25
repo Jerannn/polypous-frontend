@@ -39,10 +39,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   if (isCheckingAuth) return <ProtectedRoutePending />;
   if (isError && error) {
+    console.log(error, "error", isError);
     return (
       <RouteError
         error={error}
         reset={() => queryClient.invalidateQueries({ queryKey: authKeys.me() })}
+        showSignIn={!isAuthenticated}
       />
     );
   }

@@ -19,12 +19,17 @@ export async function api(path: string, options?: RequestInit) {
       headers,
     });
 
+    const contentType = res.headers.get("content-type");
+    let data: any = null;
+    if (contentType && contentType.includes("application/json")) {
+      data = await res.json(); // Consumes the stream once
+    }
+
     if (!res.ok) {
       if (res.status === 401 && !path.endsWith("/users/me")) {
         queryClient.setQueryData(authKeys.me(), null);
       }
-
-      const errorData = (await res.json()) as FailResponse;
+      const errorData = data as FailResponse;
 
       throw new ApiError(
         errorData.message || res.statusText,
@@ -33,7 +38,7 @@ export async function api(path: string, options?: RequestInit) {
       );
     }
 
-    return await res.json();
+    return data;
   } catch (error) {
     console.error("Error:", error);
     throw error;

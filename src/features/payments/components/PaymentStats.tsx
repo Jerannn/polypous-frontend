@@ -2,10 +2,10 @@ import { format } from "date-fns";
 import { BadgeDollarSign, CalendarDays, Wallet } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 import StatsCard from "../../../components/StatsCard";
 import useRetrievePaymentStats from "../hooks/use-retrieve-payment-stats";
-import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 export default function PaymentStats() {
   const { stats } = useRetrievePaymentStats();

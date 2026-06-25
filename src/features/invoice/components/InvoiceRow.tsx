@@ -14,11 +14,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 import { cn } from "@/lib/utils";
 
 import useDeleteInvoice from "../hooks/use-delete-invoice";
 import type { InvoiceListItem } from "../types";
-import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 type InvoiceRowProps = {
   invoice: InvoiceListItem;

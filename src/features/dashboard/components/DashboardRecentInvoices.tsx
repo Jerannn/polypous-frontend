@@ -17,11 +17,11 @@ import {
   TableFooter,
   TableRow,
 } from "@/components/ui/table";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 import { cn } from "@/lib/utils";
 import { INVOICESTATUSCLASSES } from "@/utils/constants";
 
 import type { RecentInvoice } from "../types";
-import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 type DashboardRecentInvoicesProps = {
   recentInvoices: RecentInvoice[];

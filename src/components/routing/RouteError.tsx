@@ -10,6 +10,8 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { ApiError } from "@/utils/apiError";
+import { queryClient } from "@/lib/queryClient";
+import { authKeys } from "@/features/auth/queryKeys";
 
 type RouteErrorProps = ErrorComponentProps & {
   title?: string;
@@ -20,6 +22,7 @@ export default function RouteError({
   error,
   reset,
   title = "Unable to load this page",
+  showSignIn = false,
 }: RouteErrorProps) {
   if (isRedirect(error)) {
     throw error;
@@ -46,6 +49,15 @@ export default function RouteError({
           <Button type="button" onClick={() => reset()}>
             Try again
           </Button>
+
+          {showSignIn && (
+            <Button
+              type="button"
+              onClick={() => queryClient.setQueryData(authKeys.me(), null)}
+            >
+              Log in
+            </Button>
+          )}
         </div>
       </Empty>
     </div>
