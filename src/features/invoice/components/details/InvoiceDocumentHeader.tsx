@@ -2,9 +2,9 @@ import { format } from "date-fns";
 
 import logo from "@/assets/img/logo.svg";
 import { CardHeader } from "@/components/ui/card";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
-import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 export default function InvoiceDocumentHeader() {
   const { invoice } = useInvoiceDetails();

@@ -9,9 +9,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
-import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 export default function PaymentHistory() {
   const { invoice } = useInvoiceDetails();

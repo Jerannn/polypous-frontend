@@ -8,11 +8,11 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import { Progress } from "@/components/ui/progress";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 import { cn } from "@/lib/utils";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
 import RecordPayment from "../RecordPayment";
-import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 export default function PaymentSummary() {
   const { invoice } = useInvoiceDetails();

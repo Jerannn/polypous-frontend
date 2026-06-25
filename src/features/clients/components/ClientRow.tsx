@@ -10,11 +10,11 @@ import { toast } from "sonner";
 import ConfirmDeletionModal from "@/components/ConfirmDeletionModal";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 import useDeleteClient from "../hooks/use-delete-client";
 import type { Client } from "../types";
 import ClientForm from "./ClientForm";
-import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 type ClientRowProps = {
   client: Client;

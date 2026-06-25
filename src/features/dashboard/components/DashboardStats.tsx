@@ -2,9 +2,9 @@ import { BadgeCheck, BadgeDollarSign, Clock, OctagonAlert } from "lucide-react";
 
 import StatsCard from "@/components/StatsCard";
 import { Card, CardContent } from "@/components/ui/card";
+import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 import type { Stats } from "../types";
-import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 type DashboardStatsProps = {
   stats: Stats;
