@@ -25,8 +25,16 @@ export default function ClientRow({ client }: ClientRowProps) {
 
   const formatCurrency = useCurrencyFormatter();
 
+  const handleViewClient = () => {
+    console.log("View client", client);
+  };
+
   return (
-    <TableRow key={client.id}>
+    <TableRow
+      key={client.id}
+      className="cursor-pointer"
+      onClick={handleViewClient}
+    >
       <TableCell className="max-w-60">
         <span className="block font-bold truncate" title={client.name}>
           {client.name}
