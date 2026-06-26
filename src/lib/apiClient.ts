@@ -20,10 +20,10 @@ export async function api(path: string, options?: RequestInit) {
     });
 
     const contentType = res.headers.get("content-type");
-    let data: any = null;
-    if (contentType && contentType.includes("application/json")) {
-      data = await res.json(); // Consumes the stream once
-    }
+    const data =
+      contentType && contentType.includes("application/json")
+        ? await res.json()
+        : null;
 
     if (!res.ok) {
       if (res.status === 401 && !path.endsWith("/users/me")) {
