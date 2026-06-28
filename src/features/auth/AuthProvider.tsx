@@ -2,14 +2,11 @@ import type { UseMutateAsyncFunction } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
 
 import ProtectedRoutePending from "@/components/routing/ProtectedRoutePending";
-import RouteError from "@/components/routing/RouteError";
-import { queryClient } from "@/lib/queryClient";
 
 import useCheckAuth from "./hooks/use-check-auth";
 import useLogin from "./hooks/use-login";
 import useLogout from "./hooks/use-logout";
 import useRegister from "./hooks/use-register";
-import { authKeys } from "./queryKeys";
 import type { LoginPayload, RegisterPayload, User } from "./types";
 
 export interface AuthState {
@@ -30,7 +27,7 @@ export interface AuthState {
 const AuthContext = createContext<AuthState | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { currentUser, isCheckingAuth, isError, error } = useCheckAuth();
+  const { currentUser, isCheckingAuth } = useCheckAuth();
   const { login, isLoggingIn } = useLogin();
   const { register, isRegistering } = useRegister();
   const { logout, isLoggingOut } = useLogout();
@@ -38,14 +35,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const isAuthenticated = !!currentUser;
 
   if (isCheckingAuth) return <ProtectedRoutePending />;
-  if (isError && error) {
-    return (
-      <RouteError
-        error={error}
-        reset={() => queryClient.invalidateQueries({ queryKey: authKeys.me() })}
-      />
-    );
-  }
 
   return (
     <AuthContext.Provider

@@ -5,7 +5,7 @@ import Profile from "./Profile";
 export default function SettingContainer() {
   return (
     <div>
-      <Tabs defaultValue="profile">
+      <Tabs defaultValue="profile" className="gap-8">
         <TabsList variant="line">
           <TabsTrigger value="profile">Profile</TabsTrigger>
           <TabsTrigger value="subscription">Subscription</TabsTrigger>

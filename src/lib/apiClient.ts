@@ -29,6 +29,7 @@ export async function api(path: string, options?: RequestInit) {
       if (res.status === 401 && !path.endsWith("/users/me")) {
         queryClient.setQueryData(authKeys.me(), null);
       }
+
       const errorData = data as FailResponse;
 
       throw new ApiError(
