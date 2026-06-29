@@ -19,7 +19,7 @@ export default function SettingContainer() {
 
         {/* subcription plan */}
         <TabsContent value="subscription">
-          <h1>SUBSCRIPTION</h1>
+          <h1>This feature is coming soon</h1>
         </TabsContent>
 
         {/* business settings */}

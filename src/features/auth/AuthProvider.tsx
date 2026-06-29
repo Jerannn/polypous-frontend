@@ -27,12 +27,12 @@ export interface AuthState {
 const AuthContext = createContext<AuthState | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { currentUser, isCheckingAuth } = useCheckAuth();
+  const { user, isCheckingAuth } = useCheckAuth();
   const { login, isLoggingIn } = useLogin();
   const { register, isRegistering } = useRegister();
   const { logout, isLoggingOut } = useLogout();
 
-  const isAuthenticated = !!currentUser;
+  const isAuthenticated = !!user;
 
   if (isCheckingAuth) return <ProtectedRoutePending />;
 
@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        user: currentUser || null,
+        user: user || null,
         isLoggingIn,
         isRegistering,
         isLoggingOut,
