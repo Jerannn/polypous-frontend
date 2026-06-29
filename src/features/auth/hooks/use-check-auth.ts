@@ -4,12 +4,12 @@ import { meQueryOptions } from "../queries";
 
 export default function useCheckAuth() {
   const {
-    data: currentUser,
+    data: user,
     isPending: isCheckingAuth,
     isError,
     error,
     isFetching,
   } = useQuery(meQueryOptions());
 
-  return { currentUser, isCheckingAuth, isError, error, isFetching };
+  return { user, isCheckingAuth, isError, error, isFetching };
 }
