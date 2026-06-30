@@ -94,7 +94,9 @@ export default function Profile() {
                 <InputGroupInput
                   id="email"
                   placeholder="e.g. 2V8kD@example.com"
-                  disabled={true}
+                  value={user?.email || ""}
+                  disabled
+                  readOnly
                 />
                 <InputGroupAddon>
                   <Mail />

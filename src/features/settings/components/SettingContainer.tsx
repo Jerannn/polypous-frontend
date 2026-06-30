@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import Business from "./Business";
+import DangerZone from "./DangerZone";
 import Profile from "./Profile";
 
 export default function SettingContainer() {
@@ -30,7 +31,7 @@ export default function SettingContainer() {
 
         {/* delete account */}
         <TabsContent value="delete">
-          <h1>DELETE ACCOUNT</h1>
+          <DangerZone />
         </TabsContent>
       </Tabs>
     </div>
