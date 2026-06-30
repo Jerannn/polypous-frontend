@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, User } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import ActionButtonContent from "@/components/ActionButtonContent";
 import { Button } from "@/components/ui/button";
@@ -31,7 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAuth } from "@/features/auth/AuthProvider";
-import type { Profile } from "@/features/settings/types";
+import type { ProfileInput } from "@/features/settings/types";
 import { CURRENCIES } from "@/utils/constants";
 
 import useUpdateProfile from "../hooks/use-update-profile";
@@ -46,7 +47,7 @@ export default function Profile() {
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm<Profile>({
+  } = useForm<ProfileInput>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       fullName: user?.fullName || "",
@@ -55,8 +56,9 @@ export default function Profile() {
     },
   });
 
-  const onSubmit = (data: Profile) => {
-    updateProfile(data);
+  const onSubmit = async (data: ProfileInput) => {
+    await updateProfile(data);
+    toast.success("Profile updated successfully!");
   };
 
   return (
