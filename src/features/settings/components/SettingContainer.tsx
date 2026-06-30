@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+import Business from "./Business";
 import Profile from "./Profile";
 
 export default function SettingContainer() {
@@ -24,7 +25,7 @@ export default function SettingContainer() {
 
         {/* business settings */}
         <TabsContent value="business">
-          <h1>BUSINESS </h1>
+          <Business />
         </TabsContent>
 
         {/* delete account */}
