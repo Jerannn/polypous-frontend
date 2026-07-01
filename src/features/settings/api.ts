@@ -39,3 +39,9 @@ export const verifyPassword = async (
 
   return response.data.verified;
 };
+
+export const deleteMe = async () => {
+  await api("/users/me", {
+    method: "DELETE",
+  });
+};
