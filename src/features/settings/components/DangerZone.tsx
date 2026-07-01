@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOffIcon, Lock } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import ActionButtonContent from "@/components/ActionButtonContent";
 import { Button } from "@/components/ui/button";
@@ -43,6 +44,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { ApiError } from "@/utils/apiError";
 
+import useDeleteAccount from "../hooks/use-delete-account";
 import useVerifyPassword from "../hooks/use-verify-password";
 import { verifyPasswordSchema } from "../schema";
 import type { VerifyPasswordInput } from "../types";
@@ -52,6 +54,7 @@ export default function DangerZone() {
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
 
   const { verifyPassword, isVerifying } = useVerifyPassword();
+  const { deleteMe, isDeleting } = useDeleteAccount();
 
   const {
     register,
@@ -77,6 +80,11 @@ export default function DangerZone() {
         });
       }
     }
+  };
+
+  const handleDelete = async () => {
+    await deleteMe();
+    toast.success("Account deleted successfully!");
   };
 
   return (
@@ -154,11 +162,14 @@ export default function DangerZone() {
                   </DialogClose>
 
                   <Button
-                    //   type="submit"
                     variant="destructive"
-                    disabled={!isPasswordConfirmed}
+                    disabled={!isPasswordConfirmed || isDeleting}
+                    onClick={handleDelete}
                   >
-                    Delete Account
+                    <ActionButtonContent
+                      action={isDeleting ? "Deleting..." : "Delete Account"}
+                      isLoading={isDeleting}
+                    />
                   </Button>
                 </DialogFooter>
               </DialogContent>
