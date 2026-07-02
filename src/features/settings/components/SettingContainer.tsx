@@ -14,6 +14,7 @@ export default function SettingContainer() {
           <TabsTrigger value="business">Business</TabsTrigger>
           <TabsTrigger value="delete">Delete Account</TabsTrigger>
         </TabsList>
+
         {/* profile settings */}
         <TabsContent value="profile">
           <Profile />

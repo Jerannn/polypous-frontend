@@ -54,9 +54,10 @@ export type InvoiceClient = {
 };
 
 export type InvoiceFreelancer = {
-  fullName: string;
+  name: string;
   email: string;
-  currency: string;
+  phone: string;
+  address: string;
 };
 
 export type InvoicePayment = {

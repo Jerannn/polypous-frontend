@@ -9,7 +9,7 @@ import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
 export default function InvoiceDocumentHeader() {
   const { invoice } = useInvoiceDetails();
   const formatCurrency = useCurrencyFormatter();
-  console.log(invoice?.balance);
+
   return (
     <CardHeader className="px-0">
       <img src={logo} alt="Polypous Logo" className="w-7 h-7 object-contain" />
