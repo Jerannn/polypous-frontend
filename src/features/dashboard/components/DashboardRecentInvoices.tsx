@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { format } from "date-fns";
+import { ScrollText } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +23,7 @@ import { cn } from "@/lib/utils";
 import { INVOICESTATUSCLASSES } from "@/utils/constants";
 
 import type { RecentInvoice } from "../types";
+import EmptyState from "./EmptyState";
 
 type DashboardRecentInvoicesProps = {
   recentInvoices: RecentInvoice[];
@@ -47,7 +49,14 @@ export default function DashboardRecentInvoices({
       <CardContent>
         <Table>
           <TableBody>
-            {recentInvoices.map((invoice) => (
+            {recentInvoices.length === 0 && (
+              <EmptyState
+                title="No recent invoice yet"
+                description="Recent invoice will appear here once you have invoices."
+                icon={ScrollText}
+              />
+            )}
+            {recentInvoices?.map((invoice) => (
               <TableRow key={invoice.id}>
                 <TableCell className="w-10">
                   <div
