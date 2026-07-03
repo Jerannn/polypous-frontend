@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { CircleUser, EllipsisVertical, LogOut } from "lucide-react";
+import { CircleUser, EllipsisVertical, LogOut, Moon, Sun } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -8,7 +8,12 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -18,10 +23,13 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/features/auth/AuthProvider";
+import useTheme from "@/hooks/useTheme";
+import { cn } from "@/lib/utils";
 
 export default function Footer() {
   const navigate = useNavigate();
   const { logout, isLoggingOut, user } = useAuth();
+  const { theme, handleThemeChange } = useTheme();
   const { isMobile } = useSidebar();
 
   return (
@@ -84,6 +92,36 @@ export default function Footer() {
                 Account
               </DropdownMenuItem>
             </DropdownMenuGroup>
+
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                {theme === "light" ? <Sun /> : <Moon />}
+                Theme
+              </DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem
+                    className={cn(theme === "light" && "bg-muted")}
+                    onClick={() => handleThemeChange("light")}
+                  >
+                    Light
+                    <DropdownMenuShortcut>
+                      <Sun />
+                    </DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className={cn(theme === "dark" && "bg-muted")}
+                    onClick={() => handleThemeChange("dark")}
+                  >
+                    Dark
+                    <DropdownMenuShortcut>
+                      <Moon />
+                    </DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+
             <DropdownMenuSeparator />
             <DropdownMenuItem
               variant="destructive"
