@@ -36,7 +36,7 @@ export default function DashboardMonthlyIncomeTrend({
       <CardHeader>
         <CardTitle>Monthly Income Trend</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="m-auto">
         {monthlyIncome.length === 0 && (
           <EmptyState
             title="No income data yet"

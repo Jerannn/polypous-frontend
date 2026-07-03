@@ -33,12 +33,13 @@ type DashboardInvoiceStatusPieProps = {
 export default function DashboardInvoiceStatusPie({
   invoiceStatus,
 }: DashboardInvoiceStatusPieProps) {
+  invoiceStatus = [];
   return (
     <Card>
       <CardHeader>
         <CardTitle>Invoice Status</CardTitle>
       </CardHeader>
-      <CardContent className="ps-0">
+      <CardContent className="ps-0 m-auto">
         {invoiceStatus.length === 0 && (
           <EmptyState
             title="No status data yet"
