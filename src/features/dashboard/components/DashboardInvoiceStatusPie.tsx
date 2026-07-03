@@ -33,7 +33,6 @@ type DashboardInvoiceStatusPieProps = {
 export default function DashboardInvoiceStatusPie({
   invoiceStatus,
 }: DashboardInvoiceStatusPieProps) {
-  console.log("invoiceStatus", invoiceStatus);
   return (
     <Card>
       <CardHeader>

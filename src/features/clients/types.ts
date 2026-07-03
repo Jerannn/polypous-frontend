@@ -12,6 +12,14 @@ export type Client = ClientPayload & {
   totalUnpaid: number;
   createdAt: string;
   updatedAt: string;
+  invoicesHistory: InvoiceHistory[];
+};
+
+type InvoiceHistory = {
+  invoiceNumber: string;
+  status: string;
+  dueDate: string;
+  total: number;
 };
 
 export type QueryPayload = z.infer<typeof querySchema>;
