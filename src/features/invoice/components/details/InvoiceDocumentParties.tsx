@@ -1,3 +1,6 @@
+import { Link } from "@tanstack/react-router";
+
+import { Button } from "@/components/ui/button";
 import {
   Item,
   ItemContent,
@@ -6,8 +9,6 @@ import {
 } from "@/components/ui/item";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
-import { Link } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
 
 export default function InvoiceDocumentParties() {
   const { invoice } = useInvoiceDetails();
