@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { deleteInvoice as deleteInvoiceApi } from "../api";
 import { invoiceKeys } from "../queryKeys";
+import { dashboardKeys } from "@/features/dashboard/queryKeys";
 
 export default function useDeleteInvoice() {
   const queryClient = useQueryClient();
@@ -17,7 +18,10 @@ export default function useDeleteInvoice() {
 
       queryClient.invalidateQueries({
         queryKey: invoiceKeys.all,
-        exact: false,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: dashboardKeys.overview(),
       });
     },
   });

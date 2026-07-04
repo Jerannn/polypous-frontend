@@ -1,11 +1,16 @@
 import { api } from "@/lib/apiClient";
 import type { Meta } from "@/types/shared.types";
 
-import type { Client, ClientPayload, QueryPayload } from "./types";
+import type {
+  Client,
+  ClientPayload,
+  ClientResponse,
+  QueryPayload,
+} from "./types";
 
 export const create = async (
   payload: ClientPayload,
-): Promise<ClientPayload> => {
+): Promise<ClientResponse> => {
   const response = await api("/clients", {
     method: "POST",
     body: JSON.stringify(payload),
@@ -20,7 +25,7 @@ export const update = async ({
 }: {
   payload: ClientPayload;
   id: string;
-}): Promise<ClientPayload> => {
+}): Promise<ClientResponse> => {
   const response = await api(`/clients/${id}`, {
     method: "PATCH",
     body: JSON.stringify(payload),

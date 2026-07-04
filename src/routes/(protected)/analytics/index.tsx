@@ -5,5 +5,5 @@ export const Route = createFileRoute("/(protected)/analytics/")({
 });
 
 function AnalyticsPage() {
-  return <div>ANALYTICS PAGE</div>;
+  return <div>This feature is coming soon</div>;
 }

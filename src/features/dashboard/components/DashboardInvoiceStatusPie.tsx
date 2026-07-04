@@ -13,6 +13,7 @@ import {
 
 import type { InvoiceStatus } from "../types";
 import EmptyState from "./EmptyState";
+import { cn } from "@/lib/utils";
 
 const chartConfig = {
   paid: {
@@ -33,13 +34,14 @@ type DashboardInvoiceStatusPieProps = {
 export default function DashboardInvoiceStatusPie({
   invoiceStatus,
 }: DashboardInvoiceStatusPieProps) {
-  invoiceStatus = [];
   return (
     <Card>
       <CardHeader>
         <CardTitle>Invoice Status</CardTitle>
       </CardHeader>
-      <CardContent className="ps-0 m-auto">
+      <CardContent
+        className={cn("ps-0", invoiceStatus.length === 0 && "m-auto")}
+      >
         {invoiceStatus.length === 0 && (
           <EmptyState
             title="No status data yet"
