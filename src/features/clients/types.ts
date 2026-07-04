@@ -23,3 +23,10 @@ type InvoiceHistory = {
 };
 
 export type QueryPayload = z.infer<typeof querySchema>;
+
+export type ClientResponse = ClientPayload & {
+  readonly id: string;
+  readonly userId: string;
+  createdAt: string;
+  updatedAt: string;
+};

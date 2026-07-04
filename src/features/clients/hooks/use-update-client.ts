@@ -11,7 +11,6 @@ export default function useUpdateClient() {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: clientsKeys.all,
-        exact: false,
       });
     },
   });

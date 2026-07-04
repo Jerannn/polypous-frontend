@@ -11,7 +11,6 @@ export default function useUpdateInvoice() {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: invoiceKeys.all,
-        exact: false,
       });
     },
   });

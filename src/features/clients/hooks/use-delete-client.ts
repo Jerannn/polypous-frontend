@@ -15,7 +15,6 @@ export default function useDeleteClient() {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: clientsKeys.all,
-        exact: false,
       });
     },
   });

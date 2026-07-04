@@ -14,6 +14,7 @@ import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 import type { MonthlyIncome } from "../types";
 import EmptyState from "./EmptyState";
+import { cn } from "@/lib/utils";
 
 const chartConfig = {
   income: {
@@ -36,7 +37,7 @@ export default function DashboardMonthlyIncomeTrend({
       <CardHeader>
         <CardTitle>Monthly Income Trend</CardTitle>
       </CardHeader>
-      <CardContent className="m-auto">
+      <CardContent className={cn(monthlyIncome.length === 0 && "m-auto")}>
         {monthlyIncome.length === 0 && (
           <EmptyState
             title="No income data yet"
