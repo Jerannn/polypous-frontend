@@ -1,7 +1,9 @@
-import { api } from "@/lib/apiClient";
+import { api } from "@/lib/axios";
 
-export const retrieveOverview = async () => {
-  const response = await api("/dashboard/overview", { method: "GET" });
+import type { Overview } from "./types";
 
-  return response.data.overview;
+export const retrieveOverview = async (): Promise<Overview> => {
+  const response = await api.get("/dashboard/overview");
+
+  return response.data.data.overview;
 };

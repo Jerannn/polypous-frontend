@@ -43,13 +43,12 @@ export default function VerifyEmailCard() {
     otpQueryOptions(email, "register"),
   );
 
-  const initialExpiry =
-    otpData?.status === "success" ? otpData.data.otp.expiresAt : null;
+  const initialExpiry = otpData.expiresAt ?? null;
   const { countdown, setExpiresAt, isTimerActive } = useOtpTimer(initialExpiry);
 
   useEffect(() => {
-    if (otpData?.status === "success") {
-      setExpiresAt(otpData.data.otp.expiresAt);
+    if (otpData) {
+      setExpiresAt(otpData.expiresAt);
     }
   }, [otpData, setExpiresAt]);
 

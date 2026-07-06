@@ -23,3 +23,10 @@ export type RecentInvoice = {
   total: number;
   clientName: string;
 };
+
+export type Overview = {
+  stats: Stats;
+  monthlyIncome: MonthlyIncome[];
+  invoiceStatus: InvoiceStatus[];
+  recentInvoices: RecentInvoice[];
+};

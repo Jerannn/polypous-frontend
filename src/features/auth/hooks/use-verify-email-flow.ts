@@ -39,6 +39,7 @@ export default function useVerifyEmailFlow({
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         const errorData = error.error;
+        console.log(errorData);
         switch (error.statusCode) {
           case 400:
             setError("otp", {
@@ -49,7 +50,7 @@ export default function useVerifyEmailFlow({
           case 429:
             setError("otp", {
               type: "server",
-              message: errorData.error.otp,
+              message: "Too many requests. Try again later.",
             });
             break;
           case 500:

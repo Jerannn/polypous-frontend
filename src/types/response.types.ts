@@ -1,5 +1,6 @@
 export type SuccessResponse<T> = {
   status: "success";
+  token: string;
   data: T;
 };
 

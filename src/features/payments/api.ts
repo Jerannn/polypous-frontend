@@ -1,4 +1,4 @@
-import { api } from "@/lib/apiClient";
+import { api } from "@/lib/axios";
 import type { Meta } from "@/types/shared.types";
 
 import type {
@@ -16,17 +16,15 @@ export const retrievePayments = async (
   if (query.limit) params.set("limit", query.limit.toString());
   if (query.search) params.set("search", query.search);
 
-  const response = await api(`/payments?${params.toString()}`, {
-    method: "GET",
+  const response = await api.get("/payments", {
+    params,
   });
 
-  return response.data;
+  return response.data.data;
 };
 
 export const retrievePaymentStats = async (): Promise<PaymentStats> => {
-  const response = await api("/payments/stats", {
-    method: "GET",
-  });
+  const response = await api.get("/payments/stats");
 
-  return response.data.stats;
+  return response.data.data.stats;
 };

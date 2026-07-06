@@ -1,6 +1,5 @@
-import { api } from "@/lib/apiClient";
-import type { FailResponse, SuccessResponse } from "@/types/response.types";
-import { ApiError } from "@/utils/apiError";
+import { api } from "@/lib/axios";
+import type { SuccessResponse } from "@/types/response.types";
 
 import type {
   LoginPayload,
@@ -11,78 +10,56 @@ import type {
   VerifyEmailPayload,
 } from "./types";
 
-export const register = async (userData: RegisterPayload): Promise<User> => {
-  const response = await api("/auth/register", {
-    method: "POST",
-    body: JSON.stringify(userData),
-  });
+export const register = async (payload: RegisterPayload): Promise<User> => {
+  const response = await api.post("/auth/register", payload);
 
   return response.data.user;
 };
 
-export const login = async (payload: LoginPayload): Promise<User> => {
-  const response = await api("/auth/login", {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
+export const login = async (
+  payload: LoginPayload,
+): Promise<
+  SuccessResponse<{
+    user: User;
+  }>
+> => {
+  const response = await api.post("/auth/login", payload);
 
-  return response.data.user;
+  return response.data;
 };
 
 export const verifyEmailOtp = async (
   payload: VerifyEmailPayload,
 ): Promise<User> => {
-  const response = await api("/auth/email/verify", {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
+  const response = await api.post("/auth/email/verify", payload);
 
-  return response.data.user;
+  return response.data.data.user;
 };
 
 export const requestOtp = async (
   email: string,
   action: string,
-): Promise<SuccessResponse<{ otp: Otp }> | FailResponse> => {
+): Promise<Otp> => {
   const params = new URLSearchParams({ email, action });
+  const response = await api.get("/auth/email/otp", { params });
 
-  return await api(`/auth/email/otp?${params.toString()}`, {
-    method: "GET",
-  });
+  return response.data.data.otp;
 };
 
 export const resendOtp = async (payload: ResendOtpPayload): Promise<Otp> => {
-  const response = await api("/auth/email/resend", {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
+  const response = await api.post("/auth/email/resend", payload);
 
-  return response.data.otp;
+  return response.data.data.otp;
 };
 
 export const getMe = async (): Promise<User | null> => {
-  try {
-    const response = await api("/users/me", {
-      method: "GET",
-    });
+  const response = await api.get("/users/me");
 
-    if (response.status === "fail") {
-      return null;
-    }
-
-    return response.data.user;
-  } catch (error) {
-    if (error instanceof ApiError && error.statusCode === 401) {
-      return null;
-    }
-    throw error;
-  }
+  return response.data.data.user;
 };
 
 export const logout = async (): Promise<string> => {
-  const response = await api("/auth/logout", {
-    method: "POST",
-  });
+  const response = (await api.post("/auth/logout")) as SuccessResponse<null>;
 
   return response.status;
 };
