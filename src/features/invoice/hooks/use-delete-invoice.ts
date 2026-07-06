@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { dashboardKeys } from "@/features/dashboard/queryKeys";
+
 import { deleteInvoice as deleteInvoiceApi } from "../api";
 import { invoiceKeys } from "../queryKeys";
-import { dashboardKeys } from "@/features/dashboard/queryKeys";
 
 export default function useDeleteInvoice() {
   const queryClient = useQueryClient();

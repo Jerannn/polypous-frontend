@@ -1,4 +1,4 @@
-import { Loader2 } from "lucide-react";
+import { Spinner } from "./ui/spinner";
 
 type ActionButtonContentProps = {
   action: string;
@@ -11,7 +11,7 @@ export default function ActionButtonContent({
 }: ActionButtonContentProps) {
   return (
     <>
-      {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+      {isLoading && <Spinner className="mr-2" />}
       {action}
     </>
   );

@@ -20,9 +20,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import env from "@/utils/env";
+import { Spinner } from "@/components/ui/spinner";
 
 import useDeleteInvoice from "../../hooks/use-delete-invoice";
+import useDownloadPdf from "../../hooks/use-download-pdf";
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
 
 export default function InvoiceDetailsHeader() {
@@ -30,13 +31,22 @@ export default function InvoiceDetailsHeader() {
   const { invoiceId, invoice } = useInvoiceDetails();
 
   const { deleteInvoice, isDeleting, isError } = useDeleteInvoice();
+  const { downloadInvoicePDF, isDownloading } = useDownloadPdf();
 
-  const handleDownloadPDF = () => {
-    window.open(
-      `${env.API_URL}/invoices/${invoiceId}/pdf`,
-      "_blank",
-      "noopener,noreferrer",
-    );
+  const handleDownloadPDF = async (id: string) => {
+    const data = await downloadInvoicePDF(id);
+
+    const url = URL.createObjectURL(data);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${invoice.invoiceNumber}.pdf`;
+
+    document.body.appendChild(link);
+    link.click();
+
+    link.remove();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -59,9 +69,21 @@ export default function InvoiceDetailsHeader() {
 
       <div className="flex flex-wrap items-center gap-2">
         <ButtonGroup>
-          <Button variant="outline" onClick={handleDownloadPDF}>
-            <Download className="mr-2 h-5 w-5" />
-            Print / PDF
+          <Button
+            variant="outline"
+            onClick={() => handleDownloadPDF(invoiceId)}
+          >
+            {isDownloading ? (
+              <>
+                <Spinner className="mr-2 text-primary" />
+                <span>Downloading...</span>
+              </>
+            ) : (
+              <>
+                <Download className="mr-2" />
+                <span>Download PDF</span>
+              </>
+            )}
           </Button>
 
           <DropdownMenu>

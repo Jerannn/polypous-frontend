@@ -2,6 +2,7 @@ import type { UseMutateAsyncFunction } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
 
 import ProtectedRoutePending from "@/components/routing/ProtectedRoutePending";
+import type { SuccessResponse } from "@/types/response.types";
 
 import useCheckAuth from "./hooks/use-check-auth";
 import useLogin from "./hooks/use-login";
@@ -19,7 +20,11 @@ export interface AuthState {
   isLoggingOut: boolean;
 
   // actions
-  login: UseMutateAsyncFunction<User, Error, LoginPayload>;
+  login: UseMutateAsyncFunction<
+    SuccessResponse<{ user: User }>,
+    Error,
+    LoginPayload
+  >;
   register: UseMutateAsyncFunction<User, Error, RegisterPayload>;
   logout: UseMutateAsyncFunction<string, Error, void>;
 }

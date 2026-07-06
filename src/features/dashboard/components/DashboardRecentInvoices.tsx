@@ -50,11 +50,15 @@ export default function DashboardRecentInvoices({
         <Table>
           <TableBody>
             {recentInvoices.length === 0 && (
-              <EmptyState
-                title="No recent invoice yet"
-                description="Recent invoice will appear here once you have invoices."
-                icon={ScrollText}
-              />
+              <TableRow>
+                <TableCell>
+                  <EmptyState
+                    title="No recent invoice yet"
+                    description="Recent invoice will appear here once you have invoices."
+                    icon={ScrollText}
+                  />
+                </TableCell>
+              </TableRow>
             )}
             {recentInvoices?.map((invoice) => (
               <TableRow key={invoice.id}>

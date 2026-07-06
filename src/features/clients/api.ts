@@ -1,4 +1,4 @@
-import { api } from "@/lib/apiClient";
+import { api } from "@/lib/axios";
 import type { Meta } from "@/types/shared.types";
 
 import type {
@@ -11,12 +11,9 @@ import type {
 export const create = async (
   payload: ClientPayload,
 ): Promise<ClientResponse> => {
-  const response = await api("/clients", {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
+  const response = await api.post("/clients", payload);
 
-  return response.data.client;
+  return response.data.data.client;
 };
 
 export const update = async ({
@@ -26,12 +23,9 @@ export const update = async ({
   payload: ClientPayload;
   id: string;
 }): Promise<ClientResponse> => {
-  const response = await api(`/clients/${id}`, {
-    method: "PATCH",
-    body: JSON.stringify(payload),
-  });
+  const response = await api.patch(`/clients/${id}`, payload);
 
-  return response.data.client;
+  return response.data.data.client;
 };
 
 export const retrieve = async (
@@ -46,20 +40,18 @@ export const retrieve = async (
   if (query.limit) params.set("limit", query.limit.toString());
   if (query.search) params.set("search", query.search.toString());
 
-  const response = await api(`/clients?${params.toString()}`, {
-    method: "GET",
+  const response = await api.get("/clients", {
+    params,
   });
 
   return {
-    clients: response.data.clients,
-    meta: response.data.meta,
+    clients: response.data.data.clients,
+    meta: response.data.data.meta,
   };
 };
 
 export const deleteClient = async (id: string): Promise<boolean> => {
-  const response = await api(`/clients/${id}`, {
-    method: "DELETE",
-  });
+  const response = await api.delete(`/clients/${id}`);
 
-  return response.data.isDeleted;
+  return response.data.data.isDeleted;
 };

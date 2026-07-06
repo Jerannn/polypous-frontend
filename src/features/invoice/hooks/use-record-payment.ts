@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { dashboardKeys } from "@/features/dashboard/queryKeys";
+
 import { recordPayment as recordPaymentApi } from "../api";
 import { invoiceKeys } from "../queryKeys";
 import type { RecordPaymentPayload } from "../types";
-import { dashboardKeys } from "@/features/dashboard/queryKeys";
 
 export default function useRecordPayment(invoiceId: string) {
   const queryClient = useQueryClient();

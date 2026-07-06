@@ -11,10 +11,10 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
+import { cn } from "@/lib/utils";
 
 import type { MonthlyIncome } from "../types";
 import EmptyState from "./EmptyState";
-import { cn } from "@/lib/utils";
 
 const chartConfig = {
   income: {
