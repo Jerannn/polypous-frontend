@@ -19,6 +19,7 @@ export default function PaymentSummary() {
   const formatCurrency = useCurrencyFormatter();
 
   const paymentPercentage = (invoice?.amountPaid / invoice?.total) * 100;
+
   return (
     <Card>
       <CardHeader>

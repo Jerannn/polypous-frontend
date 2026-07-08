@@ -54,7 +54,7 @@ export const resendOtp = async (payload: ResendOtpPayload): Promise<Otp> => {
 
 export const getMe = async (): Promise<User | null> => {
   const response = await api.get("/users/me");
-
+  console.log(response);
   return response.data.data.user;
 };
 

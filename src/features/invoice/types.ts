@@ -71,6 +71,7 @@ export type InvoicePayment = {
 
 export type InvoiceListItem = Invoice & { clientName: string };
 export type InvoiceWithItemsAndClient = Invoice & {
+  currency: string;
   freelancer: InvoiceFreelancer;
   client: InvoiceClient;
   items: InvoiceItem[];
