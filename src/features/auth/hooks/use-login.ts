@@ -8,8 +8,8 @@ export default function useLogin() {
   const { mutateAsync: login, isPending: isLoggingIn } = useMutation({
     mutationKey: authKeys.login(),
     mutationFn: loginApi,
-    onSuccess: (user) => {
-      queryClient.setQueryData(authKeys.me(), user);
+    onSuccess: (data) => {
+      queryClient.setQueryData(authKeys.me(), data.data.user);
     },
   });
   return { login, isLoggingIn };
