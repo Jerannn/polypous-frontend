@@ -10,10 +10,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import EmptyState from "@/features/dashboard/components/EmptyState";
+import type { InvoiceStatus } from "@/features/dashboard/types";
 import { cn } from "@/lib/utils";
-
-import type { InvoiceStatus } from "../types";
-import EmptyState from "./EmptyState";
 
 const chartConfig = {
   paid: {
@@ -27,13 +26,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-type DashboardInvoiceStatusPieProps = {
+type AnalyticsInvoiceStatusPieProps = {
   invoiceStatus: InvoiceStatus[];
 };
 
-export default function DashboardInvoiceStatusPie({
+export default function AnalyticsInvoiceStatusPie({
   invoiceStatus,
-}: DashboardInvoiceStatusPieProps) {
+}: AnalyticsInvoiceStatusPieProps) {
   const hasData = invoiceStatus.length > 0;
 
   return (
