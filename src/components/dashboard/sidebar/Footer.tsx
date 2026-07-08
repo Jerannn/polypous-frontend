@@ -31,7 +31,7 @@ export default function Footer() {
   const { logout, isLoggingOut, user } = useAuth();
   const { theme, handleThemeChange } = useTheme();
   const { isMobile } = useSidebar();
-  console.log(user);
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>

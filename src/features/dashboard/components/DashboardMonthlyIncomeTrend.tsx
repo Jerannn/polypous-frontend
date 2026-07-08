@@ -31,14 +31,15 @@ export default function DashboardMonthlyIncomeTrend({
   monthlyIncome,
 }: DashboardMonthlyIncomeTrendProps) {
   const formatCurrency = useCurrencyFormatter();
+  const hasData = monthlyIncome.length > 0;
 
   return (
-    <Card>
+    <Card className="max-w-2xl w-full">
       <CardHeader>
         <CardTitle>Monthly Income Trend</CardTitle>
       </CardHeader>
-      <CardContent className={cn(monthlyIncome.length === 0 && "m-auto")}>
-        {monthlyIncome.length === 0 && (
+      <CardContent className={cn(!hasData && "m-auto")}>
+        {!hasData && (
           <EmptyState
             title="No income data yet"
             description="Monthly income trends will appear here once you record payments for
@@ -47,7 +48,7 @@ export default function DashboardMonthlyIncomeTrend({
           />
         )}
 
-        {monthlyIncome.length > 0 && (
+        {hasData && (
           <ChartContainer config={chartConfig} className="h-full w-full">
             <BarChart accessibilityLayer data={monthlyIncome}>
               <CartesianGrid vertical={true} />
