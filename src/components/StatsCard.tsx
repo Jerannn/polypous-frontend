@@ -22,7 +22,7 @@ export default function StatsCard({
   icon: Icon,
 }: StatsCardProps) {
   return (
-    <Item variant="muted" className="max-w-56 w-full">
+    <Item variant="muted" className="max-w-56 w-full relative">
       <ItemContent>
         <ItemTitle className="text-muted-foreground uppercase">
           {title}
@@ -30,7 +30,7 @@ export default function StatsCard({
         <span className="text-3xl font-semibold tabular-nums">{value}</span>
         <ItemDescription>{description}</ItemDescription>
       </ItemContent>
-      <ItemMedia variant="icon">
+      <ItemMedia variant="icon" className="absolute top-1.5 right-2">
         <Icon />
       </ItemMedia>
     </Item>

@@ -22,8 +22,8 @@ import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 import { cn } from "@/lib/utils";
 import { INVOICESTATUSCLASSES } from "@/utils/constants";
 
+import EmptyState from "../../analytics/components/EmptyState";
 import type { RecentInvoice } from "../types";
-import EmptyState from "./EmptyState";
 
 type DashboardRecentInvoicesProps = {
   recentInvoices: RecentInvoice[];

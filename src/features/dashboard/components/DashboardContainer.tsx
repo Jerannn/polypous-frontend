@@ -9,7 +9,6 @@ import DashboardStats from "./DashboardStats";
 export default function DashboardContainer() {
   const { data: overview } = useSuspenseQuery(overviewQueryOptions());
 
-  // to follow
   return (
     <div className="space-y-6">
       <DashboardStats stats={overview.stats} />
