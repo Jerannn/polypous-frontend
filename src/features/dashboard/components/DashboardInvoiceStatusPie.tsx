@@ -13,7 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import EmptyState from "../../analytics/components/EmptyState";
-import type { InvoiceStatus } from "../types";
+import type { InvoiceStatus } from "@/features/analytics/types";
 
 const chartConfig = {
   paid: {
