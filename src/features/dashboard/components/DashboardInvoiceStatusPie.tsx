@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
 
+import EmptyState from "../../analytics/components/EmptyState";
 import type { InvoiceStatus } from "../types";
-import EmptyState from "./EmptyState";
 
 const chartConfig = {
   paid: {

@@ -1,18 +1,10 @@
+import type { InvoiceStatus, MonthlyIncome } from "../analytics/types";
+
 export type Stats = {
   paidCount: string;
   unpaidCount: string;
   overdueCount: string;
   totalMonthlyRevenue: string;
-};
-
-export type MonthlyIncome = {
-  month: string;
-  income: number;
-};
-
-export type InvoiceStatus = {
-  status: string;
-  count: number;
 };
 
 export type RecentInvoice = {

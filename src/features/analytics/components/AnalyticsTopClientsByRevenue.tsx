@@ -1,4 +1,4 @@
-import { ChartColumn } from "lucide-react";
+import { Award, ChartBar } from "lucide-react";
 import {
   Bar,
   BarChart,
@@ -12,6 +12,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -21,17 +22,14 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import EmptyState from "@/features/dashboard/components/EmptyState";
+import EmptyState from "@/features/analytics/components/EmptyState";
 import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 import { cn } from "@/lib/utils";
+
+import type { TopClient } from "../types";
+
 export const description = "A horizontal bar chart";
-const chartData = [
-  { name: "Acme Corporation", revenue: 186 },
-  { name: "TechStart Inc", revenue: 305 },
-  { name: "Design Studio Co", revenue: 237 },
-  { name: "Global Ventures", revenue: 20 },
-  { name: "Local Coffee Shop", revenue: 209 },
-];
+
 const chartConfig = {
   revenue: {
     label: "Revenue",
@@ -43,7 +41,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 type AnalyticsTopClientsByRevenueProps = {
-  topClients: any[];
+  topClients: TopClient[];
 };
 
 export default function AnalyticsTopClientsByRevenue({
@@ -52,19 +50,25 @@ export default function AnalyticsTopClientsByRevenue({
   const formatCurrency = useCurrencyFormatter();
   const hasData = topClients.length > 0;
 
+  const sortedClients = [...topClients].sort((a, b) => b.revenue - a.revenue);
+  const topClient = sortedClients[0];
+
   return (
     <Card className="md:col-span-2">
       <CardHeader>
-        <CardTitle>Monthly Income Trend</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Top Clients by Revenue</CardTitle>
+        <CardDescription>
+          {hasData
+            ? "Revenue contribution from your highest-paying clients"
+            : "No client data available"}
+        </CardDescription>
       </CardHeader>
       <CardContent className={cn(!hasData && "m-auto")}>
         {!hasData && (
           <EmptyState
-            title="No income data yet"
-            description="Monthly income trends will appear here once you record payments for
-          your invoices."
-            icon={ChartColumn}
+            title="No Client Revenue Data"
+            description="Your highest-revenue clients will be displayed here once payments are received and registered."
+            icon={ChartBar}
           />
         )}
 
@@ -72,7 +76,7 @@ export default function AnalyticsTopClientsByRevenue({
           <ChartContainer config={chartConfig} className="h-60 w-full">
             <BarChart
               accessibilityLayer
-              data={chartData}
+              data={sortedClients}
               layout="vertical"
               margin={{
                 right: 16,
@@ -138,6 +142,21 @@ export default function AnalyticsTopClientsByRevenue({
           </ChartContainer>
         )}
       </CardContent>
+      {hasData && (
+        <CardFooter className="flex-col items-start gap-1.5 text-xs bg-transparent">
+          <div className="flex items-center gap-1 font-medium text-foreground">
+            <span>
+              Top contributor: <strong>{topClient.name}</strong> with{" "}
+              {formatCurrency(topClient.revenue)} in revenue
+            </span>
+            <Award className="h-4 w-4 text-amber-500" />
+          </div>
+          <div className="leading-none text-muted-foreground">
+            Showing top {topClients.length} client
+            {topClients.length === 1 ? "" : "s"} by total billing
+          </div>
+        </CardFooter>
+      )}
     </Card>
   );
 }
