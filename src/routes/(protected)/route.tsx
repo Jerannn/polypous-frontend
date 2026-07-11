@@ -14,7 +14,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { getMeFromCache } from "@/features/auth/queries";
-import { APP_NAME, getNavItemByPathname } from "@/utils/constants";
+import { getNavItemByPathname } from "@/utils/constants";
 
 export const Route = createFileRoute("/(protected)")({
   beforeLoad: ({ context }) => {
@@ -28,9 +28,6 @@ export const Route = createFileRoute("/(protected)")({
   errorComponent: (props) => (
     <RouteError {...props} title="Unable to verify your session" showSignIn />
   ),
-  head: () => ({
-    meta: [{ title: APP_NAME }],
-  }),
 });
 
 function ProtectedLayout() {

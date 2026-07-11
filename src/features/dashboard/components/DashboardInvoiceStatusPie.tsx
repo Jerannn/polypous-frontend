@@ -10,10 +10,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import type { InvoiceStatus } from "@/features/analytics/types";
 import { cn } from "@/lib/utils";
 
 import EmptyState from "../../analytics/components/EmptyState";
-import type { InvoiceStatus } from "@/features/analytics/types";
 
 const chartConfig = {
   paid: {
