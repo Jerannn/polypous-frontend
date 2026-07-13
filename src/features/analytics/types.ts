@@ -1,3 +1,8 @@
+import { z } from "zod";
+import type { filterSchema } from "./schema";
+
+export type Filter = z.infer<typeof filterSchema>;
+
 export type Stats = {
   totalRevenue: string;
   averageMonthlyRevenue: string;
