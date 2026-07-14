@@ -1,4 +1,4 @@
-import type { InvoiceStatus, MonthlyIncome } from "../analytics/types";
+import type { InvoiceStatus } from "../analytics/types";
 
 export type Stats = {
   paidCount: string;
@@ -14,6 +14,11 @@ export type RecentInvoice = {
   dueDate: Date;
   total: number;
   clientName: string;
+};
+
+export type MonthlyIncome = {
+  month: string;
+  income: number;
 };
 
 export type Overview = {

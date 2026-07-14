@@ -1,4 +1,4 @@
-import { ChartSpline, TrendingDown,TrendingUp } from "lucide-react";
+import { ChartSpline, TrendingDown, TrendingUp } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 import {
@@ -19,30 +19,30 @@ import EmptyState from "@/features/analytics/components/EmptyState";
 import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 import { cn } from "@/lib/utils";
 
-import type { MonthlyIncome } from "../types";
+import type { IncomeTrend } from "../types";
 export const description = "A line chart with dots";
 
 const chartConfig = {
-  income: {
-    label: "Income",
+  total: {
+    label: "Total",
     color: "var(--chart-1)",
   },
 } satisfies ChartConfig;
 
 type AnalyticsMonthlyTrendProps = {
-  monthlyIncomeList: MonthlyIncome[];
+  incomeTrend: IncomeTrend[];
 };
 
 export default function AnalyticsMonthlyTrend({
-  monthlyIncomeList,
+  incomeTrend,
 }: AnalyticsMonthlyTrendProps) {
   const formatCurrency = useCurrencyFormatter();
-  const hasData = monthlyIncomeList.length > 0;
+  const hasData = incomeTrend.length > 0;
 
   const percentageThisMonthVsLastMonth = (() => {
-    if (monthlyIncomeList.length < 2) return 0;
-    const latest = monthlyIncomeList[monthlyIncomeList.length - 1].income;
-    const previous = monthlyIncomeList[monthlyIncomeList.length - 2].income;
+    if (incomeTrend.length < 2) return 0;
+    const latest = incomeTrend[incomeTrend.length - 1].total;
+    const previous = incomeTrend[incomeTrend.length - 2].total;
     if (previous === 0) {
       return latest > 0 ? 100 : 0;
     }
@@ -50,11 +50,17 @@ export default function AnalyticsMonthlyTrend({
   })();
 
   const dateRangeText = (() => {
-    if (monthlyIncomeList.length === 0) return "";
-    const start = monthlyIncomeList[0].month;
-    const end = monthlyIncomeList[monthlyIncomeList.length - 1].month;
+    if (incomeTrend.length === 0) return "";
+    const start = incomeTrend[0].period;
+    const end = incomeTrend[incomeTrend.length - 1].period;
     return start === end ? start : `${start} - ${end}`;
   })();
+
+  const test = incomeTrend.map((item) => ({
+    ...item,
+    income: Number(item.total),
+  }));
+  console.log(test);
 
   return (
     <Card>
@@ -76,7 +82,7 @@ export default function AnalyticsMonthlyTrend({
           <ChartContainer config={chartConfig}>
             <LineChart
               accessibilityLayer
-              data={monthlyIncomeList}
+              data={test}
               margin={{
                 left: 12,
                 right: 12,
@@ -84,11 +90,10 @@ export default function AnalyticsMonthlyTrend({
             >
               <CartesianGrid vertical={false} />
               <XAxis
-                dataKey="month"
+                dataKey="period"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
-                tickFormatter={(value) => value.slice(0, 3)}
               />
 
               <YAxis
@@ -98,13 +103,13 @@ export default function AnalyticsMonthlyTrend({
 
               <ChartTooltip
                 formatter={(value, name, payload) => {
-                  const month = payload?.payload?.month;
+                  const period = payload?.payload?.period;
 
                   return (
                     <div className="w-full h-full flex gap-2">
                       <div className="h-full w-1 bg-primary rounded-lg"></div>
                       <div>
-                        <h1 className="font-medium">{month}</h1>
+                        <h1 className="font-medium">{period}</h1>
                         <div className="flex justify-between items-center gap-2">
                           <span className="text-muted-foreground capitalize">
                             {name}
@@ -121,12 +126,12 @@ export default function AnalyticsMonthlyTrend({
                 content={<ChartTooltipContent hideLabel />}
               />
               <Line
-                dataKey="income"
+                dataKey="total"
                 type="natural"
-                stroke="var(--color-income)"
+                stroke="var(--color-total)"
                 strokeWidth={2}
                 dot={{
-                  fill: "var(--color-income)",
+                  fill: "var(--color-total)",
                 }}
                 activeDot={{
                   r: 6,
@@ -138,7 +143,7 @@ export default function AnalyticsMonthlyTrend({
       </CardContent>
       {hasData && (
         <CardFooter className="flex-col items-start gap-1.5 text-xs bg-transparent">
-          {monthlyIncomeList.length >= 2 ? (
+          {incomeTrend.length >= 2 ? (
             <div className="flex items-center gap-1.5 font-medium text-foreground">
               {percentageThisMonthVsLastMonth > 0 ? (
                 <>
@@ -167,8 +172,8 @@ export default function AnalyticsMonthlyTrend({
             </div>
           )}
           <div className="leading-none text-muted-foreground">
-            Showing total income for the last {monthlyIncomeList.length} month
-            {monthlyIncomeList.length === 1 ? "" : "s"}
+            Showing total income for the last {incomeTrend.length} month
+            {incomeTrend.length === 1 ? "" : "s"}
           </div>
         </CardFooter>
       )}

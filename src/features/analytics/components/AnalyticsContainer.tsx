@@ -1,17 +1,19 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
+import { getRouteApi } from "@tanstack/react-router";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+import PendingState from "@/components/states/PendingState";
 
 import { analyticsQueryOptions } from "../queries";
+import { filterSchema } from "../schema";
+import type { Filter } from "../types";
+import AnalyticsFilter from "./AnalyticsFilter";
 import AnalyticsInvoiceStatusPie from "./AnalyticsInvoiceStatusPie";
 import AnalyticsMonthlyTrend from "./AnalyticsMonthlyTrend";
 import AnalyticsStats from "./AnalyticsStats";
 import AnalyticsTopClientsByRevenue from "./AnalyticsTopClientsByRevenue";
-import AnalyticsFilter from "./AnalyticsFilter";
-import { useForm } from "react-hook-form";
-import type { Filter } from "../types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { filterSchema } from "../schema";
-import { getRouteApi } from "@tanstack/react-router";
-import { useState } from "react";
 
 const routeApi = getRouteApi("/(protected)/analytics/");
 
@@ -27,12 +29,22 @@ export default function AnalyticsContainer() {
     },
   });
 
-  const { data: analytics } = useSuspenseQuery(analyticsQueryOptions(query));
+  const {
+    data: analytics,
+    isPending,
+    isError,
+  } = useQuery(analyticsQueryOptions(query));
 
   const onSubmit = (data: Filter) => {
     setIsOpen(false);
     navigate({ search: (prev) => ({ ...prev, ...data.date }) });
   };
+
+  if (isPending) return <PendingState />;
+
+  if (isError) {
+    return <div>Error</div>;
+  }
 
   return (
     <div>
@@ -43,14 +55,9 @@ export default function AnalyticsContainer() {
         isOpen={isOpen}
         onIsOpen={setIsOpen}
       />
-      <AnalyticsStats
-        stats={analytics?.stats}
-        numberOfMonths={analytics?.monthlyIncome.length}
-      />
+      <AnalyticsStats stats={analytics.stats} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <AnalyticsMonthlyTrend
-          monthlyIncomeList={analytics?.monthlyIncome || []}
-        />
+        <AnalyticsMonthlyTrend incomeTrend={analytics?.incomeTrend || []} />
         <AnalyticsInvoiceStatusPie
           invoiceStatus={analytics?.invoiceStatus || []}
         />

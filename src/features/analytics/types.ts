@@ -1,19 +1,25 @@
 import { z } from "zod";
+
 import type { filterSchema } from "./schema";
+
+type StatValues = {
+  current: number;
+  previous: number;
+  growth: number;
+};
 
 export type Filter = z.infer<typeof filterSchema>;
 
 export type Stats = {
-  totalRevenue: string;
-  averageMonthlyRevenue: string;
-  revenueGrowthPercentage: string;
-  totalClients: string;
-  totalInvoices: string;
+  revenue: StatValues;
+  outstanding: StatValues;
+  clients: StatValues;
+  invoices: StatValues;
 };
 
-export type MonthlyIncome = {
-  month: string;
-  income: number;
+export type IncomeTrend = {
+  period: string;
+  total: number;
 };
 
 export type InvoiceStatus = {
@@ -28,7 +34,7 @@ export type TopClient = {
 
 export type Analytics = {
   stats: Stats;
-  monthlyIncome: MonthlyIncome[];
+  incomeTrend: IncomeTrend[];
   invoiceStatus: InvoiceStatus[];
   topClients: TopClient[];
 };
