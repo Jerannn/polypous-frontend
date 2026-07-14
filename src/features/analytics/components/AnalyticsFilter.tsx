@@ -1,18 +1,20 @@
+import type { DateRange } from "react-day-picker";
+import {
+  type Control,
+  Controller,
+  type UseFormHandleSubmit,
+} from "react-hook-form";
+
+import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import {
-  Controller,
-  type Control,
-  type UseFormHandleSubmit,
-} from "react-hook-form";
-import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+
 import type { Filter } from "../types";
-import type { DateRange } from "react-day-picker";
 
 type AnalyticsFilter = {
   onSubmit: (data: Filter) => void;

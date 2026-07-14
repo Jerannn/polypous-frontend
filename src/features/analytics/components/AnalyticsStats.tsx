@@ -11,23 +11,11 @@ import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 import StatsCard from "../../../components/StatsCard";
 import type { Stats } from "../types";
 
-const defaultStats: Stats = {
-  totalRevenue: "0",
-  averageMonthlyRevenue: "0",
-  revenueGrowthPercentage: "0",
-  totalClients: "0",
-  totalInvoices: "0",
-};
-
 type AnalyticsStatsProps = {
-  stats?: Stats;
-  numberOfMonths?: number;
+  stats: Stats;
 };
 
-export default function AnalyticsStats({
-  stats = defaultStats,
-  numberOfMonths = 0,
-}: AnalyticsStatsProps) {
+export default function AnalyticsStats({ stats }: AnalyticsStatsProps) {
   const formatCurrency = useCurrencyFormatter();
 
   return (
@@ -35,29 +23,41 @@ export default function AnalyticsStats({
       <CardContent className="flex justify-start gap-4 px-0">
         <StatsCard
           title={"Total Revenue"}
-          value={`${formatCurrency(Number(stats.totalRevenue))}`}
-          description={`${Number(stats.revenueGrowthPercentage) > 0 ? "📈" : "📉"} ${stats.revenueGrowthPercentage}% vs last month`}
+          value={`${formatCurrency(Number(stats.revenue.current))}`}
+          description={`${Number(stats.revenue.growth) > 0 ? "📈" : "📉"} ${stats.revenue.growth}% vs previous month`}
           icon={BadgeDollarSign}
         />
 
         <StatsCard
-          title={"Avg Monthly Revenue"}
-          value={`${formatCurrency(Number(stats.averageMonthlyRevenue))}`}
-          description={`Over ${numberOfMonths} months`}
+          title={"Outstanding Revenue"}
+          value={`${formatCurrency(Number(stats.outstanding.current))}`}
+          description={
+            stats.outstanding.growth > 0
+              ? `+${stats.outstanding.growth}%`
+              : `-${stats.outstanding.growth}%`
+          }
           icon={HandCoins}
         />
 
         <StatsCard
           title={"Total Clients"}
-          value={stats.totalClients}
-          description={"Active clients"}
+          value={stats.clients.current.toString()}
+          description={
+            stats.clients.growth > 0
+              ? `+${stats.clients.growth}%`
+              : `-${stats.clients.growth}%`
+          }
           icon={UsersRound}
         />
 
         <StatsCard
           title={"Total Invoices"}
-          value={stats.totalInvoices}
-          description={"All time"}
+          value={stats.invoices.current.toString()}
+          description={
+            stats.invoices.growth > 0
+              ? `+${stats.invoices.growth}%`
+              : `-${stats.invoices.growth}%`
+          }
           icon={ReceiptText}
         />
       </CardContent>
