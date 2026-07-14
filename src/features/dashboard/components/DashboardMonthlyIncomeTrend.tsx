@@ -10,7 +10,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import type { MonthlyIncome } from "@/features/analytics/types";
+import type { MonthlyIncome } from "@/features/dashboard/types";
 import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 import { cn } from "@/lib/utils";
 
