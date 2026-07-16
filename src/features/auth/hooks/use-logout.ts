@@ -7,14 +7,17 @@ import { paymentKeys } from "@/features/payments/queryKeys";
 
 import { logout as logoutApi } from "../api";
 import { authKeys } from "../queryKeys";
+import { setAccessToken } from "@/lib/axios";
 
 export default function useLogout() {
   const queryClient = useQueryClient();
 
   const { mutateAsync: logout, isPending: isLoggingOut } = useMutation({
     mutationFn: logoutApi,
+
     onSuccess: () => {
       queryClient.setQueryData(authKeys.me(), null);
+      setAccessToken(null);
     },
     onSettled: () => {
       queryClient.removeQueries({ queryKey: authKeys.all });
