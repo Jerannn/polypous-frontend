@@ -3,9 +3,11 @@ import { z } from "zod";
 import type { filterSchema } from "./schema";
 
 type StatValues = {
+  total: number;
   current: number;
   previous: number;
   growth: number;
+  period: string;
 };
 
 export type Filter = z.infer<typeof filterSchema>;

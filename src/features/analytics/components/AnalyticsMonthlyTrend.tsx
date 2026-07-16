@@ -60,7 +60,6 @@ export default function AnalyticsMonthlyTrend({
     ...item,
     income: Number(item.total),
   }));
-  console.log(test);
 
   return (
     <Card>
