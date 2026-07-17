@@ -41,9 +41,8 @@ export default function DashboardMonthlyIncomeTrend({
       <CardContent className={cn(!hasData && "m-auto")}>
         {!hasData && (
           <EmptyState
-            title="No income data yet"
-            description="Monthly income trends will appear here once you record payments for
-          your invoices."
+            title="No Income Trend Data"
+            description="Your monthly revenue growth and payment trends will be plotted here once payments are recorded."
             icon={ChartColumn}
           />
         )}

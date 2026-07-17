@@ -73,7 +73,7 @@ export default function AnalyticsMonthlyTrend({
         {!hasData && (
           <EmptyState
             title="No Income Trend Data"
-            description="Your monthly revenue growth and payment trends will be plotted here once payments are recorded."
+            description="Your revenue growth and payment trends will be plotted here once payments are recorded."
             icon={ChartSpline}
           />
         )}

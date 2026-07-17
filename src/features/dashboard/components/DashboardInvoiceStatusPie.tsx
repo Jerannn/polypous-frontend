@@ -44,8 +44,8 @@ export default function DashboardInvoiceStatusPie({
       <CardContent className={cn(!hasData && "m-auto")}>
         {!hasData && (
           <EmptyState
-            title="No status data yet"
-            description="Invoice status will appear here once you have invoices."
+            title="No Invoice Status Data"
+            description="A visual breakdown of your paid, unpaid, and overdue invoices will appear here once you generate invoices."
             icon={ChartPie}
           />
         )}
