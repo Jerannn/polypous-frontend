@@ -58,7 +58,7 @@ export default function InvoiceFilter() {
           <ButtonGroup>
             <InputGroup className="max-w-xs">
               <InputGroupInput
-                placeholder="Search..."
+                placeholder="Search by invoice number or name"
                 {...register("search")}
               />
               <InputGroupAddon>

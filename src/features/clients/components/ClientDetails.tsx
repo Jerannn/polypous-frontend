@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { format } from "date-fns";
-import { Banknote,Mail, MapPin, Phone, ScrollText } from "lucide-react";
+import { Banknote, Mail, MapPin, Phone, ScrollText } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -28,6 +28,12 @@ import {
 import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 import type { Client } from "../types";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/components/ui/empty";
 
 type ClientDetailsProps = {
   client: Client;
@@ -145,6 +151,18 @@ export default function ClientDetails({
                   </CardAction>
                 </CardHeader>
                 <CardContent className="p-0">
+                  {!client.invoicesHistory.length && (
+                    <Empty>
+                      <EmptyHeader>
+                        <EmptyTitle>No Invoices Found</EmptyTitle>
+                        <EmptyDescription className="max-w-xs text-pretty">
+                          We couldn't find any invoices related to this client.
+                          You can create a new invoice to get started.
+                        </EmptyDescription>
+                      </EmptyHeader>
+                    </Empty>
+                  )}
+
                   {client.invoicesHistory.map((invoice) => (
                     <Item variant="muted" size="xs" key={invoice.invoiceNumber}>
                       <ItemContent className="flex-row justify-between gap-2">

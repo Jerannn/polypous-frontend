@@ -58,7 +58,7 @@ export default function ClientFilter() {
           <ButtonGroup>
             <InputGroup className="max-w-xs">
               <InputGroupInput
-                placeholder="Search..."
+                placeholder="Search by name"
                 {...register("search")}
               />
               <InputGroupAddon>
