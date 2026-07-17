@@ -53,7 +53,7 @@ export default function DashboardRecentInvoices({
               <TableRow>
                 <TableCell>
                   <EmptyState
-                    title="No recent invoice yet"
+                    title="No recent invoice Data"
                     description="Recent invoice will appear here once you have invoices."
                     icon={ScrollText}
                   />
