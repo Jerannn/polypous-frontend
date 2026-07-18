@@ -4,10 +4,10 @@ import { clientsKeys } from "@/features/clients/queryKeys";
 import { dashboardKeys } from "@/features/dashboard/queryKeys";
 import { invoiceKeys } from "@/features/invoice/queryKeys";
 import { paymentKeys } from "@/features/payments/queryKeys";
+import { setAccessToken } from "@/lib/axios";
 
 import { logout as logoutApi } from "../api";
 import { authKeys } from "../queryKeys";
-import { setAccessToken } from "@/lib/axios";
 
 export default function useLogout() {
   const queryClient = useQueryClient();

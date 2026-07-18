@@ -20,10 +20,13 @@ import { Route as protectedInvoicesIndexRouteImport } from './routes/(protected)
 import { Route as protectedDashboardIndexRouteImport } from './routes/(protected)/dashboard/index'
 import { Route as protectedClientsIndexRouteImport } from './routes/(protected)/clients/index'
 import { Route as protectedAnalyticsIndexRouteImport } from './routes/(protected)/analytics/index'
+import { Route as publicAuthVerifyEmailRouteImport } from './routes/(public)/auth/verify-email'
+import { Route as publicAuthRegisterRouteImport } from './routes/(public)/auth/register'
+import { Route as publicAuthLoginRouteImport } from './routes/(public)/auth/login'
 import { Route as protectedInvoicesInvoiceIdRouteRouteImport } from './routes/(protected)/invoices/$invoiceId/route'
-import { Route as publicAuthVerifyEmailIndexRouteImport } from './routes/(public)/auth/verify-email/index'
-import { Route as publicAuthRegisterIndexRouteImport } from './routes/(public)/auth/register/index'
-import { Route as publicAuthLoginIndexRouteImport } from './routes/(public)/auth/login/index'
+import { Route as publicAuthForgotPasswordIndexRouteImport } from './routes/(public)/auth/forgot-password/index'
+import { Route as publicAuthForgotPasswordVerifyRouteImport } from './routes/(public)/auth/forgot-password/verify'
+import { Route as publicAuthForgotPasswordResetRouteImport } from './routes/(public)/auth/forgot-password/reset'
 import { Route as protectedInvoicesInvoiceIdEditRouteImport } from './routes/(protected)/invoices/$invoiceId/edit'
 import { Route as protectedInvoicesInvoiceIdDetailsRouteImport } from './routes/(protected)/invoices/$invoiceId/details'
 
@@ -83,28 +86,45 @@ const protectedInvoicesNewLazyRoute = protectedInvoicesNewLazyRouteImport
   .lazy(() =>
     import('./routes/(protected)/invoices/new.lazy').then((d) => d.Route),
   )
+const publicAuthVerifyEmailRoute = publicAuthVerifyEmailRouteImport.update({
+  id: '/auth/verify-email',
+  path: '/auth/verify-email',
+  getParentRoute: () => publicRouteRoute,
+} as any)
+const publicAuthRegisterRoute = publicAuthRegisterRouteImport.update({
+  id: '/auth/register',
+  path: '/auth/register',
+  getParentRoute: () => publicRouteRoute,
+} as any)
+const publicAuthLoginRoute = publicAuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => publicRouteRoute,
+} as any)
 const protectedInvoicesInvoiceIdRouteRoute =
   protectedInvoicesInvoiceIdRouteRouteImport.update({
     id: '/invoices/$invoiceId',
     path: '/invoices/$invoiceId',
     getParentRoute: () => protectedRouteRoute,
   } as any)
-const publicAuthVerifyEmailIndexRoute =
-  publicAuthVerifyEmailIndexRouteImport.update({
-    id: '/auth/verify-email/',
-    path: '/auth/verify-email/',
+const publicAuthForgotPasswordIndexRoute =
+  publicAuthForgotPasswordIndexRouteImport.update({
+    id: '/auth/forgot-password/',
+    path: '/auth/forgot-password/',
     getParentRoute: () => publicRouteRoute,
   } as any)
-const publicAuthRegisterIndexRoute = publicAuthRegisterIndexRouteImport.update({
-  id: '/auth/register/',
-  path: '/auth/register/',
-  getParentRoute: () => publicRouteRoute,
-} as any)
-const publicAuthLoginIndexRoute = publicAuthLoginIndexRouteImport.update({
-  id: '/auth/login/',
-  path: '/auth/login/',
-  getParentRoute: () => publicRouteRoute,
-} as any)
+const publicAuthForgotPasswordVerifyRoute =
+  publicAuthForgotPasswordVerifyRouteImport.update({
+    id: '/auth/forgot-password/verify',
+    path: '/auth/forgot-password/verify',
+    getParentRoute: () => publicRouteRoute,
+  } as any)
+const publicAuthForgotPasswordResetRoute =
+  publicAuthForgotPasswordResetRouteImport.update({
+    id: '/auth/forgot-password/reset',
+    path: '/auth/forgot-password/reset',
+    getParentRoute: () => publicRouteRoute,
+  } as any)
 const protectedInvoicesInvoiceIdEditRoute =
   protectedInvoicesInvoiceIdEditRouteImport.update({
     id: '/edit',
@@ -121,6 +141,9 @@ const protectedInvoicesInvoiceIdDetailsRoute =
 export interface FileRoutesByFullPath {
   '/': typeof publicIndexRoute
   '/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRouteRouteWithChildren
+  '/auth/login': typeof publicAuthLoginRoute
+  '/auth/register': typeof publicAuthRegisterRoute
+  '/auth/verify-email': typeof publicAuthVerifyEmailRoute
   '/invoices/new': typeof protectedInvoicesNewLazyRoute
   '/analytics/': typeof protectedAnalyticsIndexRoute
   '/clients/': typeof protectedClientsIndexRoute
@@ -130,13 +153,16 @@ export interface FileRoutesByFullPath {
   '/settings/': typeof protectedSettingsIndexRoute
   '/invoices/$invoiceId/details': typeof protectedInvoicesInvoiceIdDetailsRoute
   '/invoices/$invoiceId/edit': typeof protectedInvoicesInvoiceIdEditRoute
-  '/auth/login/': typeof publicAuthLoginIndexRoute
-  '/auth/register/': typeof publicAuthRegisterIndexRoute
-  '/auth/verify-email/': typeof publicAuthVerifyEmailIndexRoute
+  '/auth/forgot-password/reset': typeof publicAuthForgotPasswordResetRoute
+  '/auth/forgot-password/verify': typeof publicAuthForgotPasswordVerifyRoute
+  '/auth/forgot-password/': typeof publicAuthForgotPasswordIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof publicIndexRoute
   '/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRouteRouteWithChildren
+  '/auth/login': typeof publicAuthLoginRoute
+  '/auth/register': typeof publicAuthRegisterRoute
+  '/auth/verify-email': typeof publicAuthVerifyEmailRoute
   '/invoices/new': typeof protectedInvoicesNewLazyRoute
   '/analytics': typeof protectedAnalyticsIndexRoute
   '/clients': typeof protectedClientsIndexRoute
@@ -146,9 +172,9 @@ export interface FileRoutesByTo {
   '/settings': typeof protectedSettingsIndexRoute
   '/invoices/$invoiceId/details': typeof protectedInvoicesInvoiceIdDetailsRoute
   '/invoices/$invoiceId/edit': typeof protectedInvoicesInvoiceIdEditRoute
-  '/auth/login': typeof publicAuthLoginIndexRoute
-  '/auth/register': typeof publicAuthRegisterIndexRoute
-  '/auth/verify-email': typeof publicAuthVerifyEmailIndexRoute
+  '/auth/forgot-password/reset': typeof publicAuthForgotPasswordResetRoute
+  '/auth/forgot-password/verify': typeof publicAuthForgotPasswordVerifyRoute
+  '/auth/forgot-password': typeof publicAuthForgotPasswordIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -156,6 +182,9 @@ export interface FileRoutesById {
   '/(public)': typeof publicRouteRouteWithChildren
   '/(public)/': typeof publicIndexRoute
   '/(protected)/invoices/$invoiceId': typeof protectedInvoicesInvoiceIdRouteRouteWithChildren
+  '/(public)/auth/login': typeof publicAuthLoginRoute
+  '/(public)/auth/register': typeof publicAuthRegisterRoute
+  '/(public)/auth/verify-email': typeof publicAuthVerifyEmailRoute
   '/(protected)/invoices/new': typeof protectedInvoicesNewLazyRoute
   '/(protected)/analytics/': typeof protectedAnalyticsIndexRoute
   '/(protected)/clients/': typeof protectedClientsIndexRoute
@@ -165,15 +194,18 @@ export interface FileRoutesById {
   '/(protected)/settings/': typeof protectedSettingsIndexRoute
   '/(protected)/invoices/$invoiceId/details': typeof protectedInvoicesInvoiceIdDetailsRoute
   '/(protected)/invoices/$invoiceId/edit': typeof protectedInvoicesInvoiceIdEditRoute
-  '/(public)/auth/login/': typeof publicAuthLoginIndexRoute
-  '/(public)/auth/register/': typeof publicAuthRegisterIndexRoute
-  '/(public)/auth/verify-email/': typeof publicAuthVerifyEmailIndexRoute
+  '/(public)/auth/forgot-password/reset': typeof publicAuthForgotPasswordResetRoute
+  '/(public)/auth/forgot-password/verify': typeof publicAuthForgotPasswordVerifyRoute
+  '/(public)/auth/forgot-password/': typeof publicAuthForgotPasswordIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/invoices/$invoiceId'
+    | '/auth/login'
+    | '/auth/register'
+    | '/auth/verify-email'
     | '/invoices/new'
     | '/analytics/'
     | '/clients/'
@@ -183,13 +215,16 @@ export interface FileRouteTypes {
     | '/settings/'
     | '/invoices/$invoiceId/details'
     | '/invoices/$invoiceId/edit'
-    | '/auth/login/'
-    | '/auth/register/'
-    | '/auth/verify-email/'
+    | '/auth/forgot-password/reset'
+    | '/auth/forgot-password/verify'
+    | '/auth/forgot-password/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/invoices/$invoiceId'
+    | '/auth/login'
+    | '/auth/register'
+    | '/auth/verify-email'
     | '/invoices/new'
     | '/analytics'
     | '/clients'
@@ -199,15 +234,18 @@ export interface FileRouteTypes {
     | '/settings'
     | '/invoices/$invoiceId/details'
     | '/invoices/$invoiceId/edit'
-    | '/auth/login'
-    | '/auth/register'
-    | '/auth/verify-email'
+    | '/auth/forgot-password/reset'
+    | '/auth/forgot-password/verify'
+    | '/auth/forgot-password'
   id:
     | '__root__'
     | '/(protected)'
     | '/(public)'
     | '/(public)/'
     | '/(protected)/invoices/$invoiceId'
+    | '/(public)/auth/login'
+    | '/(public)/auth/register'
+    | '/(public)/auth/verify-email'
     | '/(protected)/invoices/new'
     | '/(protected)/analytics/'
     | '/(protected)/clients/'
@@ -217,9 +255,9 @@ export interface FileRouteTypes {
     | '/(protected)/settings/'
     | '/(protected)/invoices/$invoiceId/details'
     | '/(protected)/invoices/$invoiceId/edit'
-    | '/(public)/auth/login/'
-    | '/(public)/auth/register/'
-    | '/(public)/auth/verify-email/'
+    | '/(public)/auth/forgot-password/reset'
+    | '/(public)/auth/forgot-password/verify'
+    | '/(public)/auth/forgot-password/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -299,6 +337,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protectedInvoicesNewLazyRouteImport
       parentRoute: typeof protectedRouteRoute
     }
+    '/(public)/auth/verify-email': {
+      id: '/(public)/auth/verify-email'
+      path: '/auth/verify-email'
+      fullPath: '/auth/verify-email'
+      preLoaderRoute: typeof publicAuthVerifyEmailRouteImport
+      parentRoute: typeof publicRouteRoute
+    }
+    '/(public)/auth/register': {
+      id: '/(public)/auth/register'
+      path: '/auth/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof publicAuthRegisterRouteImport
+      parentRoute: typeof publicRouteRoute
+    }
+    '/(public)/auth/login': {
+      id: '/(public)/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof publicAuthLoginRouteImport
+      parentRoute: typeof publicRouteRoute
+    }
     '/(protected)/invoices/$invoiceId': {
       id: '/(protected)/invoices/$invoiceId'
       path: '/invoices/$invoiceId'
@@ -306,25 +365,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protectedInvoicesInvoiceIdRouteRouteImport
       parentRoute: typeof protectedRouteRoute
     }
-    '/(public)/auth/verify-email/': {
-      id: '/(public)/auth/verify-email/'
-      path: '/auth/verify-email'
-      fullPath: '/auth/verify-email/'
-      preLoaderRoute: typeof publicAuthVerifyEmailIndexRouteImport
+    '/(public)/auth/forgot-password/': {
+      id: '/(public)/auth/forgot-password/'
+      path: '/auth/forgot-password'
+      fullPath: '/auth/forgot-password/'
+      preLoaderRoute: typeof publicAuthForgotPasswordIndexRouteImport
       parentRoute: typeof publicRouteRoute
     }
-    '/(public)/auth/register/': {
-      id: '/(public)/auth/register/'
-      path: '/auth/register'
-      fullPath: '/auth/register/'
-      preLoaderRoute: typeof publicAuthRegisterIndexRouteImport
+    '/(public)/auth/forgot-password/verify': {
+      id: '/(public)/auth/forgot-password/verify'
+      path: '/auth/forgot-password/verify'
+      fullPath: '/auth/forgot-password/verify'
+      preLoaderRoute: typeof publicAuthForgotPasswordVerifyRouteImport
       parentRoute: typeof publicRouteRoute
     }
-    '/(public)/auth/login/': {
-      id: '/(public)/auth/login/'
-      path: '/auth/login'
-      fullPath: '/auth/login/'
-      preLoaderRoute: typeof publicAuthLoginIndexRouteImport
+    '/(public)/auth/forgot-password/reset': {
+      id: '/(public)/auth/forgot-password/reset'
+      path: '/auth/forgot-password/reset'
+      fullPath: '/auth/forgot-password/reset'
+      preLoaderRoute: typeof publicAuthForgotPasswordResetRouteImport
       parentRoute: typeof publicRouteRoute
     }
     '/(protected)/invoices/$invoiceId/edit': {
@@ -390,16 +449,22 @@ const protectedRouteRouteWithChildren = protectedRouteRoute._addFileChildren(
 
 interface publicRouteRouteChildren {
   publicIndexRoute: typeof publicIndexRoute
-  publicAuthLoginIndexRoute: typeof publicAuthLoginIndexRoute
-  publicAuthRegisterIndexRoute: typeof publicAuthRegisterIndexRoute
-  publicAuthVerifyEmailIndexRoute: typeof publicAuthVerifyEmailIndexRoute
+  publicAuthLoginRoute: typeof publicAuthLoginRoute
+  publicAuthRegisterRoute: typeof publicAuthRegisterRoute
+  publicAuthVerifyEmailRoute: typeof publicAuthVerifyEmailRoute
+  publicAuthForgotPasswordResetRoute: typeof publicAuthForgotPasswordResetRoute
+  publicAuthForgotPasswordVerifyRoute: typeof publicAuthForgotPasswordVerifyRoute
+  publicAuthForgotPasswordIndexRoute: typeof publicAuthForgotPasswordIndexRoute
 }
 
 const publicRouteRouteChildren: publicRouteRouteChildren = {
   publicIndexRoute: publicIndexRoute,
-  publicAuthLoginIndexRoute: publicAuthLoginIndexRoute,
-  publicAuthRegisterIndexRoute: publicAuthRegisterIndexRoute,
-  publicAuthVerifyEmailIndexRoute: publicAuthVerifyEmailIndexRoute,
+  publicAuthLoginRoute: publicAuthLoginRoute,
+  publicAuthRegisterRoute: publicAuthRegisterRoute,
+  publicAuthVerifyEmailRoute: publicAuthVerifyEmailRoute,
+  publicAuthForgotPasswordResetRoute: publicAuthForgotPasswordResetRoute,
+  publicAuthForgotPasswordVerifyRoute: publicAuthForgotPasswordVerifyRoute,
+  publicAuthForgotPasswordIndexRoute: publicAuthForgotPasswordIndexRoute,
 }
 
 const publicRouteRouteWithChildren = publicRouteRoute._addFileChildren(

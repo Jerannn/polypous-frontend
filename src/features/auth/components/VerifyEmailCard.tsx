@@ -19,9 +19,10 @@ import useOtpTimer from "@/features/auth/hooks/use-otp-timer";
 import useVerifyEmailFlow from "@/features/auth/hooks/use-verify-email-flow";
 import { verifyCodeSchema } from "@/features/auth/schema";
 import type { VerifyCodePayload } from "@/features/auth/types";
-import { otpQueryOptions } from "@/routes/(public)/auth/verify-email";
 
-const routeApi = getRouteApi("/(public)/auth/verify-email/");
+import { otpQueryOptions } from "../queries";
+
+const routeApi = getRouteApi("/(public)/auth/verify-email");
 
 export default function VerifyEmailCard() {
   const {

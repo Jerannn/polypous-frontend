@@ -1,10 +1,23 @@
 import { z } from "zod";
 
-import type { loginSchema, registerSchema, verifyCodeSchema } from "./schema";
+import type {
+  emailSchema,
+  loginSchema,
+  registerSchema,
+  resetPasswordSchema,
+  verifyCodeSchema,
+  verifyPasswordResetSchema,
+} from "./schema";
 
 export type RegisterPayload = z.infer<typeof registerSchema>;
 export type VerifyCodePayload = z.infer<typeof verifyCodeSchema>;
 export type LoginPayload = z.infer<typeof loginSchema>;
+export type EmailPayload = z.infer<typeof emailSchema>;
+export type VerifyPasswordResetPayload = z.infer<
+  typeof verifyPasswordResetSchema
+>;
+export type ResetPasswordPayload = z.infer<typeof resetPasswordSchema>;
+
 export type VerifyEmailPayload = {
   email: string;
   otp: string;

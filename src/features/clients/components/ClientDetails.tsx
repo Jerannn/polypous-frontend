@@ -11,6 +11,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import {
   Item,
   ItemContent,
   ItemDescription,
@@ -28,12 +34,6 @@ import {
 import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 import type { Client } from "../types";
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyTitle,
-} from "@/components/ui/empty";
 
 type ClientDetailsProps = {
   client: Client;

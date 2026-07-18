@@ -2,7 +2,7 @@ import { type QueryClient, queryOptions } from "@tanstack/react-query";
 
 import { ApiError } from "@/utils/apiError";
 
-import { getMe as getMeApi } from "./api";
+import { getMe as getMeApi, requestOtp as requestOtpApi } from "./api";
 import { authKeys } from "./queryKeys";
 import type { User } from "./types";
 
@@ -26,3 +26,8 @@ export function meQueryOptions() {
     gcTime: Infinity,
   });
 }
+
+export const otpQueryOptions = (email: string, action: string) => ({
+  queryKey: ["otp", email, action],
+  queryFn: () => requestOtpApi(email, action),
+});
