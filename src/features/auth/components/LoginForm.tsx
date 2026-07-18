@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { EyeOffIcon, Lock, Mail } from "lucide-react";
+import { Eye, EyeOffIcon, Lock, Mail } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -32,6 +33,7 @@ import { ApiError } from "@/utils/apiError";
 import { useAuth } from "../AuthProvider";
 
 export default function LoginForm() {
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { login, isLoggingIn } = useAuth();
 
@@ -119,15 +121,19 @@ export default function LoginForm() {
                   <InputGroupInput
                     id="password"
                     placeholder="Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     disabled={isLoggingIn}
                     {...register("password")}
                   />
                   <InputGroupAddon>
                     <Lock />
                   </InputGroupAddon>
-                  <InputGroupAddon align="inline-end">
-                    <EyeOffIcon />
+                  <InputGroupAddon
+                    align="inline-end"
+                    className="cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <Eye /> : <EyeOffIcon />}
                   </InputGroupAddon>
                 </InputGroup>
                 {errors.password && (
@@ -136,6 +142,12 @@ export default function LoginForm() {
               </Field>
             </FieldGroup>
           </form>
+          <Link
+            to="/auth/forgot-password"
+            className="block text-xs mt-4 text-muted-foreground hover:underline"
+          >
+            Forgot Password
+          </Link>
         </CardContent>
 
         <CardFooter className="flex-col gap-2 px-5 py-3">

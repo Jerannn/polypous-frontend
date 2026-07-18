@@ -5,12 +5,13 @@ import PendingState from "@/components/states/PendingState";
 import { InvoiceFormProvider } from "@/features/invoice/components/context/InvoiceFormContext";
 import InvoiceForm from "@/features/invoice/components/form/InvoiceForm";
 import { invoiceQueryOptions } from "@/features/invoice/queries";
-import { queryClient } from "@/lib/queryClient";
 
 export const Route = createFileRoute("/(protected)/invoices/$invoiceId/edit")({
   component: EditInvoice,
-  loader: async ({ params }) => {
-    await queryClient.ensureQueryData(invoiceQueryOptions(params.invoiceId));
+  loader: async ({ context, params }) => {
+    await context.queryClient.ensureQueryData(
+      invoiceQueryOptions(params.invoiceId),
+    );
   },
   pendingComponent: () => <PendingState />,
 });

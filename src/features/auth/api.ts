@@ -2,12 +2,15 @@ import { api } from "@/lib/axios";
 import type { SuccessResponse } from "@/types/response.types";
 
 import type {
+  EmailPayload,
   LoginPayload,
   Otp,
   RegisterPayload,
   ResendOtpPayload,
+  ResetPasswordPayload,
   User,
   VerifyEmailPayload,
+  VerifyPasswordResetPayload,
 } from "./types";
 
 export const register = async (payload: RegisterPayload): Promise<User> => {
@@ -62,4 +65,20 @@ export const logout = async (): Promise<string> => {
   const response = (await api.post("/auth/logout")) as SuccessResponse<null>;
 
   return response.status;
+};
+
+export const requestPasswordReset = async (payload: EmailPayload) => {
+  await api.post("/auth/password/forgot", payload);
+};
+
+export const verifyPasswordReset = async (
+  payload: VerifyPasswordResetPayload,
+): Promise<string> => {
+  const response = await api.post("/auth/password/verify", payload);
+
+  return response.data.data.token;
+};
+
+export const resetPassword = async (payload: ResetPasswordPayload) => {
+  await api.post("/auth/password/reset", payload);
 };
