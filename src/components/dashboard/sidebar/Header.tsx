@@ -1,13 +1,14 @@
 import { Link } from "@tanstack/react-router";
 
-import logo from "@/assets/img/logo.svg";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useTheme } from "@/context/ThemeProvider";
 
 export default function Header() {
+  const { logo } = useTheme();
   return (
     <SidebarMenu>
       <SidebarMenuItem>

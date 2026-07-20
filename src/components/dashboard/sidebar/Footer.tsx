@@ -22,15 +22,15 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useTheme } from "@/context/ThemeProvider";
 import { useAuth } from "@/features/auth/AuthProvider";
-import useTheme from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 export default function Footer() {
   const navigate = useNavigate();
   const { logout, isLoggingOut, user } = useAuth();
-  const { theme, handleThemeChange } = useTheme();
   const { isMobile } = useSidebar();
+  const { theme, handleThemeChange } = useTheme();
 
   return (
     <SidebarMenu>

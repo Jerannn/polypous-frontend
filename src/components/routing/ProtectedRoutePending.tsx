@@ -1,6 +1,10 @@
-import logo from "@/assets/img/logo.svg";
+// import logo from "@/assets/img/logo.svg";
+
+import { useTheme } from "@/context/ThemeProvider";
 
 export default function ProtectedRoutePending() {
+  const { logo } = useTheme();
+
   return (
     <div
       className="flex min-h-svh w-full flex-col items-center justify-center bg-background p-8 animate-app-boot"
