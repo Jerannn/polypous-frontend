@@ -6,6 +6,7 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 
 import App from "./App";
+import { ThemeProvider } from "./context/ThemeProvider";
 import { AuthProvider } from "./features/auth/AuthProvider";
 import { queryClient } from "./lib/queryClient";
 // Import the generated route tree
@@ -40,9 +41,11 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </ThemeProvider>
       </QueryClientProvider>
     </StrictMode>,
   );
