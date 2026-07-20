@@ -1,14 +1,15 @@
 import { format } from "date-fns";
 
-import logo from "@/assets/img/logo.svg";
 import { CardHeader } from "@/components/ui/card";
 import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
+import { useTheme } from "@/context/ThemeProvider";
 
 export default function InvoiceDocumentHeader() {
   const { invoice } = useInvoiceDetails();
   const formatCurrency = useCurrencyFormatter();
+  const { logo } = useTheme();
 
   return (
     <CardHeader className="px-0">

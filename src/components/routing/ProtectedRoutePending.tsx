@@ -1,5 +1,3 @@
-// import logo from "@/assets/img/logo.svg";
-
 import { useTheme } from "@/context/ThemeProvider";
 
 export default function ProtectedRoutePending() {
