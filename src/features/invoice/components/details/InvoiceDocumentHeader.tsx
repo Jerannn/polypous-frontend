@@ -1,10 +1,10 @@
 import { format } from "date-fns";
 
 import { CardHeader } from "@/components/ui/card";
+import { useTheme } from "@/context/ThemeProvider";
 import useCurrencyFormatter from "@/hooks/useCurrencyFormatter";
 
 import { useInvoiceDetails } from "../context/InvoiceDetailsContext";
-import { useTheme } from "@/context/ThemeProvider";
 
 export default function InvoiceDocumentHeader() {
   const { invoice } = useInvoiceDetails();

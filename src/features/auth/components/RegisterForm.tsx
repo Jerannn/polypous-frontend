@@ -1,7 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@tanstack/react-router";
 import { useNavigate } from "@tanstack/react-router";
-import { EyeOffIcon, Lock, Mail, User } from "lucide-react";
+import { Eye, EyeOffIcon, Lock, Mail, User } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import ActionButtonContent from "@/components/ActionButtonContent";
@@ -32,6 +33,8 @@ import { ApiError } from "@/utils/apiError";
 import { useAuth } from "../AuthProvider";
 
 export default function RegisterForm() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { register: registerUser, isRegistering } = useAuth();
   const navigate = useNavigate();
 
@@ -139,15 +142,19 @@ export default function RegisterForm() {
                   <InputGroupInput
                     id="password"
                     placeholder="Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     {...register("password")}
                     disabled={isRegistering}
                   />
                   <InputGroupAddon>
                     <Lock />
                   </InputGroupAddon>
-                  <InputGroupAddon align="inline-end">
-                    <EyeOffIcon />
+                  <InputGroupAddon
+                    align="inline-end"
+                    className="cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <Eye /> : <EyeOffIcon />}
                   </InputGroupAddon>
                 </InputGroup>
                 {errors.password && (
@@ -164,15 +171,19 @@ export default function RegisterForm() {
                   <InputGroupInput
                     id="confirmPassword"
                     placeholder="Confirm Password"
-                    type="password"
+                    type={showConfirmPassword ? "text" : "password"}
                     {...register("confirmPassword")}
                     disabled={isRegistering}
                   />
                   <InputGroupAddon>
                     <Lock />
                   </InputGroupAddon>
-                  <InputGroupAddon align="inline-end">
-                    <EyeOffIcon />
+                  <InputGroupAddon
+                    align="inline-end"
+                    className="cursor-pointer"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? <Eye /> : <EyeOffIcon />}
                   </InputGroupAddon>
                 </InputGroup>
                 {errors.confirmPassword && (

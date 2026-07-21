@@ -22,7 +22,7 @@ export default function AnalyticsContainer() {
   const navigate = routeApi.useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
-  const { control, handleSubmit } = useForm<Filter>({
+  const { control, handleSubmit, reset } = useForm<Filter>({
     resolver: zodResolver(filterSchema as any),
     defaultValues: {
       date: query,
@@ -37,7 +37,14 @@ export default function AnalyticsContainer() {
 
   const onSubmit = (data: Filter) => {
     setIsOpen(false);
+    reset(data);
     navigate({ search: (prev) => ({ ...prev, ...data.date }) });
+  };
+
+  const handleClear = () => {
+    const cleared = { date: { from: undefined, to: undefined } };
+    reset(cleared);
+    navigate({ search: (prev) => ({ ...prev, ...cleared.date }) });
   };
 
   if (isPending) return <PendingState />;
@@ -54,6 +61,7 @@ export default function AnalyticsContainer() {
         handleSubmit={handleSubmit}
         isOpen={isOpen}
         onIsOpen={setIsOpen}
+        onClear={handleClear}
       />
       <AnalyticsStats stats={analytics.stats} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
