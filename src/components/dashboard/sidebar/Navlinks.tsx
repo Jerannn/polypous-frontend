@@ -20,6 +20,7 @@ export default function Navlinks() {
         <SidebarMenu className="gap-2">
           {navMainList.map((item) => {
             const isActive = item.url === currentPath;
+            if (item.url === "/settings") return;
 
             return (
               <SidebarMenuItem

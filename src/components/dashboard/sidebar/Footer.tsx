@@ -87,7 +87,7 @@ export default function Footer() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate({ to: "/settings" })}>
                 <CircleUser />
                 Account
               </DropdownMenuItem>
