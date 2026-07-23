@@ -34,8 +34,7 @@ export default function BusinessDetailsForm({
   isRetrieving,
 }: BusinessDetailsFormProps) {
   const { updateBusiness, isUpdating } = useUpdateBusiness();
-  //   const { business, isRetrieving } = useRetrieveBusiness();
-  console.log(initialValues);
+
   const {
     register,
     handleSubmit,

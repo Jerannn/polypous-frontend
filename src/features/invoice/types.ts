@@ -58,6 +58,7 @@ export type InvoiceFreelancer = {
   email: string;
   phone: string;
   address: string;
+  brandUrl: string | null;
 };
 
 export type InvoicePayment = {
