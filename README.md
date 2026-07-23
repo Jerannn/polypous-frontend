@@ -1,75 +1,81 @@
-# React + TypeScript + Vite
+# Polypous - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Polypous is a modern, type-safe Client and Invoice Management Dashboard. This directory contains the frontend user interface, built with React 19, Vite, and TypeScript.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🎯 Purpose & Utility
 
-## React Compiler
+The frontend provides a minimalist, high-fidelity user interface designed to help freelancers, developers, designers, and agencies manage their financial workflow. It aims to make creating invoices, tracking payments, and viewing financial growth analytics intuitive, responsive, and visually appealing.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## 🚀 Features
 
-Note: This will impact Vite dev & build performances.
+- **🔒 Authentication**: Secure login, registration, email verification, and password recovery.
+- **📊 Dashboard**: Dynamic widgets, interactive charts, and business metrics overview.
+- **📄 Invoices**: Create, edit, and track invoice statuses (draft, sent, paid, overdue).
+- **👥 Client Management**: Manage clients, view client histories, and track client-specific invoicing.
+- **💳 Payments**: Record and monitor incoming payments and transactions.
+- **📈 Analytics**: Rich data visualization using Recharts.
+- **⚙️ Settings**: Account customization, system preferences, and application settings.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Core**: React 19, TypeScript, Vite
+- **Routing**: [TanStack Router](https://tanstack.com/router) (fully type-safe routing)
+- **Data Fetching**: [TanStack Query](https://tanstack.com/query) (React Query)
+- **State Management**: [Zustand](https://github.com/pmndrs/zustand)
+- **Styling**: Tailwind CSS v4, Radix UI (Headless components)
+- **Forms & Validation**: React Hook Form, Zod
+- **Icons**: Hugeicons, Lucide React
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📦 Getting Started
+
+### Prerequisites
+
+Ensure you have **Node.js** (v18+ recommended) and **npm** installed.
+
+### Installation
+
+Clone the repository and install dependencies:
+
+```bash
+cd frontend
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Start the local development server:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run start:dev
+```
+
+### Build
+
+Compile the production-ready build:
+
+```bash
+npm run build
+```
+
+---
+
+## 📁 Project Structure
+
+```text
+src/
+├── assets/          # Static assets (images, logos, icons)
+├── components/      # Shared UI and layout components
+├── context/         # React context providers
+├── features/        # Feature-specific logic & components (auth, invoices, etc.)
+├── hooks/           # Custom React hooks
+├── lib/             # Utility library integrations (axios, queryClient)
+├── routes/          # TanStack file-based routes
+├── types/           # Global TypeScript type definitions
+└── utils/           # Helper/utility functions
 ```

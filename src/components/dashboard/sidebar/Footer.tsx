@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { CircleUser, EllipsisVertical, LogOut, Moon, Sun } from "lucide-react";
+import { EllipsisVertical, LogOut, Moon, Settings, Sun } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -88,8 +88,8 @@ export default function Footer() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={() => navigate({ to: "/settings" })}>
-                <CircleUser />
-                Account
+                <Settings />
+                Settings
               </DropdownMenuItem>
             </DropdownMenuGroup>
 

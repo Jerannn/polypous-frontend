@@ -13,7 +13,20 @@ export default function InvoiceDocumentHeader() {
 
   return (
     <CardHeader className="px-0">
-      <img src={logo} alt="Polypous Logo" className="w-7 h-7 object-contain" />
+      {invoice.freelancer?.brandUrl ? (
+        <img
+          src={invoice.freelancer.brandUrl}
+          alt="Freelancer Logo"
+          className="w-7 h-7 object-contain"
+        />
+      ) : (
+        <img
+          src={logo}
+          alt="Polypous Logo"
+          className="w-7 h-7 object-contain"
+        />
+      )}
+
       <div className="text-left sm:text-right space-y-1">
         <p className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground print:text-gray-500">
           INVOICE
