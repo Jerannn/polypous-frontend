@@ -47,7 +47,11 @@ export default function ResetPasswordForm() {
 
   return (
     <div className="max-w-lg w-full mx-auto mt-10">
-      <Button variant="link" className="-ml-3">
+      <Button
+        variant="link"
+        className="-ml-3"
+        onClick={() => navigate({ to: "/auth/forgot-password" })}
+      >
         <ChevronLeft />
         Back
       </Button>

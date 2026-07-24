@@ -49,7 +49,7 @@ export default function DashboardMonthlyIncomeTrend({
 
         {hasData && (
           <ChartContainer config={chartConfig} className="h-full w-full">
-            <BarChart accessibilityLayer data={monthlyIncome}>
+            <BarChart accessibilityLayer data={monthlyIncome.reverse()}>
               <CartesianGrid vertical={true} />
               <XAxis
                 dataKey="month"

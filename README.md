@@ -1,4 +1,4 @@
-# Polypous - Frontend
+# Polypous
 
 Polypous is a modern, type-safe Client and Invoice Management Dashboard. This directory contains the frontend user interface, built with React 19, Vite, and TypeScript.
 

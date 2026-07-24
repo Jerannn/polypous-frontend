@@ -21,6 +21,7 @@ import {
 import useVerifyPasswordReset from "../hooks/use-verify-password-reset";
 import { verifyPasswordResetSchema } from "../schema";
 import type { VerifyPasswordResetPayload } from "../types";
+import { ApiError } from "@/utils/apiError";
 
 const routeApi = getRouteApi("/(public)/auth/forgot-password/verify");
 
@@ -31,6 +32,7 @@ export default function VerifyPasswordResetForm() {
     control,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<VerifyPasswordResetPayload>({
     resolver: zodResolver(verifyPasswordResetSchema),
     defaultValues: {
@@ -42,16 +44,50 @@ export default function VerifyPasswordResetForm() {
   const { verifyPasswordReset, isVerifying } = useVerifyPasswordReset();
 
   const onSubmit = async (data: VerifyPasswordResetPayload) => {
-    const token = await verifyPasswordReset(data);
-    navigate({
-      to: "/auth/forgot-password/reset",
-      search: { token },
-    });
+    try {
+      const token = await verifyPasswordReset(data);
+
+      navigate({
+        to: "/auth/forgot-password/reset",
+        search: { token },
+      });
+    } catch (error) {
+      if (error instanceof ApiError) {
+        const errorData = error.error;
+
+        switch (error.statusCode) {
+          case 400:
+            setError("otp", {
+              type: "server",
+              message: errorData.error.otp || "Invalid verification code.",
+            });
+            break;
+          case 429:
+            setError("otp", {
+              type: "server",
+              message: "Too many requests. Try again later.",
+            });
+            break;
+          case 500:
+            setError("root", {
+              type: "server",
+              message: "An unexpected error occurred. Please try again.",
+            });
+            break;
+          default:
+            break;
+        }
+      }
+    }
   };
 
   return (
     <div className="max-w-lg w-full mx-auto mt-10">
-      <Button variant="link" className="-ml-3">
+      <Button
+        variant="link"
+        className="-ml-3"
+        onClick={() => navigate({ to: "/auth/forgot-password" })}
+      >
         <ChevronLeft />
         Back
       </Button>
@@ -104,7 +140,7 @@ export default function VerifyPasswordResetForm() {
             )}
           </Field>
 
-          <Button type="submit">
+          <Button type="submit" disabled={isVerifying}>
             <ActionButtonContent
               action={isVerifying ? "Loading..." : "Continue"}
               isLoading={isVerifying}
