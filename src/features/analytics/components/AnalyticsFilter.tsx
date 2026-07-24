@@ -59,7 +59,7 @@ export default function AnalyticsFilter({
   };
 
   const isPresetActive = (
-    preset: "7d" | "30d" | "this-month" | "last-month" | "all"
+    preset: "7d" | "30d" | "this-month" | "last-month" | "all",
   ) => {
     if (!dateValue?.from && !dateValue?.to) return preset === "all";
     if (preset === "all") return !dateValue?.from && !dateValue?.to;
@@ -76,21 +76,29 @@ export default function AnalyticsFilter({
 
     if (preset === "7d") {
       const targetFrom = subDays(today, 7);
-      return fmt(currentFrom) === fmt(targetFrom) && fmt(currentTo) === fmt(today);
+      return (
+        fmt(currentFrom) === fmt(targetFrom) && fmt(currentTo) === fmt(today)
+      );
     }
     if (preset === "30d") {
       const targetFrom = subDays(today, 30);
-      return fmt(currentFrom) === fmt(targetFrom) && fmt(currentTo) === fmt(today);
+      return (
+        fmt(currentFrom) === fmt(targetFrom) && fmt(currentTo) === fmt(today)
+      );
     }
     if (preset === "this-month") {
       const targetFrom = startOfMonth(today);
-      return fmt(currentFrom) === fmt(targetFrom) && fmt(currentTo) === fmt(today);
+      return (
+        fmt(currentFrom) === fmt(targetFrom) && fmt(currentTo) === fmt(today)
+      );
     }
     if (preset === "last-month") {
       const lastMonth = subMonths(today, 1);
       const targetFrom = startOfMonth(lastMonth);
       const targetTo = endOfMonth(lastMonth);
-      return fmt(currentFrom) === fmt(targetFrom) && fmt(currentTo) === fmt(targetTo);
+      return (
+        fmt(currentFrom) === fmt(targetFrom) && fmt(currentTo) === fmt(targetTo)
+      );
     }
 
     return false;
@@ -99,9 +107,12 @@ export default function AnalyticsFilter({
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 border-b border-border/60 pb-5">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">Analytics Overview</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+          Analytics Overview
+        </h1>
         <p className="text-sm text-muted-foreground mt-0.5">
-          Monitor your revenue growth, invoice pipelines, and client contributions.
+          Monitor your revenue growth, invoice pipelines, and client
+          contributions.
         </p>
       </div>
 
@@ -125,12 +136,17 @@ export default function AnalyticsFilter({
             </Button>
           </PopoverTrigger>
 
-          <PopoverContent className="w-auto p-0 flex flex-col md:flex-row bg-card border border-border shadow-2xl rounded-xl overflow-hidden z-50" align="end">
+          <PopoverContent
+            className="w-auto p-0 flex flex-col md:flex-row bg-card border border-border shadow-2xl rounded-xl overflow-hidden z-50"
+            align="end"
+          >
             <Controller
               name="date"
               control={control}
               render={({ field }) => {
-                const handlePresetClick = (preset: "7d" | "30d" | "this-month" | "last-month" | "all") => {
+                const handlePresetClick = (
+                  preset: "7d" | "30d" | "this-month" | "last-month" | "all",
+                ) => {
                   const today = new Date();
                   let from: Date | undefined;
                   let to: Date | undefined = today;
@@ -218,7 +234,11 @@ export default function AnalyticsFilter({
                     <div className="flex flex-col p-3">
                       <Calendar
                         mode="range"
-                        defaultMonth={field.value?.from ? new Date(field.value.from) : undefined}
+                        defaultMonth={
+                          field.value?.from
+                            ? new Date(field.value.from)
+                            : undefined
+                        }
                         selected={field.value as DateRange}
                         onSelect={field.onChange}
                         numberOfMonths={1}

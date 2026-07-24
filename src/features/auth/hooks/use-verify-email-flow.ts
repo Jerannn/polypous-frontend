@@ -39,7 +39,7 @@ export default function useVerifyEmailFlow({
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         const errorData = error.error;
-        console.log(errorData);
+
         switch (error.statusCode) {
           case 400:
             setError("otp", {

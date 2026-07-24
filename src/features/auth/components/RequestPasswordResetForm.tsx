@@ -42,7 +42,11 @@ export default function RequestPasswordResetForm() {
 
   return (
     <div className="max-w-lg w-full mx-auto mt-10">
-      <Button variant="link" className="-ml-3">
+      <Button
+        variant="link"
+        className="-ml-3"
+        onClick={() => navigate({ to: "/auth/login" })}
+      >
         <ChevronLeft />
         Back
       </Button>
