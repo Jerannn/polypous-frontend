@@ -13,7 +13,7 @@ export default function DashboardContainer() {
     <div className="space-y-6">
       <DashboardStats stats={overview.stats} />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <DashboardMonthlyIncomeTrend monthlyIncome={overview.monthlyIncome} />
         <DashboardInvoiceStatusPie invoiceStatus={overview.invoiceStatus} />
       </div>

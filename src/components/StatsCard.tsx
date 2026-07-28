@@ -22,7 +22,7 @@ export default function StatsCard({
   icon: Icon,
 }: StatsCardProps) {
   return (
-    <Item variant="muted" className="min-w-56 max-w-90 w-full relative">
+    <Item variant="muted" className="min-w-70 max-w-90 w-full relative">
       <ItemContent>
         <ItemTitle className="text-muted-foreground uppercase">
           {title}

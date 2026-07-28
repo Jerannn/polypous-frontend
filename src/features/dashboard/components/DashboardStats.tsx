@@ -15,7 +15,7 @@ export default function DashboardStats({ stats }: DashboardStatsProps) {
 
   return (
     <Card className="bg-transparent ring-0">
-      <CardContent className="flex justify-start gap-4 px-0">
+      <CardContent className="flex justify-start gap-4 px-0 overflow-auto no-scrollbar">
         <StatsCard
           title={"Total Income"}
           value={`${formatCurrency(Number(stats?.totalMonthlyRevenue)) || "0"}`}

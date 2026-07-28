@@ -54,7 +54,7 @@ export default function AnalyticsTopClientsByRevenue({
   const topClient = sortedClients[0];
 
   return (
-    <Card className="md:col-span-2">
+    <Card className="lg:col-span-2">
       <CardHeader>
         <CardTitle>Top Clients by Revenue</CardTitle>
         <CardDescription>

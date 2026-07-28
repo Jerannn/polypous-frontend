@@ -23,7 +23,7 @@ export default function AnalyticsStats({ stats }: AnalyticsStatsProps) {
 
   return (
     <Card className="bg-transparent ring-0">
-      <CardContent className="flex justify-start gap-4 px-0">
+      <CardContent className="flex justify-start gap-4 px-0 overflow-auto no-scrollbar">
         <StatsCard
           title="Total Revenue"
           value={formatCurrency(stats.revenue.total)}
