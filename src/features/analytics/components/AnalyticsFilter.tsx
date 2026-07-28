@@ -108,7 +108,7 @@ export default function AnalyticsFilter({
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 border-b border-border/60 pb-5">
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
-          Analytics Overview
+          Overview
         </h1>
         <p className="text-sm text-muted-foreground mt-0.5">
           Monitor your revenue growth, invoice pipelines, and client
@@ -126,7 +126,7 @@ export default function AnalyticsFilter({
             <Button
               variant="outline"
               type="button"
-              className="h-10 px-4 flex items-center gap-2.5 font-medium border-border bg-card hover:bg-muted/50 cursor-pointer shadow-sm hover:text-foreground"
+              className="h-10 px-4 flex items-center ml-auto gap-2.5 font-medium border-border bg-card hover:bg-muted/50 cursor-pointer shadow-sm hover:text-foreground"
             >
               <CalendarIcon className="w-4 h-4 text-muted-foreground" />
               <span className="text-sm">
@@ -172,7 +172,7 @@ export default function AnalyticsFilter({
                 return (
                   <>
                     {/* Preset options sidebar */}
-                    <div className="w-full md:w-44 border-b md:border-b-0 md:border-r border-border p-3 flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-x-visible shrink-0 bg-muted/20">
+                    <div className="w-full md:w-44 border-b md:border-b-0 md:border-r border-border p-3 flex flex-col gap-1 overflow-x-auto md:overflow-x-visible shrink-0 bg-muted/20">
                       <button
                         type="button"
                         onClick={() => handlePresetClick("all")}

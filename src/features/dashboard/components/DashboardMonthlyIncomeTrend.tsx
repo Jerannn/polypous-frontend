@@ -32,7 +32,7 @@ export default function DashboardMonthlyIncomeTrend({
 }: DashboardMonthlyIncomeTrendProps) {
   const formatCurrency = useCurrencyFormatter();
   const hasData = monthlyIncome.length > 0;
-
+  console.log(monthlyIncome);
   return (
     <Card className="max-w-2xl w-full">
       <CardHeader>
@@ -49,7 +49,7 @@ export default function DashboardMonthlyIncomeTrend({
 
         {hasData && (
           <ChartContainer config={chartConfig} className="h-full w-full">
-            <BarChart accessibilityLayer data={monthlyIncome.reverse()}>
+            <BarChart accessibilityLayer data={monthlyIncome}>
               <CartesianGrid vertical={true} />
               <XAxis
                 dataKey="month"

@@ -64,7 +64,7 @@ export default function AnalyticsContainer() {
         onClear={handleClear}
       />
       <AnalyticsStats stats={analytics.stats} />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <AnalyticsMonthlyTrend incomeTrend={analytics?.incomeTrend || []} />
         <AnalyticsInvoiceStatusPie
           invoiceStatus={analytics?.invoiceStatus || []}
